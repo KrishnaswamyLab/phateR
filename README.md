@@ -5,7 +5,7 @@ This R package provides an implementation of the
 
 For a thorough overview of the PHATE dimensionality method, please see the [bioRxiv preprint](https://www.biorxiv.org/content/early/2017/12/01/120378)
 
-For our Python implementation, please see [KrishnaswamyLab/PHATE](https://github.com/KrishnaswamyLab/PHATE).
+For our Python and Matlab implementations, please see [KrishnaswamyLab/PHATE](https://github.com/KrishnaswamyLab/PHATE).
 
 ## Issues
 
