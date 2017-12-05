@@ -18,3 +18,5 @@ Imports:
   MASS (>= 7.3-45),
   expm (>= 0.999),
   smacof
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.0.1
