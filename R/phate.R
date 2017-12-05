@@ -37,18 +37,20 @@ phate <- function(data, t = 20, k = 5, alpha = 10, ndim = 2,
   #   diff.op: The diffusion operator which can be used as optional input with
   #           another run.
   #   diff.op.t: diff.op^t
+  #   g.kernel: The kernel used to construct the diffusion operator
   eps <- 2.220446e-16
+  g.kernel <- 0 # initial value, in case it is not required for the output
   if (is.na(diff.op) & is.na(diff.op.t)) {
     M <- svdpca(data, npca, pca.method)
     pdx <- as.matrix(dist(M, dist.method, diag = TRUE, upper = TRUE))
     knn.neighbors <- sapply(1:(dim(pdx)[1]), FastKNN::k.nearest.neighbors, distance_matrix = pdx, k = k)
-    knn.eps <- sapply(1:dim(M)[1], function(i) pdx[i, knn.neighbors[1, i]])
+    knn.eps <- sapply(1:dim(M)[1], function(i) pdx[i, knn.neighbors[k, i]])
     pdx <- pdx / knn.eps
     g.kernel <- exp(-pdx ^ alpha)
     g.kernel <- g.kernel + t(g.kernel)
-    diff.deg <- diag(colSums(g.kernel)) # degrees
+    diff.deg <- diag(rowSums(g.kernel)) # degrees
     diff.op <- solve(diff.deg) %*% g.kernel
-    rm(g.kernel, pdx, diff.deg, knn.neighbors, knn.eps)
+    rm(pdx, diff.deg, knn.neighbors, knn.eps)
   }
 
   if (is.na(diff.op.t)) {
@@ -56,7 +58,7 @@ phate <- function(data, t = 20, k = 5, alpha = 10, ndim = 2,
   }
 
   X <- diff.op.t
-  X[X <= eps] = eps
+  X[X <= eps] <- eps
   X <- -log(X)
 
   print(paste('MDS distance method:', mds.dist.method))
@@ -70,7 +72,7 @@ phate <- function(data, t = 20, k = 5, alpha = 10, ndim = 2,
   }
   print(paste('MDS method:', mds.method))
   embedding <- switch(mds.method, cmds = cmdscale(X, k = ndim),
-                      mmds = smacof::mds(X.dist, ndim = ndim, init = "random", itmax = 3000)$conf,
+                      mmds = smacof::mds(X.dist, ndim = ndim, init = randmds(X, ndim), type="ratio", itmax = 3000)$conf,
                       nmmds = smacof::mds(X.dist, ndim = ndim, init = "torgerson", type = "ordinal", itmax = 3000)$conf)
-  return(list("embedding" = embedding, "diff.op" = diff.op, "diff.op.t" = diff.op.t))
+  return(list("embedding" = embedding, "diff.op" = diff.op, "diff.op.t" = diff.op.t, "g.kernel" = g.kernel))
 }

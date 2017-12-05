@@ -1,6 +1,6 @@
 Package: phater
 Title: PHATE Implementation in R
-Version: 0.0.0.9000
+Version: 0.0.1.0
 Authors@R: person("Krishnan", "Srinivasan", email = "krishnan.srinivasan@yale.edu", role = c("aut", "cre"))
 Description: PHATE is a tool for visualizing high dimensional single-cell data
   with natural progressions or trajectories. PHATE uses a novel conceptual framework
