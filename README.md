@@ -16,7 +16,7 @@ You can install phater from github with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("rmflight/phater")
+devtools::install_github("KrishnaswamyLab/phater")
 ```
 
 Example
