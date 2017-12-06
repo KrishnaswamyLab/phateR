@@ -68,7 +68,7 @@ phate <- function(data, t = 20, k = 5, alpha = 10, ndim = 2,
   X[X <= eps] <- eps
   X <- -log(X)
 
-  print(paste('MDS distance method:', mds.dist.method))
+  message(paste0('MDS distance method: ', mds.dist.method))
   if (mds.dist.method == 'euclidean') {
     X <- svdpca(X, npca, pca.method)
     X.dist <- as.matrix(dist(X, mds.dist.method, diag = TRUE, upper = TRUE))
@@ -77,7 +77,7 @@ phate <- function(data, t = 20, k = 5, alpha = 10, ndim = 2,
     X.pairs <- expand.grid(i=1:n, j=1:n)
     X.dist <- matrix(apply(X.pairs, 1, cos.dissim, x = X), n, n)
   }
-  print(paste('MDS method:', mds.method))
+  message(paste0('MDS method: ', mds.method))
   embedding <- switch(mds.method, cmds = cmdscale(X, k = ndim),
                       mmds = smacof::mds(X.dist, ndim = ndim, init = randmds(X, ndim), type="ratio", itmax = 3000)$conf,
                       nmmds = smacof::mds(X.dist, ndim = ndim, init = "torgerson", type = "ordinal", itmax = 3000)$conf)
