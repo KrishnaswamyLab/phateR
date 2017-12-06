@@ -32,10 +32,10 @@ tree.data <- tree.data[,1:60]
 
 # runs phate
 tree.phate <- phate(tree.data, 375, 15, 20, pca.method = 'none', mds.method = 'mmds')
-#> [1] "No PCA performed"
-#> [1] "MDS distance method: euclidean"
-#> [1] "No PCA performed"
-#> [1] "MDS method: mmds"
+#> No PCA performed
+#> MDS distance method: euclidean
+#> No PCA performed
+#> MDS method: mmds
 # plot embedding
 palette(rainbow(10))
 plot(tree.phate$embedding[,1], tree.phate$embedding[,2], col = tree.branches, xlab = "phate1", ylab = "phate2")
