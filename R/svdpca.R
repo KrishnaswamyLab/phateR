@@ -1,24 +1,26 @@
+#' Performs specified method of PCA
+#'
+#' Implements different methods of PCA
+#'
+#' @param X Data matrix.
+#' @param k Number of PCA dimensions returned.
+#' @param method The desired method for implementing pca for preprocessing the
+#'        data. Options include 'svd', 'random', and 'none' (no pca).
+#'
+#' @return A matrix containing the rotated data is returned.
+#'
 svdpca <- function(X, k, method) {
-  # Performs specified method of PCA
-  #
-  # Args:
-  #   X: Data matrix.
-  #   k: Number of PCA dimensions returned.
-  #   method: The desired method for implementing pca for preprocessing the
-  #           data. Options include 'svd', 'random', and 'none' (no pca).
-  #
-  # Returns:
-  #   A matrix containing the rotated data is returned.
 
   if (method == 'svd') {
-    print('PCA using svd')
+    message('PCA using svd')
     u <- svd(t(X), k)$u
-    return(X %*% u)
+    out_matrix <- X %*% u
   } else if (method == 'random') {
-    print('PCA using random SVD')
-    return(rsvd::rpca(X, k, retx = TRUE)$x)
+    message('PCA using random SVD')
+    out_matrix <- rsvd::rpca(X, k, retx = TRUE)$x
   } else {
-    print('No PCA performed')
-    return(X)
+    message('No PCA performed')
+    out_matrix <- X
   }
+  return(out_matrix)
 }
