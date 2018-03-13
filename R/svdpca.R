@@ -17,7 +17,7 @@ svdpca <- function(X, k, method) {
     out_matrix <- X %*% u
   } else if (method == 'random') {
     message('PCA using random SVD')
-    out_matrix <- rsvd::rpca(X, k, retx = TRUE, svdalg = 'rsvd')$x
+    out_matrix <- rsvd::rpca(X, k, retx = TRUE)$x
   } else {
     message('No PCA performed')
     out_matrix <- X
