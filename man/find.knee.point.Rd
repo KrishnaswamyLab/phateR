@@ -17,3 +17,9 @@ knee_point int The index (or x value) of the knee point on y
 \description{
 Returns the x-location of a (single) knee of curve y=f(x)
 }
+\examples{
+x <- 0:19
+y <- exp(-x/10)
+knee <- find.knee.point(y, x)
+stopifnot(knee == 8)
+}

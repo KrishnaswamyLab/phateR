@@ -16,14 +16,42 @@ For our Python and Matlab implementations, please see
 
 ## Installation
 
-You can install phater from GitHub with:
+#### Installation with `devtools`
+
+The R version of PHATE can be installed directly from R with `devtools`:
 
 ``` r
 if (!suppressWarnings(require(devtools))) install.packages("devtools")
 devtools::install_github("KrishnaswamyLab/phater")
 ```
 
-## Example
+#### Installation from source
+
+1.  The R version of PHATE can be accessed
+    [here](https://github.com/KrishnaswamyLab/phater), or by using:
+
+<!-- end list -->
+
+``` bash
+git clone --recursive git://github.com/SmitaKrishnaswamy/PHATE.git
+cd PHATE/phater
+R CMD INSTALL
+```
+
+2.  If the `phater` folder is empty, you have may forgotten to use the
+    `--recursive` option for `git clone`. You can rectify this by using:
+
+<!-- end list -->
+
+``` bash
+$ cd PHATE
+$ git submodule init
+$ git submodule update
+$ cd phater
+$ R CMD INSTALL
+```
+
+## Tutorial
 
 This is a basic example running `phate` on a highly branched example
 dataset that is included with the package. First, let’s examine it with
@@ -31,6 +59,7 @@ PCA.
 
 ``` r
 library(phater)
+#> Loading required package: ggplot2
 data(tree.data)
 plot(prcomp(tree.data$data)$x, col=tree.data$branches)
 ```
@@ -44,17 +73,17 @@ default parameters.
 # runs phate
 tree.phate <- phate(tree.data$data)
 #> Calculating kernel...
-#> Calculated kernel in 2.6 secs.
+#> Calculated kernel in 2.4 secs.
 #> Calculating diffusion operator...
-#> Calculated diffusion operator in 9.5 secs.
+#> Calculated diffusion operator in 7.1 secs.
 #> Calculating diffusion potential...
-#> Calculated diffusion potential in 13.1 secs.
+#> Calculated diffusion potential in 7.2 secs.
 #> Embedding metric MDS...
-#> Calculated MDS in 20.6 secs.
-#> Embedded PHATE in 45.8 secs.
+#> Calculated MDS in 38.3 secs.
+#> Embedded PHATE in 55 secs.
 summary(tree.phate)
 #> PHATE embedding
-#> k = 5, alpha = NA, t = 102
+#> k = 5, alpha = NA, t = 13
 #> Data: (3000, 100)
 #> Embedding: (3000, 2)
 ```
@@ -82,15 +111,13 @@ diffusion operator.
 ``` r
 # runs phate with different parameters
 tree.phate <- phate(tree.data$data, potential.method='sqrt', t=90, init=tree.phate)
-#> Warning in if (class(init) != "phate") {: the condition has length > 1 and
-#> only the first element will be used
 #> Using precomputed kernel...
 #> Using precomputed diffusion operator...
 #> Calculating diffusion potential...
-#> Calculated diffusion potential in 8.1 secs.
+#> Calculated diffusion potential in 6.8 secs.
 #> Embedding metric MDS...
-#> Calculated MDS in 1.4 mins.
-#> Embedded PHATE in 1.6 mins.
+#> Calculated MDS in 43.3 secs.
+#> Embedded PHATE in 50.1 secs.
 # plot embedding
 palette(rainbow(10))
 plot(tree.phate, col = tree.data$branches)
@@ -102,8 +129,7 @@ We can also pass the PHATE object directly to `ggplot`, if it is
 installed.
 
 ``` r
-if (!suppressWarnings(require(ggplot2))) install.packages("ggplot2")
-#> Loading required package: ggplot2
+library(ggplot2)
 ggplot(tree.phate, aes(x=PHATE1, y=PHATE2, color=tree.data$branches)) +
   geom_point()
 ```

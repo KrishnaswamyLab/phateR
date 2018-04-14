@@ -24,14 +24,36 @@ For our Python and Matlab implementations, please see [KrishnaswamyLab/PHATE](ht
 
 ## Installation
 
-You can install phater from GitHub with:
+#### Installation with `devtools`
+
+The R version of PHATE can be installed directly from R with `devtools`:
 
 ```{r github-install, eval = FALSE}
 if (!suppressWarnings(require(devtools))) install.packages("devtools")
 devtools::install_github("KrishnaswamyLab/phater")
 ```
 
-## Example
+#### Installation from source
+
+1. The R version of PHATE can be accessed [here](https://github.com/KrishnaswamyLab/phater), or by using:
+
+```{bash, eval=FALSE}
+git clone --recursive git://github.com/SmitaKrishnaswamy/PHATE.git
+cd PHATE/phater
+R CMD INSTALL
+```
+
+2. If the `phater` folder is empty, you have may forgotten to use the `--recursive` option for `git clone`. You can rectify this by using:
+
+```{bash, eval=FALSE}
+$ cd PHATE
+$ git submodule init
+$ git submodule update
+$ cd phater
+$ R CMD INSTALL
+```
+
+## Tutorial
 
 This is a basic example running `phate` on a highly branched example dataset
 that is included with the package. First, let's examine it with PCA.
@@ -71,7 +93,7 @@ plot(tree.phate, col = tree.data$branches)
 We can also pass the PHATE object directly to `ggplot`, if it is installed.
 
 ```{r ggplot}
-if (!suppressWarnings(require(ggplot2))) install.packages("ggplot2")
+library(ggplot2)
 ggplot(tree.phate, aes(x=PHATE1, y=PHATE2, color=tree.data$branches)) +
   geom_point()
 ```

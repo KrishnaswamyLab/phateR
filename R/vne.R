@@ -2,10 +2,15 @@
 #' at varying matrix powers. The user should select a value of t
 #' around the "knee" of the entropy curve.
 
-#' @param t.max : int, default=200. Maximum value of t to test
+#' @param t.max : int, default=100. Maximum value of t to test
 #' @return entropy : array, shape=(t_max). 
 #' The entropy of the diffusion affinities for each value of t
-vne <- function(diff.op, t.max=200) {
+#' @examples 
+#' X=diag(nrow=10)
+#' X[1,1] <- 5
+#' X[3,4] <- 4
+#' stopifnot(find.knee.point(vne(X, t.max=100)) == 24)
+vne <- function(diff.op, t.max=100) {
   svd <- svd(diff.op)
   eigs <- svd$d
   eigs.t <- eigs
@@ -25,6 +30,11 @@ vne <- function(diff.op, t.max=200) {
 #' @param x array, optional, shape=[n], default=np.arange(len(y)). Indices of the data points of y, if these are not in order and evenly spaced
 #' 
 #' @return knee_point int The index (or x value) of the knee point on y
+#' @examples 
+#' x <- 0:19
+#' y <- exp(-x/10)
+#' knee <- find.knee.point(y, x)
+#' stopifnot(knee == 8)
 find.knee.point <- function(y, x=NULL) {
   
   if (length(y) < 3) {
@@ -84,18 +94,18 @@ find.knee.point <- function(y, x=NULL) {
 
 #' Selects the optimal value of t based on the knee point of the
 #' Von Neumann Entropy of the diffusion operator.
-#' @param t.max : int, default: 200 Maximum value of t to test
+#' @param t.max : int, default: 100 Maximum value of t to test
 #' @param plot : boolean, default: False
 #' If true, plots the Von Neumann Entropy and knee point
 #' @param double.step : boolean, if true, double the steps in t
 #' @return t_opt : int. The optimal value of t
-optimal.t <- function(diff.op, t.max=200, plot=FALSE,
+optimal.t <- function(diff.op, t.max=100, plot=FALSE,
                       double.step=FALSE) {
   if (double.step) {
-    t <- seq(1, t.max, 2)
     t.max <- t.max %/% 2
+    t <- 2* (0:(t.max-1)) +1
   } else {
-    t <- seq(0, t.max-1, 1)
+    t <- 0:(t.max-1)
   }
   h <- vne(diff.op, t=t.max)
   t.opt <- find.knee.point(y=h, x=t)

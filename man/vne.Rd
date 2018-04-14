@@ -20,3 +20,9 @@ Determines the Von Neumann entropy of data
 at varying matrix powers. The user should select a value of t
 around the "knee" of the entropy curve.
 }
+\examples{
+X=diag(nrow=10)
+X[1,1] <- 5
+X[3,4] <- 4
+stopifnot(find.knee.point(vne(X, t.max=200)) == 27)
+}

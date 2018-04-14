@@ -31,7 +31,7 @@
 #' intermediate steps if parameters are the same.
 #' @param verbose boolean, optional, default : TRUE
 #' If TRUE, print verbose updates.
-#' @param t.max int, optional, default: 200.
+#' @param t.max int, optional, default: 100.
 #' Maximum value of t to test for automatic t selection.
 #' @param plot.optimal.t boolean, optional, default: FALSE
 #' If TRUE, produce a plot showing the Von Neumann Entropy 
@@ -68,7 +68,7 @@
 #' @export
 
 phate <- function(data, ndim = 2, t = 'auto', k = 5, alpha = 10, use.alpha=NA,
-                  n.landmark=1000, potential.method = 'log', t.max=200,
+                  n.landmark=1000, potential.method = 'log', t.max=100,
                   pca.method = 'random', npca = 100, n.svd = 100, mds.method = 'metric',
                   knn.dist.method = 'euclidean', mds.dist.method = 'euclidean',
                   init=NULL, verbose=TRUE, plot.optimal.t=FALSE,
@@ -182,7 +182,8 @@ phate <- function(data, ndim = 2, t = 'auto', k = 5, alpha = 10, use.alpha=NA,
     if (verbose) message("Calculating diffusion potential...")
     if (t == 'auto') {
       t <- optimal.t(diff.op, t.max=t.max, plot=plot.optimal.t,
-                     double.step=is.null(landmark.transitions))
+                     double.step=!is.null(landmark.transitions))
+      if (verbose) message(paste0("Automatically selected t = ", t))
     }
     diff.op.t <- expm::`%^%`(diff.op, if (is.null(landmark.transitions)) t else t %/% 2)
     if (potential.method == 'log') {
