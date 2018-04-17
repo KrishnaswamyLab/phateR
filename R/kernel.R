@@ -12,6 +12,9 @@
 calculate.kernel <- function(data, k=5, alpha=10, 
                              npca=100, pca.method='random',
                              knn.dist.method = 'euclidean') {
+  # kernel includes self as connection but not in k
+  # actually search for k+1 neighbors including self
+  k <- k + 1
   if (ncol(data) > npca) {
     data <- svdpca(data, npca, pca.method)
   }
@@ -32,7 +35,7 @@ calculate.kernel <- function(data, k=5, alpha=10,
 #' Calculate the landmark operator
 #'
 #' @param g.kernel Kernel matrix (n.samples x n.samples)
-#' @param n.landmark Number of landmarks to compute, or NA. Default is 1000. If NA, then exact PHATE is computed.
+#' @param n.landmark Number of landmarks to compute, or NA. Default is 2000. If NA, then exact PHATE is computed.
 #' @param seed Integer or NA, integer value for random number generator.
 #' @param n.svd Number of singular vectors to calculate for landmark selection. Default is 100.
 #'
@@ -40,7 +43,7 @@ calculate.kernel <- function(data, k=5, alpha=10,
 #'
 #'  * **diff.op** The diffusion operator (n.landmark x n.landmark)
 #'  * **landmark.transitions** Transition matrix between cells and landmark (n.cells x n.landmark)
-calculate.landmark.operator <- function(g.kernel, n.landmark=1000, n.svd=100) {
+calculate.landmark.operator <- function(g.kernel, n.landmark=2000, n.svd=100) {
   diff.op <- g.kernel / Matrix::rowSums(g.kernel)
   if (!is.na(n.landmark) && n.landmark < nrow(g.kernel)) {
     # Compute landmark operator

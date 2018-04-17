@@ -5,10 +5,10 @@
 \title{Selects the optimal value of t based on the knee point of the
 Von Neumann Entropy of the diffusion operator.}
 \usage{
-optimal.t(diff.op, t.max = 200, plot = FALSE, double.step = FALSE)
+optimal.t(diff.op, t.max = 100, plot = FALSE, double.step = FALSE)
 }
 \arguments{
-\item{t.max}{: int, default: 200 Maximum value of t to test}
+\item{t.max}{: int, default: 100 Maximum value of t to test}
 
 \item{plot}{: boolean, default: False
 If true, plots the Von Neumann Entropy and knee point}

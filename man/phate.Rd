@@ -5,7 +5,7 @@
 \title{Run PHATE on an input data matrix}
 \usage{
 phate(data, ndim = 2, t = "auto", k = 5, alpha = 10, use.alpha = NA,
-  n.landmark = 1000, potential.method = "log", t.max = 200,
+  n.landmark = 2000, potential.method = "log", t.max = 100,
   pca.method = "random", npca = 100, n.svd = 100, mds.method = "metric",
   knn.dist.method = "euclidean", mds.dist.method = "euclidean",
   init = NULL, verbose = TRUE, plot.optimal.t = FALSE, g.kernel = NULL,
@@ -36,7 +36,7 @@ forces the use of alpha decaying kernel
 If NA, alpha decaying kernel is used for small inputs
 (n_samples < n_landmark) and not used otherwise}
 
-\item{n.landmark}{int, optional, default: 1000
+\item{n.landmark}{int, optional, default: 2000
 number of landmarks to use in fast PHATE}
 
 \item{potential.method}{string, optional, default: 'log'
@@ -44,7 +44,7 @@ choose from 'log' and 'sqrt'
 which transformation of the diffusional operator is used
 to compute the diffusion potential}
 
-\item{t.max}{int, optional, default: 200.
+\item{t.max}{int, optional, default: 100.
 Maximum value of t to test for automatic t selection.}
 
 \item{pca.method}{string, optional, default: 'random'

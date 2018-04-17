@@ -6,10 +6,10 @@
 at varying matrix powers. The user should select a value of t
 around the "knee" of the entropy curve.}
 \usage{
-vne(diff.op, t.max = 200)
+vne(diff.op, t.max = 100)
 }
 \arguments{
-\item{t.max}{: int, default=200. Maximum value of t to test}
+\item{t.max}{: int, default=100. Maximum value of t to test}
 }
 \value{
 entropy : array, shape=(t_max).
@@ -24,5 +24,5 @@ around the "knee" of the entropy curve.
 X=diag(nrow=10)
 X[1,1] <- 5
 X[3,4] <- 4
-stopifnot(find.knee.point(vne(X, t.max=200)) == 27)
+stopifnot(find.knee.point(vne(X, t.max=100)) == 24)
 }

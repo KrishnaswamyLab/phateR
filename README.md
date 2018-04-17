@@ -73,17 +73,18 @@ default parameters.
 # runs phate
 tree.phate <- phate(tree.data$data)
 #> Calculating kernel...
-#> Calculated kernel in 2.4 secs.
+#> Calculated kernel in 5.5 secs.
 #> Calculating diffusion operator...
-#> Calculated diffusion operator in 7.1 secs.
+#> Calculated diffusion operator in 17.4 secs.
 #> Calculating diffusion potential...
-#> Calculated diffusion potential in 7.2 secs.
+#> Automatically selected t = 11
+#> Calculated diffusion potential in 2 mins.
 #> Embedding metric MDS...
-#> Calculated MDS in 38.3 secs.
-#> Embedded PHATE in 55 secs.
+#> Calculated MDS in 7.6 mins.
+#> Embedded PHATE in 10 mins.
 summary(tree.phate)
 #> PHATE embedding
-#> k = 5, alpha = NA, t = 13
+#> k = 5, alpha = NA, t = 11
 #> Data: (3000, 100)
 #> Embedding: (3000, 2)
 ```
@@ -114,10 +115,10 @@ tree.phate <- phate(tree.data$data, potential.method='sqrt', t=90, init=tree.pha
 #> Using precomputed kernel...
 #> Using precomputed diffusion operator...
 #> Calculating diffusion potential...
-#> Calculated diffusion potential in 6.8 secs.
+#> Calculated diffusion potential in 2.4 mins.
 #> Embedding metric MDS...
-#> Calculated MDS in 43.3 secs.
-#> Embedded PHATE in 50.1 secs.
+#> Calculated MDS in 6.7 mins.
+#> Embedded PHATE in 9.1 mins.
 # plot embedding
 palette(rainbow(10))
 plot(tree.phate, col = tree.data$branches)

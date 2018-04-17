@@ -4,12 +4,12 @@
 \alias{calculate.landmark.operator}
 \title{Calculate the landmark operator}
 \usage{
-calculate.landmark.operator(g.kernel, n.landmark = 1000, n.svd = 100)
+calculate.landmark.operator(g.kernel, n.landmark = 2000, n.svd = 100)
 }
 \arguments{
 \item{g.kernel}{Kernel matrix (n.samples x n.samples)}
 
-\item{n.landmark}{Number of landmarks to compute, or NA. Default is 1000. If NA, then exact PHATE is computed.}
+\item{n.landmark}{Number of landmarks to compute, or NA. Default is 2000. If NA, then exact PHATE is computed.}
 
 \item{n.svd}{Number of singular vectors to calculate for landmark selection. Default is 100.}
 

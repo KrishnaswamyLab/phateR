@@ -17,7 +17,7 @@
 #' forces the use of alpha decaying kernel
 #' If NA, alpha decaying kernel is used for small inputs
 #' (n_samples < n_landmark) and not used otherwise
-#' @param n.landmark int, optional, default: 1000
+#' @param n.landmark int, optional, default: 2000
 #' number of landmarks to use in fast PHATE
 #' @param t int, optional, default: 'auto'
 #' power to which the diffusion operator is powered
@@ -68,7 +68,7 @@
 #' @export
 
 phate <- function(data, ndim = 2, t = 'auto', k = 5, alpha = 10, use.alpha=NA,
-                  n.landmark=1000, potential.method = 'log', t.max=100,
+                  n.landmark=2000, potential.method = 'log', t.max=100,
                   pca.method = 'random', npca = 100, n.svd = 100, mds.method = 'metric',
                   knn.dist.method = 'euclidean', mds.dist.method = 'euclidean',
                   init=NULL, verbose=TRUE, plot.optimal.t=FALSE,
@@ -261,8 +261,8 @@ plot.phate <- function(phate, ...) {
 #' ## PHATE embedding with elements
 #' ##   $embedding : (3000, 2)
 #' ##   $g.kernel : (3000, 3000)
-#' ##   $diff.op : (1000, 1000)
-#' ##   $diff.op.t : (1000, 1000)
+#' ##   $diff.op : (2000, 2000)
+#' ##   $diff.op.t : (2000, 2000)
 #' ##   $params : list with elements (data, k, alpha, t, n.landmark, 
 #' ##                                 potential.method, pca.method, 
 #' ##                                 npca, n.svd, mds.method, 
