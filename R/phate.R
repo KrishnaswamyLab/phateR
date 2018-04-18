@@ -123,7 +123,7 @@ phate <- function(data, ndim = 2, t = 'auto', k = 5, alpha = 10, use.alpha=NA,
 
   # use pre-initialized values if given
   if (!is.null(init)) {
-    if (!is(init, "phate")) {
+    if (!methods::is(init, "phate")) {
       warning("object passed to init is not a phate object")
     }
     if (all(data==init$data) && pca.method==init$params$pca.method &&
