@@ -143,7 +143,6 @@ phate <- function(data, ndim = 2, t = 'auto', k = 5, alpha = 10, use.alpha=NA,
     }
   }
 
-  eps <- .Machine$double.eps
 
   if (is.null(g.kernel) && is.null(diff.op) && is.null(diff.op.t)) {
     if (verbose) message("Calculating kernel...")
@@ -187,7 +186,9 @@ phate <- function(data, ndim = 2, t = 'auto', k = 5, alpha = 10, use.alpha=NA,
     }
     diff.op.t <- expm::`%^%`(diff.op, if (is.null(landmark.transitions)) t else t %/% 2)
     if (potential.method == 'log') {
-      diff.op.t[diff.op.t <= eps] <- eps
+      eps <- 1e-3
+      #diff.op.t[diff.op.t <= eps] <- eps
+      diff.op.t <- diff.op.t + 1e-3
       diff.op.t <- -log(diff.op.t)
     } else if (potential.method == 'sqrt') {
       diff.op.t <- sqrt(diff.op.t)
