@@ -2,56 +2,101 @@
 % Please edit documentation in R/phate.R
 \name{phate}
 \alias{phate}
-\title{Runs PHATE on an input data matrix}
+\title{Run PHATE on an input data matrix}
 \usage{
-phate(data, t = 20, k = 5, alpha = 10, ndim = 2,
-  pca.method = "random", npca = 100, mds.method = "cmds",
-  dist.method = "euclidean", mds.dist.method = "euclidean", diff.op = NA,
-  diff.op.t = NA)
+phate(data, ndim = 2, t = "auto", k = 15, alpha = 10, use.alpha = NA,
+  n.landmark = 2000, potential.method = "log", t.max = 100,
+  pca.method = "random", npca = 100, n.svd = 100, mds.method = "metric",
+  knn.dist.method = "euclidean", mds.dist.method = "euclidean",
+  init = NULL, verbose = TRUE, plot.optimal.t = FALSE, g.kernel = NULL,
+  diff.op = NULL, landmark.transitions = NULL, diff.op.t = NULL,
+  dist.method = NA)
 }
 \arguments{
-\item{data}{Data matrix. Must have cells on the rows and genes on the columns}
+\item{data}{matrix (n_samples, n_dimensions)
+2 dimensional input data array with
+n_samples samples and n_dimensions dimensions}
 
-\item{t}{Diffusion time scale. Default is 20.}
+\item{ndim}{int, optional, default: 2
+number of dimensions in which the data will be embedded}
 
-\item{k}{k for the adaptive kernel bandwidth. Default is 5.}
+\item{t}{int, optional, default: 'auto'
+power to which the diffusion operator is powered
+sets the level of diffusion}
 
-\item{alpha}{The alpha parameter in the exponent of the kernel function. Determines the kernel decay rate. Default is 10.}
+\item{k}{int, optional, default: 15
+number of nearest neighbors on which to build kernel}
 
-\item{ndim}{The number of desired PHATE dimensions in the output Y. 2 or 3
-is best for visualization. A higher number can be used for
-running other analyses on the PHATE dimensions.}
+\item{alpha}{int, optional, default: NA
+sets decay rate of kernel tails.
+If NA, alpha decaying kernel is not used}
 
-\item{pca.method}{The desired method for implementing pca for preprocessing the
-data. Options include 'svd', 'random', and 'none' (no pca).
-Default is 'random'.}
+\item{use.alpha}{boolean, default: NA
+forces the use of alpha decaying kernel
+If NA, alpha decaying kernel is used for small inputs
+(n_samples < n_landmark) and not used otherwise}
 
-\item{npca}{The number of PCA components for preprocessing the data. Default is 100.}
+\item{n.landmark}{int, optional, default: 2000
+number of landmarks to use in fast PHATE}
 
-\item{mds.method}{Method for implementing MDS. Choices are 'cmds', 'mmds', and 'nmmds'. Default is 'cmds'.}
+\item{potential.method}{string, optional, default: 'log'
+choose from 'log' and 'sqrt'
+which transformation of the diffusional operator is used
+to compute the diffusion potential}
 
-\item{dist.method}{The desired distance function for calculating pairwise
-distances on the data. Default is 'euclidean'.}
+\item{t.max}{int, optional, default: 100.
+Maximum value of t to test for automatic t selection.}
 
-\item{mds.dist.method}{The desired distance function for MDS. Choices are 'euclidean'
-and 'cosine'. Default is 'euclidean'.}
+\item{pca.method}{string, optional, default: 'random'
+The desired method for implementing pca for preprocessing the
+data. Options include 'svd', 'random', and 'none' (no pca).}
 
-\item{diff.op}{If the diffusion operator has been computed on a prior run with the
-desired parameters, then this option can be used to directly input the
-diffusion operator to save on computational time. Default is NA.}
+\item{npca}{int, optional, default: 100
+Number of principal components to use for calculating
+neighborhoods. For extremely large datasets, using
+n_pca < 20 allows neighborhoods to be calculated in
+log(n_samples) time.}
 
-\item{diff.op.t}{Same as for 'DiffOp', if the powered diffusion operator has been
-computed on a prior run with the desired parameters then this
-option can be used to directly input the diffusion operator to
-save on computational time. Default is NA.}
+\item{n.svd}{int, optional, default: 100
+The number of SVD components to use for landmark selection}
+
+\item{mds.method}{string, optional, default: 'metric'
+choose from 'classic', 'metric', and 'nonmetric'
+which MDS algorithm is used for dimensionality reduction}
+
+\item{knn.dist.method}{string, optional, default: 'euclidean'.
+The desired distance function for calculating pairwise distances on the data.}
+
+\item{mds.dist.method}{string, optional, default: 'euclidean'
+recommended values: 'euclidean' and 'cosine'}
+
+\item{init}{phate object, optional
+object to use for initialization. Avoids recomputing
+intermediate steps if parameters are the same.}
+
+\item{verbose}{boolean, optional, default : TRUE
+If TRUE, print verbose updates.}
+
+\item{plot.optimal.t}{boolean, optional, default: FALSE
+If TRUE, produce a plot showing the Von Neumann Entropy
+curve for automatic t selection.}
+
+\item{g.kernel}{Precomputed kernel matrix}
+
+\item{diff.op}{Precomputed diffusion operator}
+
+\item{landmark.transitions}{Precomputed landmark transitions}
+
+\item{diff.op.t}{Precomputed powered diffusion operator}
 }
 \value{
-List containing:
+"phate" object containing:
 \itemize{
-\item \strong{Y}: the PHATE embedding
+\item \strong{embedding}: the PHATE embedding
 \item \strong{diff.op}: The diffusion operator which can be used as optional input with another run.
 \item \strong{diff.op.t}: diff.op^t
 \item \strong{g.kernel}: The kernel used to construct the diffusion operator
+\item \strong{params}: Parameters passed to phate
 }
 }
 \description{

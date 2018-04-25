@@ -4,7 +4,7 @@
 \alias{svdpca}
 \title{Performs specified method of PCA}
 \usage{
-svdpca(X, k, method)
+svdpca(X, k, method, verbose = FALSE)
 }
 \arguments{
 \item{X}{Data matrix.}

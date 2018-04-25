@@ -9,18 +9,25 @@
 #'
 #' @return A matrix containing the rotated data is returned.
 #'
-svdpca <- function(X, k, method) {
-
+svdpca <- function(X, k, method, verbose=FALSE) {
+  if (ncol(X) <= k) {
+    method <- 'none'
+  } else if (!(method %in% c("svd", "random", "none"))) {
+    message(paste0('PCA method ', method, 
+                   ' not recognized. Choose from "random", "svd" and "none". Using "random"...'))
+    method <- "random"
+  }
   if (method == 'svd') {
-    message('PCA using svd')
-    u <- svd(t(X), k)$u
-    out_matrix <- X %*% u
+    if (verbose) message('PCA using svd')
+    out_matrix <- prcomp(X)$x[,1:k]
   } else if (method == 'random') {
-    message('PCA using random SVD')
-    out_matrix <- rsvd::rpca(X, k, retx = TRUE)$x
-  } else {
-    message('No PCA performed')
+    if (verbose) message('PCA using random SVD')
+    out_matrix <- irlba::prcomp_irlba(X, k)$x
+  } else if (method == 'none') {
+    if (verbose) message('No PCA performed')
     out_matrix <- X
+  } else {
+    stop("PCA method not recognized")
   }
   return(out_matrix)
 }
