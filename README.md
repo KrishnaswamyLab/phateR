@@ -60,6 +60,7 @@ PCA.
 ``` r
 library(phater)
 #> Loading required package: ggplot2
+#> Warning: package 'ggplot2' was built under R version 3.4.4
 data(tree.data)
 plot(prcomp(tree.data$data)$x, col=tree.data$branches)
 ```
@@ -73,18 +74,18 @@ default parameters.
 # runs phate
 tree.phate <- phate(tree.data$data)
 #> Calculating kernel...
-#> Calculated kernel in 5.5 secs.
+#> Calculated kernel in 2.9 secs.
 #> Calculating diffusion operator...
-#> Calculated diffusion operator in 17.4 secs.
+#> Calculated diffusion operator in 9 secs.
 #> Calculating diffusion potential...
-#> Automatically selected t = 11
-#> Calculated diffusion potential in 2 mins.
+#> Automatically selected t = 15
+#> Calculated diffusion potential in 58.9 secs.
 #> Embedding metric MDS...
-#> Calculated MDS in 7.6 mins.
-#> Embedded PHATE in 10 mins.
+#> Calculated MDS in 5.4 mins.
+#> Embedded PHATE in 6.6 mins.
 summary(tree.phate)
 #> PHATE embedding
-#> k = 5, alpha = NA, t = 11
+#> k = 5, alpha = NA, t = 15
 #> Data: (3000, 100)
 #> Embedding: (3000, 2)
 ```
@@ -115,10 +116,10 @@ tree.phate <- phate(tree.data$data, potential.method='sqrt', t=90, init=tree.pha
 #> Using precomputed kernel...
 #> Using precomputed diffusion operator...
 #> Calculating diffusion potential...
-#> Calculated diffusion potential in 2.4 mins.
+#> Calculated diffusion potential in 60 secs.
 #> Embedding metric MDS...
-#> Calculated MDS in 6.7 mins.
-#> Embedded PHATE in 9.1 mins.
+#> Calculated MDS in 4.3 mins.
+#> Embedded PHATE in 5.3 mins.
 # plot embedding
 palette(rainbow(10))
 plot(tree.phate, col = tree.data$branches)

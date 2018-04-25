@@ -35,7 +35,7 @@ devtools::install_github("KrishnaswamyLab/phater")
 
 #### Installation from source
 
-1. The R version of PHATE can be accessed [here](https://github.com/KrishnaswamyLab/phater), or by using:
+1. The R version of PHATE can be accessed [here](https://github.com/KrishnaswamyLab/phater), or by running the following in a terminal:
 
 ```{bash, eval=FALSE}
 git clone --recursive git://github.com/SmitaKrishnaswamy/PHATE.git
@@ -43,14 +43,14 @@ cd PHATE/phater
 R CMD INSTALL
 ```
 
-2. If the `phater` folder is empty, you have may forgotten to use the `--recursive` option for `git clone`. You can rectify this by using:
+2. If the `phater` folder is empty, you have may forgotten to use the `--recursive` option for `git clone`. You can rectify this by running the following in a terminal:
 
 ```{bash, eval=FALSE}
-$ cd PHATE
-$ git submodule init
-$ git submodule update
-$ cd phater
-$ R CMD INSTALL
+cd PHATE
+git submodule init
+git submodule update
+cd phater
+R CMD INSTALL
 ```
 
 ## Tutorial

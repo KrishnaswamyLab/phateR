@@ -9,7 +9,7 @@
 #'               Default is 'random'.
 #'               
 #' @return g.kernel Kernel matrix (n.samples x n.samples)
-calculate.kernel <- function(data, k=5, alpha=10, 
+calculate.kernel <- function(data, k=15, alpha=10, 
                              npca=100, pca.method='random',
                              knn.dist.method = 'euclidean') {
   # kernel includes self as connection but not in k

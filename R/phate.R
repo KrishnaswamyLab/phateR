@@ -8,7 +8,7 @@
 #' n_samples samples and n_dimensions dimensions
 #' @param ndim int, optional, default: 2
 #' number of dimensions in which the data will be embedded
-#' @param k int, optional, default: 5
+#' @param k int, optional, default: 15
 #' number of nearest neighbors on which to build kernel
 #' @param alpha int, optional, default: NA
 #' sets decay rate of kernel tails.
@@ -67,7 +67,7 @@
 #'
 #' @export
 
-phate <- function(data, ndim = 2, t = 'auto', k = 5, alpha = 10, use.alpha=NA,
+phate <- function(data, ndim = 2, t = 'auto', k = 15, alpha = 10, use.alpha=NA,
                   n.landmark=2000, potential.method = 'log', t.max=100,
                   pca.method = 'random', npca = 100, n.svd = 100, mds.method = 'metric',
                   knn.dist.method = 'euclidean', mds.dist.method = 'euclidean',

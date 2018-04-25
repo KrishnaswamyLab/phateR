@@ -4,7 +4,7 @@
 \alias{phate}
 \title{Run PHATE on an input data matrix}
 \usage{
-phate(data, ndim = 2, t = "auto", k = 5, alpha = 10, use.alpha = NA,
+phate(data, ndim = 2, t = "auto", k = 15, alpha = 10, use.alpha = NA,
   n.landmark = 2000, potential.method = "log", t.max = 100,
   pca.method = "random", npca = 100, n.svd = 100, mds.method = "metric",
   knn.dist.method = "euclidean", mds.dist.method = "euclidean",
@@ -24,7 +24,7 @@ number of dimensions in which the data will be embedded}
 power to which the diffusion operator is powered
 sets the level of diffusion}
 
-\item{k}{int, optional, default: 5
+\item{k}{int, optional, default: 15
 number of nearest neighbors on which to build kernel}
 
 \item{alpha}{int, optional, default: NA

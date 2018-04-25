@@ -4,7 +4,7 @@
 \alias{calculate.kernel}
 \title{Calculate a Gaussian or kNN kernel}
 \usage{
-calculate.kernel(data, k = 5, alpha = 10, npca = 100,
+calculate.kernel(data, k = 15, alpha = 10, npca = 100,
   pca.method = "random", knn.dist.method = "euclidean")
 }
 \arguments{
