@@ -120,6 +120,10 @@ phate <- function(data, ndim = 2, k = 15,
     install.phate()
   }
   tryCatch(pyphate, error = function(e) load_pyphate())
+  data <- as.matrix(data)
+  if (!is.numeric(data)) {
+    stop("data should be a numeric matrix")
+  }
   # check for deprecated arguments
   if (!is.na(dist.method)) {
     message("Argument dist.method is deprecated. Use knn.dist.method instead.")
