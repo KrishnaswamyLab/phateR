@@ -2,9 +2,11 @@
 
 S3method(as.data.frame,phate)
 S3method(as.matrix,phate)
+S3method(ggplot,phate)
 S3method(plot,phate)
 S3method(print,phate)
 S3method(summary,phate)
 export(install.phate)
 export(library.size.normalize)
 export(phate)
+importFrom(ggplot2,ggplot)

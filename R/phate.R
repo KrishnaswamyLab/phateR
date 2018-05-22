@@ -50,8 +50,8 @@
 #' @param plot.optimal.t boolean, optional, default: FALSE
 #' If TRUE, produce a plot showing the Von Neumann Entropy
 #' curve for automatic t selection.
-#' @param verbose boolean, optional, default : TRUE
-#' If TRUE, print verbose updates.
+#' @param verbose `int` or `boolean`, optional (default : 1)
+#' If `TRUE` or `> 0`, print verbose updates.
 #' @param n.jobs `int`, optional (default: 1)
 #' The number of jobs to use for the computation.
 #' If -1 all CPUs are used. If 1 is given, no parallel computing code is
@@ -74,7 +74,7 @@
 #'
 #' @examples
 #' if (reticulate::py_module_available("phate")) {
-#' 
+#'
 #' # Load data
 #' data(tree.data)
 #'
@@ -99,6 +99,7 @@
 #' phate.tree2 <- phate(tree.data$data, t=150, init=phate.tree)
 #' # Extract the embedding matrix to use in downstream analysis
 #' embedding <- as.matrix(phate.tree2)
+#'
 #' }
 #' @export
 phate <- function(data, ndim = 2, k = 15,
@@ -108,7 +109,7 @@ phate <- function(data, ndim = 2, k = 15,
                   init=NULL,
                   mds.method = "metric", mds.dist.method = "euclidean",
                   t.max=100, npca = 100, plot.optimal.t=FALSE,
-                  verbose=TRUE, n.jobs=1, seed=NA,
+                  verbose=1, n.jobs=1, seed=NA,
                   # deprecated args, remove in v3
                   n.svd = NA,
                   pca.method = NA,
@@ -198,6 +199,10 @@ phate <- function(data, ndim = 2, k = 15,
   if (is.numeric(seed)) {
     seed <- as.integer(seed)
   }
+  if (is.numeric(verbose)) {
+    verbose <- as.integer(verbose)
+  }
+  data <- as.matrix(data)
   # store parameters
   params <- list("data" = data, "k" = k, "alpha" = alpha, "t" = t,
                  "n.landmark" = n.landmark, "ndim" = ndim,
@@ -244,7 +249,7 @@ phate <- function(data, ndim = 2, k = 15,
     operator <- pyphate$PHATE(n_components = ndim,
                               k = k,
                               a = alpha,
-                              t = k,
+                              t = t,
                               alpha_decay = use.alpha,
                               n_landmark = n.landmark,
                               potential_method = potential.method,
@@ -283,12 +288,12 @@ phate <- function(data, ndim = 2, k = 15,
 #' @param ... Arguments for plot()
 #' @examples
 #' if (reticulate::py_module_available("phate")) {
-#' 
+#'
 #' library(graphics)
 #' data(tree.data)
 #' phate.tree <- phate(tree.data$data)
 #' plot(phate.tree, col=tree.data$branches)
-#' 
+#'
 #' }
 #' @export
 plot.phate <- function(x, ...) {
@@ -304,7 +309,7 @@ plot.phate <- function(x, ...) {
 #' @param ... Arguments for print()
 #' @examples
 #' if (reticulate::py_module_available("phate")) {
-#' 
+#'
 #' data(tree.data)
 #' phate.tree <- phate(tree.data$data)
 #' print(phate.tree)
@@ -314,7 +319,7 @@ plot.phate <- function(x, ...) {
 #' ## $params : list with elements (data, k, alpha, t, n.landmark, ndim,
 #' ##                               potential.method, npca, mds.method,
 #' ##                               knn.dist.method, mds.dist.method)
-#' 
+#'
 #' }
 #' @export
 print.phate <- function(x, ...) {
@@ -333,7 +338,7 @@ print.phate <- function(x, ...) {
 #' @param ... Arguments for summary()
 #' @examples
 #' if (reticulate::py_module_available("phate")) {
-#' 
+#'
 #' data(tree.data)
 #' phate.tree <- phate(tree.data$data)
 #' summary(phate.tree)
@@ -341,7 +346,7 @@ print.phate <- function(x, ...) {
 #' ## k = 5, alpha = NA, t = 58
 #' ## Data: (3000, 100)
 #' ## Embedding: (3000, 2)
-#' 
+#'
 #' }
 #' @export
 summary.phate <- function(object, ...) {
@@ -376,4 +381,24 @@ as.matrix.phate <- function(x, ...) {
 #' @export
 as.data.frame.phate <- function(x, ...) {
   as.data.frame(as.matrix(x), ...)
+}
+
+#' Convert a PHATE object to a data.frame for ggplot
+#'
+#' Passes the embedding matrix to ggplot with column names PHATE1 and PHATE2
+#' @importFrom ggplot2 ggplot
+#' @param data A fitted PHATE object
+#' @param ... Arguments for ggplot()
+#' @examples
+#' if (reticulate::py_module_available("phate") && require(ggplot2)) {
+#'
+#' data(tree.data)
+#' phate.tree <- phate(tree.data$data)
+#' ggplot(phate.tree, aes(x=PHATE1, y=PHATE2, color=tree.data$branches)) +
+#'   geom_point()
+#'
+#' }
+#' @export
+ggplot.phate <- function(data, ...) {
+  ggplot2::ggplot(as.data.frame(data), ...)
 }

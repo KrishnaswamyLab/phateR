@@ -8,7 +8,7 @@ phate(data, ndim = 2, k = 15, alpha = 10, use.alpha = NA,
   n.landmark = 2000, potential.method = "log", t = "auto",
   knn.dist.method = "euclidean", init = NULL, mds.method = "metric",
   mds.dist.method = "euclidean", t.max = 100, npca = 100,
-  plot.optimal.t = FALSE, verbose = TRUE, n.jobs = 1, seed = NA,
+  plot.optimal.t = FALSE, verbose = 1, n.jobs = 1, seed = NA,
   n.svd = NA, pca.method = NA, g.kernel = NULL, diff.op = NULL,
   landmark.transitions = NULL, diff.op.t = NULL, dist.method = NA)
 }
@@ -75,8 +75,8 @@ log(n_samples) time.}
 If TRUE, produce a plot showing the Von Neumann Entropy
 curve for automatic t selection.}
 
-\item{verbose}{boolean, optional, default : TRUE
-If TRUE, print verbose updates.}
+\item{verbose}{\code{int} or \code{boolean}, optional (default : 1)
+If \code{TRUE} or \code{> 0}, print verbose updates.}
 
 \item{n.jobs}{\code{int}, optional (default: 1)
 The number of jobs to use for the computation.
@@ -140,5 +140,6 @@ if (require(ggplot2)) {
 phate.tree2 <- phate(tree.data$data, t=150, init=phate.tree)
 # Extract the embedding matrix to use in downstream analysis
 embedding <- as.matrix(phate.tree2)
+
 }
 }

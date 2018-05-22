@@ -1,5 +1,5 @@
 ^.*\.Rproj$         # Automatically added by RStudio,
-^\.Rproj\.user$     # used for temporary files. 
+^\.Rproj\.user$     # used for temporary files.
 ^data-raw$          # raw data generation code
 ^README\.Rmd$       # An Rmarkdown file used to generate README.md
 ^cran-comments\.md$ # Comments for CRAN submission
@@ -9,3 +9,10 @@
 ^R/desktop\.ini$    # Windows detritus
 ^man/desktop\.ini$  # Windows detritus
 ^data/desktop\.ini$ # Windows detritus
+^\.git$             # git repository
+^desktop\.ini$
+^phater\.Rproj$
+^README\.Rmd$
+^data/desktop\.ini$
+^\.git$
+^\.git/*$

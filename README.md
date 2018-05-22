@@ -1,37 +1,71 @@
+phater v0.2.5
+================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-phater
-======
 
-This R package provides an implementation of the [PHATE dimensionality reduction and visualization method](https://www.biorxiv.org/content/early/2017/12/01/120378).
+This R package provides an implementation of the [PHATE dimensionality
+reduction and visualization
+method](https://www.biorxiv.org/content/early/2017/12/01/120378).
 
-For a thorough overview of the PHATE visualization method, please see the [bioRxiv preprint](https://www.biorxiv.org/content/early/2017/12/01/120378)
+For a thorough overview of the PHATE visualization method, please see
+the [bioRxiv
+preprint](https://www.biorxiv.org/content/early/2017/12/01/120378)
 
-For our Python and Matlab implementations, please see [KrishnaswamyLab/PHATE](https://github.com/KrishnaswamyLab/PHATE).
+For our Python and Matlab implementations, please see
+[KrishnaswamyLab/PHATE](https://github.com/KrishnaswamyLab/PHATE).
 
-Installation
-------------
+## Installation
 
-#### Installation with `devtools`
+In order to use PHATE in R, you must also install the Python package.
 
-The R version of PHATE can be installed directly from R with `devtools`:
+#### Installation from CRAN and PyPi
+
+Install `phater` from CRAN by running the following code in R:
+
+``` r
+install.packages("phater")
+```
+
+Install `phate` in Python by running the following code from a terminal:
+
+``` bash
+pip install --user phate
+```
+
+#### Installation with `devtools` and `reticulate`
+
+The development version of PHATE can be installed directly from R with
+`devtools`:
 
 ``` r
 if (!suppressWarnings(require(devtools))) install.packages("devtools")
 devtools::install_github("KrishnaswamyLab/phater")
 ```
 
+If you have the development version of `reticulate`, you can also
+install `phate` in Python by running the following code in R:
+
+``` r
+devtools::install_github("rstudio/reticulate")
+reticulate::py_install("phate")
+```
+
 #### Installation from source
 
-1.  The R version of PHATE can be accessed [here](https://github.com/KrishnaswamyLab/phater), or by running the following in a terminal:
+The latest source version of PHATE can be accessed by running the
+following in a terminal:
 
 ``` bash
 git clone --recursive git://github.com/SmitaKrishnaswamy/PHATE.git
 cd PHATE/phater
 R CMD INSTALL
+cd ../Python
+python setup.py install --user
 ```
 
-1.  If the `phater` folder is empty, you have may forgotten to use the `--recursive` option for `git clone`. You can rectify this by running the following in a terminal:
+If the `phater` folder is empty, you have may forgotten to use the
+`--recursive` option for `git clone`. You can rectify this by
+running the following in a terminal:
 
 ``` bash
 cd PHATE
@@ -39,23 +73,26 @@ git submodule init
 git submodule update
 cd phater
 R CMD INSTALL
+cd ../Python
+python setup.py install --user
 ```
 
-Tutorial
---------
+## Tutorial
 
-This is a basic example running `phate` on a highly branched example dataset that is included with the package. First, let's examine it with PCA.
+This is a basic example running `phate` on a highly branched example
+dataset that is included with the package. First, let’s examine it with
+PCA.
 
 ``` r
 library(phater)
-#> Loading required package: ggplot2
 data(tree.data)
 plot(prcomp(tree.data$data)$x, col=tree.data$branches)
 ```
 
 <img src="man/figures/README-example-data-1.png" width="100%" />
 
-Now we run PHATE on the data. We'll just go ahead and try with the default parameters.
+Now we run PHATE on the data. We’ll just go ahead and try with the
+default parameters.
 
 ``` r
 # runs phate
@@ -67,7 +104,7 @@ summary(tree.phate)
 #> Embedding: (3000, 2)
 ```
 
-Let's plot the results.
+Let’s plot the results.
 
 ``` r
 # plot embedding
@@ -77,11 +114,19 @@ plot(tree.phate, col = tree.data$branches)
 
 <img src="man/figures/README-plot-results-1.png" width="100%" />
 
-Good news! Our branches look nice. However, all of the interesting activity seems to be concentrated into one region of the plot - in this case we should try the square root potential instead. We can also try increasing `t` to make the structure a little clearer - in this case, because synthetic data in unusually structured, we can use a very large value, like 120, but in biological data the automatic `t` selection is generally very close to ideal. Note here that if we pass our previous result in with the argument `init`, we won't have to recompute the diffusion operator.
+Good news\! Our branches separate nicely. However, most of the
+interesting activity seems to be concentrated into one region of the
+plot - in this case we should try the square root potential instead. We
+can also try increasing `t` to make the structure a little clearer - in
+this case, because synthetic data in unusually structured, we can use a
+very large value, like 200, but in biological data the automatic `t`
+selection is generally very close to ideal. Note here that if we pass
+our previous result in with the argument `init`, we won’t have to
+recompute the diffusion operator.
 
 ``` r
 # runs phate with different parameters
-tree.phate <- phate(tree.data$data, potential.method='sqrt', t=90, init=tree.phate)
+tree.phate <- phate(tree.data$data, potential.method='sqrt', t=200, init=tree.phate)
 # plot embedding
 palette(rainbow(10))
 plot(tree.phate, col = tree.data$branches)
@@ -89,17 +134,19 @@ plot(tree.phate, col = tree.data$branches)
 
 <img src="man/figures/README-adjust-parameters-1.png" width="100%" />
 
-We can also pass the PHATE object directly to `ggplot`, if it is installed.
+We can also pass the PHATE object directly to `ggplot`, if it is
+installed.
 
 ``` r
 library(ggplot2)
+#> Warning: package 'ggplot2' was built under R version 3.4.4
 ggplot(tree.phate, aes(x=PHATE1, y=PHATE2, color=tree.data$branches)) +
   geom_point()
 ```
 
 <img src="man/figures/README-ggplot-1.png" width="100%" />
 
-Issues
-------
+## Issues
 
-Please let us know of any issues at the [GitHub repo](https://github.com/KrishnaswamyLab/phater/issues)
+Please let us know of any issues at the [GitHub
+repo](https://github.com/KrishnaswamyLab/phater/issues)
