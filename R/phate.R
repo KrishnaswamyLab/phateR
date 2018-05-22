@@ -332,7 +332,7 @@ print.phate <- function(x, ...) {
                    ncol(x$embedding), ")\n",
                    "  $operator : Python PHATE operator\n",
                    "  $params : list with elements (",
-                   paste(names(x$params), collapse = ", "), ")")
+                   paste(names(x$params), collapse = ", "), ")\n")
   cat(result)
 }
 
@@ -361,7 +361,7 @@ summary.phate <- function(object, ...) {
             "Data: (", nrow(object$params$data),
             ", ", ncol(object$params$data), ")\n",
             "Embedding: (", nrow(object$embedding),
-            ", ", ncol(object$embedding), ")")
+            ", ", ncol(object$embedding), ")\n")
   cat(result)
 }
 
