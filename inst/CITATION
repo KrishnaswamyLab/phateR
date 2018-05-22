@@ -1,0 +1,22 @@
+bibentry(
+	bibtype="Article",
+	title="Visualizing Transitions and Structure for High Dimensional Data Exploration",
+	author = c(person("Kevin R", "Moon"),
+	person("David", "van Dijk"),
+	person("Zheng", "Wang"),
+	person("Daniel", "Burkhardt"),
+	person("William", "Chen"),
+	person("Antonia", "van den Elzen"),
+	person("Matthew J", "Hirn"),
+	person("Ronald R", "Coifman"),
+	person("Natalia B", "Ivanova"),
+	person("Guy", "Wolf"),
+	person("Smita", "Krishnaswamy")
+	),
+	year=2017,
+	url="https://www.biorxiv.org/content/early/2017/12/01/120378",
+	doi="10.1101/120378",
+	journal="bioRxiv",
+	publisher="Cold Spring Harbor Laboratory",
+	pages=120378
+)

@@ -4,10 +4,10 @@
 \alias{ggplot.phate}
 \title{Convert a PHATE object to a data.frame for ggplot}
 \usage{
-\method{ggplot}{phate}(phate, ...)
+\method{ggplot}{phate}(data, ...)
 }
 \arguments{
-\item{phate}{A fitted PHATE object}
+\item{data}{A fitted PHATE object}
 
 \item{...}{Arguments for ggplot()}
 }
@@ -15,8 +15,12 @@
 Passes the embedding matrix to ggplot with column names PHATE1 and PHATE2
 }
 \examples{
+if (reticulate::py_module_available("phate") && require(ggplot2)) {
+
 data(tree.data)
 phate.tree <- phate(tree.data$data)
-ggplot2::ggplot(phate.tree, aes(x=PHATE1, y=PHATE2, color=tree.data$branches)) +
+ggplot(phate.tree, aes(x=PHATE1, y=PHATE2, color=tree.data$branches)) +
   geom_point()
+
+}
 }

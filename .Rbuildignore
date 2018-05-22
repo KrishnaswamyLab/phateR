@@ -1,4 +1,18 @@
-^.*\.Rproj$
-^\.Rproj\.user$
-^data-raw$
+^.*\.Rproj$         # Automatically added by RStudio,
+^\.Rproj\.user$     # used for temporary files.
+^data-raw$          # raw data generation code
+^README\.Rmd$       # An Rmarkdown file used to generate README.md
+^cran-comments\.md$ # Comments for CRAN submission
+^NEWS\.md$          # A news file written in Markdown
+^\.travis\.yml$     # Used for continuous integration testing with travis
+^desktop\.ini$      # Windows detritus
+^R/desktop\.ini$    # Windows detritus
+^man/desktop\.ini$  # Windows detritus
+^data/desktop\.ini$ # Windows detritus
+^\.git$             # git repository
+^desktop\.ini$
+^phater\.Rproj$
 ^README\.Rmd$
+^data/desktop\.ini$
+^\.git$
+^\.git/*$

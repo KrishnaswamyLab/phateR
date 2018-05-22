@@ -1,4 +1,5 @@
 ---
+title : phater v0.2.5
 output: github_document
 ---
 
@@ -13,8 +14,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-# phater
-
 This R package provides an implementation of the
 [PHATE dimensionality reduction and visualization method](https://www.biorxiv.org/content/early/2017/12/01/120378).
 
@@ -24,33 +23,61 @@ For our Python and Matlab implementations, please see [KrishnaswamyLab/PHATE](ht
 
 ## Installation
 
-#### Installation with `devtools`
+In order to use PHATE in R, you must also install the Python package.
 
-The R version of PHATE can be installed directly from R with `devtools`:
+#### Installation from CRAN and PyPi
+
+Install `phater` from CRAN by running the following code in R:
+
+```{r cran-install, eval = FALSE}
+install.packages("phater")
+```
+
+Install `phate` in Python by running the following code from a terminal:
+
+```{bash pypi-install, eval = FALSE}
+pip install --user phate
+```
+
+#### Installation with `devtools` and `reticulate`
+
+The development version of PHATE can be installed directly from R with `devtools`:
 
 ```{r github-install, eval = FALSE}
 if (!suppressWarnings(require(devtools))) install.packages("devtools")
 devtools::install_github("KrishnaswamyLab/phater")
 ```
 
+If you have the development version of `reticulate`, you can also install `phate` in Python by running the following code in R:
+
+```{r reticulate-install, eval = FALSE}
+devtools::install_github("rstudio/reticulate")
+reticulate::py_install("phate")
+```
+
+
 #### Installation from source
 
-1. The R version of PHATE can be accessed [here](https://github.com/KrishnaswamyLab/phater), or by running the following in a terminal:
+The latest source version of PHATE can be accessed by running the following in a terminal:
 
-```{bash, eval=FALSE}
+```{bash install-source, eval=FALSE}
 git clone --recursive git://github.com/SmitaKrishnaswamy/PHATE.git
 cd PHATE/phater
 R CMD INSTALL
+cd ../Python
+python setup.py install --user
 ```
 
-2. If the `phater` folder is empty, you have may forgotten to use the `--recursive` option for `git clone`. You can rectify this by running the following in a terminal:
+If the `phater` folder is empty, you have may forgotten to use the `--recursive` option for `git clone`. You can rectify this by running the following in a terminal:
 
-```{bash, eval=FALSE}
+```{bash fix-submodule, eval=FALSE}
 cd PHATE
 git submodule init
 git submodule update
 cd phater
 R CMD INSTALL
+cd ../Python
+python setup.py install --user
 ```
 
 ## Tutorial
@@ -80,11 +107,11 @@ palette(rainbow(10))
 plot(tree.phate, col = tree.data$branches)
 ```
 
-Good news! Our branches look nice. However, all of the interesting activity seems to be concentrated into one region of the plot - in this case we should try the square root potential instead. We can also try increasing `t` to make the structure a little clearer - in this case, because synthetic data in unusually structured, we can use a very large value, like 120, but in biological data the automatic `t` selection is generally very close to ideal. Note here that if we pass our previous result in with the argument `init`, we won't have to recompute the diffusion operator.
+Good news! Our branches separate nicely. However, most of the interesting activity seems to be concentrated into one region of the plot - in this case we should try the square root potential instead. We can also try increasing `t` to make the structure a little clearer - in this case, because synthetic data in unusually structured, we can use a very large value, like 200, but in biological data the automatic `t` selection is generally very close to ideal. Note here that if we pass our previous result in with the argument `init`, we won't have to recompute the diffusion operator.
 
 ```{r adjust-parameters}
 # runs phate with different parameters
-tree.phate <- phate(tree.data$data, potential.method='sqrt', t=90, init=tree.phate)
+tree.phate <- phate(tree.data$data, potential.method='sqrt', t=200, init=tree.phate)
 # plot embedding
 palette(rainbow(10))
 plot(tree.phate, col = tree.data$branches)
@@ -101,4 +128,4 @@ ggplot(tree.phate, aes(x=PHATE1, y=PHATE2, color=tree.data$branches)) +
 
 ## Issues
 
-Please let us know of any issues at the [GitHub repo](https://github.com/KrishnaswamyLab/PHATE/issues)
+Please let us know of any issues at the [GitHub repo](https://github.com/KrishnaswamyLab/phater/issues)
