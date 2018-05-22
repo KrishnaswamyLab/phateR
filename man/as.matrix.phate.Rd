@@ -4,10 +4,10 @@
 \alias{as.matrix.phate}
 \title{Convert a PHATE object to a matrix}
 \usage{
-\method{as.matrix}{phate}(phate, ...)
+\method{as.matrix}{phate}(x, ...)
 }
 \arguments{
-\item{phate}{A fitted PHATE object}
+\item{x}{A fitted PHATE object}
 
 \item{...}{Arguments for as.matrix()}
 }

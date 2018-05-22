@@ -4,10 +4,10 @@
 \alias{plot.phate}
 \title{Plot a PHATE object in base R}
 \usage{
-\method{plot}{phate}(phate, ...)
+\method{plot}{phate}(x, ...)
 }
 \arguments{
-\item{phate}{A fitted PHATE object}
+\item{x}{A fitted PHATE object}
 
 \item{...}{Arguments for plot()}
 }
@@ -15,7 +15,12 @@
 Plot a PHATE object in base R
 }
 \examples{
+if (reticulate::py_module_available("phate")) {
+
+library(graphics)
 data(tree.data)
 phate.tree <- phate(tree.data$data)
-plot(phate.tree, col=tree.data$branches))
+plot(phate.tree, col=tree.data$branches)
+
+}
 }

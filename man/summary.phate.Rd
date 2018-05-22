@@ -4,10 +4,10 @@
 \alias{summary.phate}
 \title{Summarize a PHATE object}
 \usage{
-\method{summary}{phate}(phate, ...)
+\method{summary}{phate}(object, ...)
 }
 \arguments{
-\item{phate}{A fitted PHATE object}
+\item{object}{A fitted PHATE object}
 
 \item{...}{Arguments for summary()}
 }
@@ -15,11 +15,15 @@
 Summarize a PHATE object
 }
 \examples{
+if (reticulate::py_module_available("phate")) {
+
 data(tree.data)
 phate.tree <- phate(tree.data$data)
-print(phate.tree)
+summary(phate.tree)
 ## PHATE embedding
 ## k = 5, alpha = NA, t = 58
 ## Data: (3000, 100)
 ## Embedding: (3000, 2)
+
+}
 }

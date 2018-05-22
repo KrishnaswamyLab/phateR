@@ -2,9 +2,10 @@
 % Please edit documentation in R/preprocessing.R
 \name{library.size.normalize}
 \alias{library.size.normalize}
-\title{Performs L1 normalization on input data such that the sum of expression values for each cell sums to 1
-then returns normalized matrix to the metric space using median UMI count per
-cell effectively scaling all cells as if they were sampled evenly.}
+\title{Performs L1 normalization on input data such that the sum of expression
+values for each cell sums to 1, then returns normalized matrix to the metric
+space using median UMI count per cell effectively scaling all cells as if
+they were sampled evenly.}
 \usage{
 library.size.normalize(data, verbose = FALSE)
 }
@@ -19,7 +20,8 @@ data_norm matrix (n_samples, n_dimensions)
 2 dimensional array with normalized gene expression values
 }
 \description{
-Performs L1 normalization on input data such that the sum of expression values for each cell sums to 1
-then returns normalized matrix to the metric space using median UMI count per
-cell effectively scaling all cells as if they were sampled evenly.
+Performs L1 normalization on input data such that the sum of expression
+values for each cell sums to 1, then returns normalized matrix to the metric
+space using median UMI count per cell effectively scaling all cells as if
+they were sampled evenly.
 }

@@ -4,10 +4,10 @@
 \alias{as.data.frame.phate}
 \title{Convert a PHATE object to a data.frame}
 \usage{
-\method{as.data.frame}{phate}(phate, ...)
+\method{as.data.frame}{phate}(x, ...)
 }
 \arguments{
-\item{phate}{A fitted PHATE object}
+\item{x}{A fitted PHATE object}
 
 \item{...}{Arguments for as.data.frame()}
 }

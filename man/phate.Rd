@@ -4,25 +4,23 @@
 \alias{phate}
 \title{Run PHATE on an input data matrix}
 \usage{
-phate(data, ndim = 2, t = "auto", k = 15, alpha = 10, use.alpha = NA,
-  n.landmark = 2000, potential.method = "log", t.max = 100,
-  pca.method = "random", npca = 100, n.svd = 100, mds.method = "metric",
-  knn.dist.method = "euclidean", mds.dist.method = "euclidean",
-  init = NULL, verbose = TRUE, plot.optimal.t = FALSE, g.kernel = NULL,
-  diff.op = NULL, landmark.transitions = NULL, diff.op.t = NULL,
-  dist.method = NA)
+phate(data, ndim = 2, k = 15, alpha = 10, use.alpha = NA,
+  n.landmark = 2000, potential.method = "log", t = "auto",
+  knn.dist.method = "euclidean", init = NULL, mds.method = "metric",
+  mds.dist.method = "euclidean", t.max = 100, npca = 100,
+  plot.optimal.t = FALSE, verbose = TRUE, n.jobs = 1, seed = NA,
+  n.svd = NA, pca.method = NA, g.kernel = NULL, diff.op = NULL,
+  landmark.transitions = NULL, diff.op.t = NULL, dist.method = NA)
 }
 \arguments{
 \item{data}{matrix (n_samples, n_dimensions)
 2 dimensional input data array with
-n_samples samples and n_dimensions dimensions}
+n_samples samples and n_dimensions dimensions.
+If \code{knn.dist.method} is 'precomputed', \code{data} is treated as a
+(n_samples, n_samples) distance or affinity matrix}
 
 \item{ndim}{int, optional, default: 2
 number of dimensions in which the data will be embedded}
-
-\item{t}{int, optional, default: 'auto'
-power to which the diffusion operator is powered
-sets the level of diffusion}
 
 \item{k}{int, optional, default: 15
 number of nearest neighbors on which to build kernel}
@@ -44,12 +42,28 @@ choose from 'log' and 'sqrt'
 which transformation of the diffusional operator is used
 to compute the diffusion potential}
 
+\item{t}{int, optional, default: 'auto'
+power to which the diffusion operator is powered
+sets the level of diffusion}
+
+\item{knn.dist.method}{string, optional, default: 'euclidean'.
+The desired distance function for calculating pairwise distances on the data.
+If 'precomputed', \code{data} is treated as a
+(n_samples, n_samples) distance or affinity matrix}
+
+\item{init}{phate object, optional
+object to use for initialization. Avoids recomputing
+intermediate steps if parameters are the same.}
+
+\item{mds.method}{string, optional, default: 'metric'
+choose from 'classic', 'metric', and 'nonmetric'
+which MDS algorithm is used for dimensionality reduction}
+
+\item{mds.dist.method}{string, optional, default: 'euclidean'
+recommended values: 'euclidean' and 'cosine'}
+
 \item{t.max}{int, optional, default: 100.
 Maximum value of t to test for automatic t selection.}
-
-\item{pca.method}{string, optional, default: 'random'
-The desired method for implementing pca for preprocessing the
-data. Options include 'svd', 'random', and 'none' (no pca).}
 
 \item{npca}{int, optional, default: 100
 Number of principal components to use for calculating
@@ -57,49 +71,74 @@ neighborhoods. For extremely large datasets, using
 n_pca < 20 allows neighborhoods to be calculated in
 log(n_samples) time.}
 
-\item{n.svd}{int, optional, default: 100
-The number of SVD components to use for landmark selection}
-
-\item{mds.method}{string, optional, default: 'metric'
-choose from 'classic', 'metric', and 'nonmetric'
-which MDS algorithm is used for dimensionality reduction}
-
-\item{knn.dist.method}{string, optional, default: 'euclidean'.
-The desired distance function for calculating pairwise distances on the data.}
-
-\item{mds.dist.method}{string, optional, default: 'euclidean'
-recommended values: 'euclidean' and 'cosine'}
-
-\item{init}{phate object, optional
-object to use for initialization. Avoids recomputing
-intermediate steps if parameters are the same.}
-
-\item{verbose}{boolean, optional, default : TRUE
-If TRUE, print verbose updates.}
-
 \item{plot.optimal.t}{boolean, optional, default: FALSE
 If TRUE, produce a plot showing the Von Neumann Entropy
 curve for automatic t selection.}
 
-\item{g.kernel}{Precomputed kernel matrix}
+\item{verbose}{boolean, optional, default : TRUE
+If TRUE, print verbose updates.}
 
-\item{diff.op}{Precomputed diffusion operator}
+\item{n.jobs}{\code{int}, optional (default: 1)
+The number of jobs to use for the computation.
+If -1 all CPUs are used. If 1 is given, no parallel computing code is
+used at all, which is useful for debugging.
+For n_jobs below -1, (n.cpus + 1 + n.jobs) are used. Thus for
+n_jobs = -2, all CPUs but one are used}
 
-\item{landmark.transitions}{Precomputed landmark transitions}
+\item{seed}{int or \code{NA}, random state (default: \code{NA})}
 
-\item{diff.op.t}{Precomputed powered diffusion operator}
+\item{n.svd}{Deprecated.}
+
+\item{pca.method}{Deprecated.}
+
+\item{g.kernel}{Deprecated.}
+
+\item{diff.op}{Deprecated.}
+
+\item{landmark.transitions}{Deprecated.}
+
+\item{diff.op.t}{Deprecated.}
+
+\item{dist.method}{Deprecated.}
 }
 \value{
 "phate" object containing:
 \itemize{
 \item \strong{embedding}: the PHATE embedding
-\item \strong{diff.op}: The diffusion operator which can be used as optional input with another run.
-\item \strong{diff.op.t}: diff.op^t
-\item \strong{g.kernel}: The kernel used to construct the diffusion operator
+\item \strong{operator}: The PHATE operator (python phate.PHATE object)
 \item \strong{params}: Parameters passed to phate
 }
 }
 \description{
-PHATE is a data reduction method specifically designed for visualizing \strong{high}
-dimensional data in \strong{low} dimensional spaces.
+PHATE is a data reduction method specifically designed for visualizing
+\strong{high} dimensional data in \strong{low} dimensional spaces.
+}
+\examples{
+if (reticulate::py_module_available("phate")) {
+
+# Load data
+data(tree.data)
+
+# Run PHATE
+phate.tree <- phate(tree.data$data)
+## PHATE embedding
+## k = 5, alpha = NA, t = 58
+## Data: (3000, 100)
+## Embedding: (3000, 2)
+
+library(graphics)
+# Plot the result with base graphics
+plot(phate.tree, col=tree.data$branches)
+# Plot the result with ggplot2
+if (require(ggplot2)) {
+  ggplot(phate.tree) +
+    geom_point(aes(x=PHATE1, y=PHATE2, color=tree.data$branches))
+}
+
+# Run PHATE again with different parameters
+# We use the last run as initialization
+phate.tree2 <- phate(tree.data$data, t=150, init=phate.tree)
+# Extract the embedding matrix to use in downstream analysis
+embedding <- as.matrix(phate.tree2)
+}
 }

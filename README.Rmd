@@ -101,4 +101,4 @@ ggplot(tree.phate, aes(x=PHATE1, y=PHATE2, color=tree.data$branches)) +
 
 ## Issues
 
-Please let us know of any issues at the [GitHub repo](https://github.com/KrishnaswamyLab/PHATE/issues)
+Please let us know of any issues at the [GitHub repo](https://github.com/KrishnaswamyLab/phater/issues)

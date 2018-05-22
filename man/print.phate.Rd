@@ -4,10 +4,10 @@
 \alias{print.phate}
 \title{Print a PHATE object}
 \usage{
-\method{print}{phate}(phate, ...)
+\method{print}{phate}(x, ...)
 }
 \arguments{
-\item{phate}{A fitted PHATE object}
+\item{x}{A fitted PHATE object}
 
 \item{...}{Arguments for print()}
 }
@@ -15,16 +15,17 @@
 This avoids spamming the user's console with a list of many large matrices
 }
 \examples{
+if (reticulate::py_module_available("phate")) {
+
 data(tree.data)
 phate.tree <- phate(tree.data$data)
 print(phate.tree)
 ## PHATE embedding with elements
-##   $embedding : (3000, 2)
-##   $g.kernel : (3000, 3000)
-##   $diff.op : (2000, 2000)
-##   $diff.op.t : (2000, 2000)
-##   $params : list with elements (data, k, alpha, t, n.landmark, 
-##                                 potential.method, pca.method, 
-##                                 npca, n.svd, mds.method, 
-##                                 knn.dist.method, mds.dist.method)
+## $embedding : (3000, 2)
+## $operator : Python PHATE operator
+## $params : list with elements (data, k, alpha, t, n.landmark, ndim,
+##                               potential.method, npca, mds.method,
+##                               knn.dist.method, mds.dist.method)
+
+}
 }
