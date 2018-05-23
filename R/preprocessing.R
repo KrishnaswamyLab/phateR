@@ -1,6 +1,6 @@
-#' Performs L1 normalization on input data such that the sum of expression 
-#' values for each cell sums to 1, then returns normalized matrix to the metric 
-#' space using median UMI count per cell effectively scaling all cells as if 
+#' Performs L1 normalization on input data such that the sum of expression
+#' values for each cell sums to 1, then returns normalized matrix to the metric
+#' space using median UMI count per cell effectively scaling all cells as if
 #' they were sampled evenly.
 
 #' @param data matrix (n_samples, n_dimensions)
@@ -9,7 +9,8 @@
 
 #' @return data_norm matrix (n_samples, n_dimensions)
 #' 2 dimensional array with normalized gene expression values
-#' 
+#' @import Matrix
+#'
 #' @export
 library.size.normalize <- function(data, verbose=FALSE) {
   if (verbose) message(paste0("Normalizing library sizes for ",
