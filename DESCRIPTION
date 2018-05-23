@@ -14,13 +14,13 @@ License: GPL-2 | file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends:
-    R (>= 3.3)
+    R (>= 3.3),
+    Matrix (>= 1.2-12)
 Imports:
     methods,
     stats,
     graphics,
     reticulate (>= 1.7),
-    Matrix (>= 1.2-12),
     ggplot2
 Suggests:
     gridGraphics,
