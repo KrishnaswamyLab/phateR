@@ -1,6 +1,6 @@
-Package: phater
+Package: phateR
 Title: PHATE - Potential of Heat-Diffusion for Affinity-Based Transition Embedding
-Version: 0.2.5
+Version: 0.2.6
 Authors@R: c(person("Krishnan", "Srinivasan", email = "krishnan.srinivasan@yale.edu", role = c("aut")),
              person(given = 'Scott', family = 'Gigante', email = 'scott.gigante@yale.edu', role = 'cre', comment = c(ORCID = '0000-0002-4544-2764')))
 Description: PHATE is a tool for visualizing high dimensional single-cell data
@@ -8,19 +8,19 @@ Description: PHATE is a tool for visualizing high dimensional single-cell data
   for learning and visualizing the manifold inherent to biological systems in which
   smooth transitions mark the progressions of cells from one state to another.
   To see how PHATE can be applied to single-cell RNA-seq datasets from hematopoietic
-  stem cells, human embryonic stem cells, and bone marrow samples, check out our preprint on BioRxiv
+  stem cells, human embryonic stem cells, and bone marrow samples, check out our preprint on bioRxiv
   at <http://biorxiv.org/content/early/2017/03/24/120378>.
 License: GPL-2 | file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends:
-    R (>= 3.3)
+    R (>= 3.3),
+    Matrix (>= 1.2-12)
 Imports:
     methods,
     stats,
     graphics,
     reticulate (>= 1.7),
-    Matrix (>= 1.2-12),
     ggplot2
 Suggests:
     gridGraphics,

@@ -299,6 +299,8 @@ phate <- function(data, ndim = 2, k = 15,
 #' plot(phate.tree, col=tree.data$branches)
 #'
 #' }
+#' @rdname plot
+#' @method plot phate
 #' @export
 plot.phate <- function(x, ...) {
   graphics::plot(x$embedding[, 1], x$embedding[, 2], type = "p",
@@ -325,6 +327,8 @@ plot.phate <- function(x, ...) {
 #' ##                               knn.dist.method, mds.dist.method)
 #'
 #' }
+#' @rdname print
+#' @method print phate
 #' @export
 print.phate <- function(x, ...) {
   result <- paste0("PHATE embedding with elements\n",
@@ -352,6 +356,8 @@ print.phate <- function(x, ...) {
 #' ## Embedding: (3000, 2)
 #'
 #' }
+#' @rdname summary
+#' @method summary phate
 #' @export
 summary.phate <- function(object, ...) {
   result <- paste0("PHATE embedding\n",
@@ -372,6 +378,8 @@ summary.phate <- function(object, ...) {
 #'
 #' @param x A fitted PHATE object
 #' @param ... Arguments for as.matrix()
+#' @rdname as.matrix
+#' @method as.matrix phate
 #' @export
 as.matrix.phate <- function(x, ...) {
   x$embedding
@@ -382,6 +390,8 @@ as.matrix.phate <- function(x, ...) {
 #'
 #' @param x A fitted PHATE object
 #' @param ... Arguments for as.data.frame()
+#' @rdname as.data.frame
+#' @method as.data.frame phate
 #' @export
 as.data.frame.phate <- function(x, ...) {
   as.data.frame(as.matrix(x), ...)
@@ -402,6 +412,8 @@ as.data.frame.phate <- function(x, ...) {
 #'   geom_point()
 #'
 #' }
+#' @rdname ggplot
+#' @method ggplot phate
 #' @export
 ggplot.phate <- function(data, ...) {
   ggplot2::ggplot(as.data.frame(data), ...)

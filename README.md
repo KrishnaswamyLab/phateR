@@ -1,4 +1,4 @@
-phater v0.2.5
+phateR v0.2.6
 ================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -20,10 +20,10 @@ In order to use PHATE in R, you must also install the Python package.
 
 #### Installation from CRAN and PyPi
 
-Install `phater` from CRAN by running the following code in R:
+Install `phateR` from CRAN by running the following code in R:
 
 ``` r
-install.packages("phater")
+install.packages("phateR")
 ```
 
 Install `phate` in Python by running the following code from a terminal:
@@ -39,7 +39,7 @@ The development version of PHATE can be installed directly from R with
 
 ``` r
 if (!suppressWarnings(require(devtools))) install.packages("devtools")
-devtools::install_github("KrishnaswamyLab/phater")
+devtools::install_github("KrishnaswamyLab/phateR")
 ```
 
 If you have the development version of `reticulate`, you can also
@@ -57,13 +57,13 @@ following in a terminal:
 
 ``` bash
 git clone --recursive git://github.com/SmitaKrishnaswamy/PHATE.git
-cd PHATE/phater
+cd PHATE/phateR
 R CMD INSTALL
 cd ../Python
 python setup.py install --user
 ```
 
-If the `phater` folder is empty, you have may forgotten to use the
+If the `phateR` folder is empty, you have may forgotten to use the
 `--recursive` option for `git clone`. You can rectify this by
 running the following in a terminal:
 
@@ -71,7 +71,7 @@ running the following in a terminal:
 cd PHATE
 git submodule init
 git submodule update
-cd phater
+cd phateR
 R CMD INSTALL
 cd ../Python
 python setup.py install --user
@@ -84,7 +84,7 @@ dataset that is included with the package. First, let’s examine it with
 PCA.
 
 ``` r
-library(phater)
+library(phateR)
 data(tree.data)
 plot(prcomp(tree.data$data)$x, col=tree.data$branches)
 ```
@@ -149,4 +149,4 @@ ggplot(tree.phate, aes(x=PHATE1, y=PHATE2, color=tree.data$branches)) +
 ## Issues
 
 Please let us know of any issues at the [GitHub
-repo](https://github.com/KrishnaswamyLab/phater/issues)
+repo](https://github.com/KrishnaswamyLab/phateR/issues)
