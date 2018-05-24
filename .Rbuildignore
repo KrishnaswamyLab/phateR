@@ -16,3 +16,4 @@
 ^data/desktop\.ini$
 ^\.git$
 ^\.git/*$
+^\.travis\.yml$
