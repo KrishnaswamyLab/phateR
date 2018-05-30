@@ -9,6 +9,7 @@ os:
   - osx
 
 r:
+  - oldrel
   - release
   - devel
 
@@ -21,5 +22,9 @@ before_install:
   - chmod +x travis_setup.sh
   - ./travis_setup.sh
   - pip install --user phate
+
+install:
+  - R -e 'devtools::install_deps(dependencies = T)'
+  - if [[ $TRAVIS_R_VERSION_STRING == 'devel']; then R -e 'devtools::install_dev_deps(dependencies = T)'; fi
 
 warnings_are_errors: true
