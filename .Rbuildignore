@@ -17,3 +17,5 @@
 ^\.git$
 ^\.git/*$
 ^\.travis\.yml$
+^travis_setup\.sh$
+^miniconda\.sh$
