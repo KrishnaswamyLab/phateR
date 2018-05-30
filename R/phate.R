@@ -80,6 +80,7 @@
 #'
 #' # Run PHATE
 #' phate.tree <- phate(tree.data$data)
+#' summary(phate.tree)
 #' ## PHATE embedding
 #' ## k = 5, alpha = NA, t = 58
 #' ## Data: (3000, 100)
