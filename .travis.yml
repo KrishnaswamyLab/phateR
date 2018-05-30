@@ -15,7 +15,7 @@ r:
 before_install:
   - chmod +x travis_setup.sh
   - ./travis_setup.sh
-  - sudo pip install --upgrade numpy
+  - sudo pip install --upgrade numpy matplotlib
   - pip install phate
 
 warnings_are_errors: true
