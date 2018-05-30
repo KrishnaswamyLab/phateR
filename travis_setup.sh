@@ -8,8 +8,6 @@ elif [[ $TRAVIS_OS_NAME == "osx" ]]; then
 fi
 
 bash miniconda.sh -b -p $HOME/miniconda
-export PATH="$HOME/miniconda/bin:$PATH"
-export RETICULATE_PYTHON="$HOME/miniconda/bin/python"
 hash -r
 conda config --set always_yes yes --set changeps1 no
 conda update -q conda

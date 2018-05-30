@@ -12,6 +12,11 @@ r:
   - release
   - devel
 
+env:
+  global:
+    - PATH="$HOME/miniconda/bin:$PATH"
+    - RETICULATE_PYTHON="$HOME/miniconda/bin/python"
+
 before_install:
   - chmod +x travis_setup.sh
   - ./travis_setup.sh
