@@ -24,6 +24,7 @@ before_install:
   - pip install --user phate
 
 install:
+  - R -e 'install.packages("devtools")'
   - R -e 'devtools::install_deps(dependencies = T)'
   - if [[ $TRAVIS_R_VERSION_STRING == 'devel' ]]; then R -e 'devtools::install_dev_deps(dependencies = T)'; fi
 
