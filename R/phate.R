@@ -76,10 +76,12 @@
 #' if (reticulate::py_module_available("phate")) {
 #'
 #' # Load data
-#' data(tree.data)
+#' # data(tree.data)
+#' # We use a smaller tree to make examples run faster
+#' data(tree.data.small)
 #'
 #' # Run PHATE
-#' phate.tree <- phate(tree.data$data)
+#' phate.tree <- phate(tree.data.small$data)
 #' summary(phate.tree)
 #' ## PHATE embedding
 #' ## k = 5, alpha = NA, t = 58
@@ -88,16 +90,16 @@
 #'
 #' library(graphics)
 #' # Plot the result with base graphics
-#' plot(phate.tree, col=tree.data$branches)
+#' plot(phate.tree, col=tree.data.small$branches)
 #' # Plot the result with ggplot2
 #' if (require(ggplot2)) {
 #'   ggplot(phate.tree) +
-#'     geom_point(aes(x=PHATE1, y=PHATE2, color=tree.data$branches))
+#'     geom_point(aes(x=PHATE1, y=PHATE2, color=tree.data.small$branches))
 #' }
 #'
 #' # Run PHATE again with different parameters
 #' # We use the last run as initialization
-#' phate.tree2 <- phate(tree.data$data, t=150, init=phate.tree)
+#' phate.tree2 <- phate(tree.data.small$data, t=150, init=phate.tree)
 #' # Extract the embedding matrix to use in downstream analysis
 #' embedding <- as.matrix(phate.tree2)
 #'
@@ -295,9 +297,14 @@ phate <- function(data, ndim = 2, k = 15,
 #' if (reticulate::py_module_available("phate")) {
 #'
 #' library(graphics)
-#' data(tree.data)
-#' phate.tree <- phate(tree.data$data)
-#' plot(phate.tree, col=tree.data$branches)
+#' 
+#' # Load data
+#' # data(tree.data)
+#' # We use a smaller tree to make examples run faster
+#' data(tree.data.small)
+#' 
+#' phate.tree <- phate(tree.data.small$data)
+#' plot(phate.tree, col=tree.data.small$branches)
 #'
 #' }
 #' @rdname plot
@@ -317,8 +324,12 @@ plot.phate <- function(x, ...) {
 #' @examples
 #' if (reticulate::py_module_available("phate")) {
 #'
-#' data(tree.data)
-#' phate.tree <- phate(tree.data$data)
+#' # Load data
+#' # data(tree.data)
+#' # We use a smaller tree to make examples run faster
+#' data(tree.data.small)
+#' 
+#' phate.tree <- phate(tree.data.small$data)
 #' print(phate.tree)
 #' ## PHATE embedding with elements
 #' ## $embedding : (3000, 2)
@@ -346,10 +357,14 @@ print.phate <- function(x, ...) {
 #' @param object A fitted PHATE object
 #' @param ... Arguments for summary()
 #' @examples
-#' if (reticulate::py_module_available("phate")) {
-#'
-#' data(tree.data)
-#' phate.tree <- phate(tree.data$data)
+#' if (reticulate::
+#' 
+#' # Load data
+#' # data(tree.data)
+#' # We use a smaller tree to make examples run faster
+#' data(tree.data.small)
+#' 
+#' phate.tree <- phate(tree.data.small$data)
 #' summary(phate.tree)
 #' ## PHATE embedding
 #' ## k = 5, alpha = NA, t = 58
@@ -381,6 +396,22 @@ summary.phate <- function(object, ...) {
 #' @param ... Arguments for as.matrix()
 #' @rdname as.matrix
 #' @method as.matrix phate
+#' @examples
+#' if (reticulate::
+#' 
+#' # Load data
+#' # data(tree.data)
+#' # We use a smaller tree to make examples run faster
+#' data(tree.data.small)
+#' 
+#' phate.tree <- phate(tree.data.small$data)
+#' str(as.matrix(phate.tree))
+#' ## num [1:250, 1:2] -0.0438 -0.189 0.1637 -0.1103 0.0753 ...
+#' ## - attr(*, "dimnames")=List of 2
+#' ## ..$ : NULL
+#' ## ..$ : chr [1:2] "PHATE1" "PHATE2"
+#'
+#' }
 #' @export
 as.matrix.phate <- function(x, ...) {
   x$embedding
@@ -407,9 +438,13 @@ as.data.frame.phate <- function(x, ...) {
 #' @examples
 #' if (reticulate::py_module_available("phate") && require(ggplot2)) {
 #'
-#' data(tree.data)
-#' phate.tree <- phate(tree.data$data)
-#' ggplot(phate.tree, aes(x=PHATE1, y=PHATE2, color=tree.data$branches)) +
+#' # Load data
+#' # data(tree.data)
+#' # We use a smaller tree to make examples run faster
+#' data(tree.data.small)
+#' 
+#' phate.tree <- phate(tree.data.small$data)
+#' ggplot(phate.tree, aes(x=PHATE1, y=PHATE2, color=tree.data.small$branches)) +
 #'   geom_point()
 #'
 #' }
