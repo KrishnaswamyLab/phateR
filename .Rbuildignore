@@ -11,9 +11,11 @@
 ^data/desktop\.ini$ # Windows detritus
 ^\.git$             # git repository
 ^desktop\.ini$
-^phater\.Rproj$
+^phateR\.Rproj$
 ^README\.Rmd$
 ^data/desktop\.ini$
 ^\.git$
 ^\.git/*$
 ^\.travis\.yml$
+^travis_setup\.sh$
+^miniconda\.sh$

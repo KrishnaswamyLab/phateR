@@ -1,5 +1,34 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
-language: R
-sudo: false
+language: r
+sudo: required
 cache: packages
+
+os:
+  - linux
+  - osx
+
+r:
+  - oldrel
+  - release
+  - devel
+
+env:
+  global:
+    - PATH="$HOME/miniconda/bin:$PATH"
+    - RETICULATE_PYTHON="$HOME/miniconda/bin/python"
+
+before_install:
+  - chmod +x travis_setup.sh
+  - ./travis_setup.sh
+  - pip install --user phate
+
+r_packages:
+  - Matrix
+  - ggplot2
+  - reticulate
+  - devtools
+  - gridGraphics
+  - cowplot
+
+warnings_are_errors: true

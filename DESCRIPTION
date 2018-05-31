@@ -15,16 +15,15 @@ Encoding: UTF-8
 LazyData: true
 Depends:
     R (>= 3.3),
-    Matrix (>= 1.2-12)
+    Matrix (>= 1.2-0)
 Imports:
     methods,
     stats,
     graphics,
-    reticulate (>= 1.7),
+    reticulate (>= 1.4),
     ggplot2
 Suggests:
     gridGraphics,
-    cowplot,
-    tidyverse
+    cowplot
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1

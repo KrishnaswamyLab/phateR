@@ -5,6 +5,7 @@ phateR v0.2.6
 
 [![Latest PyPI version](https://img.shields.io/pypi/v/phate.svg)](https://pypi.org/project/phate/)
 [![Latest CRAN version](https://img.shields.io/cran/v/phateR.svg)](https://cran.r-project.org/package=phateR)
+[![Travis CI Build](https://api.travis-ci.com/KrishnaswamyLab/phateR.svg?branch=master)](https://travis-ci.com/KrishnaswamyLab/phateR)
 [![Read the Docs](https://img.shields.io/readthedocs/phate.svg)](https://phate.readthedocs.io/)
 [![bioRxiv Preprint](https://zenodo.org/badge/DOI/10.1101/120378.svg)](https://www.biorxiv.org/content/early/2017/12/01/120378)
 [![Twitter](https://img.shields.io/twitter/follow/KrishnaswamyLab.svg?style=social&label=Follow)](https://twitter.com/KrishnaswamyLab)
@@ -20,6 +21,15 @@ preprint](https://www.biorxiv.org/content/early/2017/12/01/120378)
 
 For our Python and Matlab implementations, please see
 [KrishnaswamyLab/PHATE](https://github.com/KrishnaswamyLab/PHATE).
+
+## Table of Contents
+
+  * [Installation](#installation)
+    * [Installation from CRAN and PyPi](#installation-from-cran-and-pypi)
+    * [Installation with devtools and <code>reticulate</code>](#installation-with-devtools-and-reticulate)
+    * [Installation from source](#installation-from-source)
+  * [Tutorial](#tutorial)
+  * [Issues](#issues)
 
 ## Installation
 
