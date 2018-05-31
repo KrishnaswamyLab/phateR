@@ -26,9 +26,9 @@ Table of Contents
 =================
 
   * [Installation](#installation)
-        * [Installation from CRAN and PyPi](#installation-from-cran-and-pypi)
-        * [Installation with devtools and <code>reticulate</code>](#installation-with-devtools-and-reticulate)
-        * [Installation from source](#installation-from-source)
+    * [Installation from CRAN and PyPi](#installation-from-cran-and-pypi)
+    * [Installation with devtools and <code>reticulate</code>](#installation-with-devtools-and-reticulate)
+    * [Installation from source](#installation-from-source)
   * [Tutorial](#tutorial)
   * [Issues](#issues)
 
