@@ -357,7 +357,7 @@ print.phate <- function(x, ...) {
 #' @param object A fitted PHATE object
 #' @param ... Arguments for summary()
 #' @examples
-#' if (reticulate::
+#' if (reticulate::py_module_available("phate")) {
 #' 
 #' # Load data
 #' # data(tree.data)
@@ -397,7 +397,7 @@ summary.phate <- function(object, ...) {
 #' @rdname as.matrix
 #' @method as.matrix phate
 #' @examples
-#' if (reticulate::
+#' if (reticulate::py_module_available("phate")) {
 #' 
 #' # Load data
 #' # data(tree.data)

@@ -17,8 +17,12 @@ This avoids spamming the user's console with a list of many large matrices
 \examples{
 if (reticulate::py_module_available("phate")) {
 
-data(tree.data)
-phate.tree <- phate(tree.data$data)
+# Load data
+# data(tree.data)
+# We use a smaller tree to make examples run faster
+data(tree.data.small)
+
+phate.tree <- phate(tree.data.small$data)
 print(phate.tree)
 ## PHATE embedding with elements
 ## $embedding : (3000, 2)

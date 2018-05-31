@@ -15,3 +15,20 @@
 Returns the embedding matrix. All components can be accessed
 using phate$embedding, phate$diff.op, etc
 }
+\examples{
+if (reticulate::py_module_available("phate")) {
+
+# Load data
+# data(tree.data)
+# We use a smaller tree to make examples run faster
+data(tree.data.small)
+
+phate.tree <- phate(tree.data.small$data)
+str(as.matrix(phate.tree))
+## num [1:250, 1:2] -0.0438 -0.189 0.1637 -0.1103 0.0753 ...
+## - attr(*, "dimnames")=List of 2
+## ..$ : NULL
+## ..$ : chr [1:2] "PHATE1" "PHATE2"
+
+}
+}
