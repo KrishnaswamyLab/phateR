@@ -23,8 +23,13 @@ before_install:
   - ./travis_setup.sh
   - pip install --user phate
 
+r_packages:
+  - Matrix
+  - ggplot2
+  - reticulate
+  - devtools
+
 install:
-  - R -e 'install.packages("devtools")'
   - R -e 'devtools::install_deps(dependencies = T)'
   - if [[ $TRAVIS_R_VERSION_STRING == 'devel' ]]; then R -e 'devtools::install_dev_deps()'; fi
 
