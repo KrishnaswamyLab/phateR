@@ -13,8 +13,12 @@
 #'
 #' @export
 library.size.normalize <- function(data, verbose=FALSE) {
-  if (verbose) message(paste0("Normalizing library sizes for ",
-                              nrow(data), " cells"))
+  if (verbose) {
+    message(paste0(
+      "Normalizing library sizes for ",
+      nrow(data), " cells"
+    ))
+  }
   library_size <- Matrix::rowSums(data)
   median_transcript_count <- stats::median(library_size)
   data_norm <- median_transcript_count * data / library_size
