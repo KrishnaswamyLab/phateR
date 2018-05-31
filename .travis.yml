@@ -32,8 +32,4 @@ r_packages:
   - cowplot
   - tidyverse
 
-install:
-  - R -e 'devtools::install_deps(dependencies = T)'
-  - if [[ $TRAVIS_R_VERSION_STRING == 'devel' ]]; then R -e 'devtools::install_dev_deps()'; fi
-
 warnings_are_errors: true
