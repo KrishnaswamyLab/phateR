@@ -29,8 +29,7 @@ For a thorough overview of the PHATE visualization method, please see the [bioRx
 
 For our Python and Matlab implementations, please see [KrishnaswamyLab/PHATE](https://github.com/KrishnaswamyLab/PHATE).
 
-Table of Contents
-=================
+## Table of Contents
 
   * [Installation](#installation)
     * [Installation from CRAN and PyPi](#installation-from-cran-and-pypi)
