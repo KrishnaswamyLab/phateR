@@ -1,8 +1,8 @@
 # Return TRUE if x and y are equal or both NA
-na_equal <- function(x, y) {
-  if (is.na(x) && is.na(y)) {
+null_equal <- function(x, y) {
+  if (is.null(x) && is.null(y)) {
     return(TRUE)
-  } else if (is.na(x) || is.na(y)) {
+  } else if (is.null(x) || is.null(y)) {
     return(FALSE)
   } else {
     return(x == y)
