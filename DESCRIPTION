@@ -24,7 +24,6 @@ Imports:
     ggplot2
 Suggests:
     gridGraphics,
-    cowplot,
-    tidyverse
+    cowplot
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1

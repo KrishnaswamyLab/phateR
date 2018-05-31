@@ -30,6 +30,5 @@ r_packages:
   - devtools
   - gridGraphics
   - cowplot
-  - tidyverse
 
 warnings_are_errors: true
