@@ -4,13 +4,13 @@
 \alias{phate}
 \title{Run PHATE on an input data matrix}
 \usage{
-phate(data, ndim = 2, k = 15, alpha = 10, use.alpha = NA,
+phate(data, ndim = 2, k = 15, alpha = 10, use.alpha = NULL,
   n.landmark = 2000, potential.method = "log", t = "auto",
   knn.dist.method = "euclidean", init = NULL, mds.method = "metric",
   mds.dist.method = "euclidean", t.max = 100, npca = 100,
-  plot.optimal.t = FALSE, verbose = 1, n.jobs = 1, seed = NA,
-  n.svd = NA, pca.method = NA, g.kernel = NULL, diff.op = NULL,
-  landmark.transitions = NULL, diff.op.t = NULL, dist.method = NA)
+  plot.optimal.t = FALSE, verbose = 1, n.jobs = 1, seed = NULL,
+  n.svd = NULL, pca.method = NULL, g.kernel = NULL, diff.op = NULL,
+  landmark.transitions = NULL, diff.op.t = NULL, dist.method = NULL)
 }
 \arguments{
 \item{data}{matrix (n_samples, n_dimensions)
@@ -25,14 +25,12 @@ number of dimensions in which the data will be embedded}
 \item{k}{int, optional, default: 15
 number of nearest neighbors on which to build kernel}
 
-\item{alpha}{int, optional, default: NA
+\item{alpha}{int, optional, default: NULL
 sets decay rate of kernel tails.
-If NA, alpha decaying kernel is not used}
+If NULL, alpha decaying kernel is not used}
 
-\item{use.alpha}{boolean, default: NA
-forces the use of alpha decaying kernel
-If NA, alpha decaying kernel is used for small inputs
-(n_samples < n_landmark) and not used otherwise}
+\item{use.alpha}{boolean, default: NULL
+Deprecated. To disable alpha decay, use \code{alpha=NULL}}
 
 \item{n.landmark}{int, optional, default: 2000
 number of landmarks to use in fast PHATE}
@@ -85,7 +83,7 @@ used at all, which is useful for debugging.
 For n_jobs below -1, (n.cpus + 1 + n.jobs) are used. Thus for
 n_jobs = -2, all CPUs but one are used}
 
-\item{seed}{int or \code{NA}, random state (default: \code{NA})}
+\item{seed}{int or \code{NULL}, random state (default: \code{NULL})}
 
 \item{n.svd}{Deprecated.}
 
@@ -117,30 +115,28 @@ PHATE is a data reduction method specifically designed for visualizing
 if (reticulate::py_module_available("phate")) {
 
 # Load data
-# data(tree.data)
-# We use a smaller tree to make examples run faster
-data(tree.data.small)
+data(tree.data)
 
 # Run PHATE
-phate.tree <- phate(tree.data.small$data)
+phate.tree <- phate(tree.data$data)
 summary(phate.tree)
 ## PHATE embedding
-## k = 5, alpha = NA, t = 58
+## k = 5, alpha = NULL, t = 58
 ## Data: (3000, 100)
 ## Embedding: (3000, 2)
 
 library(graphics)
 # Plot the result with base graphics
-plot(phate.tree, col=tree.data.small$branches)
+plot(phate.tree, col=tree.data$branches)
 # Plot the result with ggplot2
 if (require(ggplot2)) {
   ggplot(phate.tree) +
-    geom_point(aes(x=PHATE1, y=PHATE2, color=tree.data.small$branches))
+    geom_point(aes(x=PHATE1, y=PHATE2, color=tree.data$branches))
 }
 
 # Run PHATE again with different parameters
 # We use the last run as initialization
-phate.tree2 <- phate(tree.data.small$data, t=150, init=phate.tree)
+phate.tree2 <- phate(tree.data$data, t=150, init=phate.tree)
 # Extract the embedding matrix to use in downstream analysis
 embedding <- as.matrix(phate.tree2)
 

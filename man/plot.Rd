@@ -18,14 +18,9 @@ Plot a PHATE object in base R
 if (reticulate::py_module_available("phate")) {
 
 library(graphics)
-
-# Load data
-# data(tree.data)
-# We use a smaller tree to make examples run faster
-data(tree.data.small)
-
-phate.tree <- phate(tree.data.small$data)
-plot(phate.tree, col=tree.data.small$branches)
+data(tree.data)
+phate.tree <- phate(tree.data$data)
+plot(phate.tree, col=tree.data$branches)
 
 }
 }
