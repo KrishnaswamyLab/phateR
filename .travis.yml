@@ -28,6 +28,9 @@ r_packages:
   - ggplot2
   - reticulate
   - devtools
+  - gridGraphics
+  - cowplot
+  - tidyverse
 
 install:
   - R -e 'devtools::install_deps(dependencies = T)'
