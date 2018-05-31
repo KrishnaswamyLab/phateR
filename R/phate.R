@@ -121,6 +121,10 @@ phate <- function(data, ndim = 2, k = 15,
     install.phate()
   }
   tryCatch(pyphate, error = function(e) load_pyphate())
+  data <- as.matrix(data)
+  if (!is.numeric(data)) {
+    stop("data should be a numeric matrix")
+  }
   # check for deprecated arguments
   if (!is.na(dist.method)) {
     message("Argument dist.method is deprecated. Use knn.dist.method instead.")
@@ -333,7 +337,7 @@ print.phate <- function(x, ...) {
                    ncol(x$embedding), ")\n",
                    "  $operator : Python PHATE operator\n",
                    "  $params : list with elements (",
-                   paste(names(x$params), collapse = ", "), ")")
+                   paste(names(x$params), collapse = ", "), ")\n")
   cat(result)
 }
 
@@ -364,7 +368,7 @@ summary.phate <- function(object, ...) {
             "Data: (", nrow(object$params$data),
             ", ", ncol(object$params$data), ")\n",
             "Embedding: (", nrow(object$embedding),
-            ", ", ncol(object$embedding), ")")
+            ", ", ncol(object$embedding), ")\n")
   cat(result)
 }
 
