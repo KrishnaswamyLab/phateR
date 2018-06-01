@@ -23,6 +23,10 @@ before_install:
   - ./travis_setup.sh
   - pip install --user phate
 
+script:
+  - R CMD build .
+  - travis_wait 30 R CMD check *tar.gz
+
 r_packages:
   - Matrix
   - ggplot2

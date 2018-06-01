@@ -4,7 +4,8 @@
 \name{tree.data}
 \alias{tree.data}
 \title{Fake branching data for examples}
-\format{A data.frame with 1440 rows and 61 variables}
+\format{A list containing \code{data}, a matrix with 3000 rows and 100 variables
+and \code{branches}, a factor containing 3000 elements.}
 \source{
 The authors
 }
@@ -12,6 +13,6 @@ The authors
 tree.data
 }
 \description{
-A dataset containing high dimensional data that has branchpoints
+A dataset containing high dimensional data that has 10 unique branches
 }
 \keyword{datasets}

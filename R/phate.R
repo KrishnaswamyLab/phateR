@@ -12,13 +12,9 @@
 #' number of dimensions in which the data will be embedded
 #' @param k int, optional, default: 15
 #' number of nearest neighbors on which to build kernel
-#' @param alpha int, optional, default: NA
+#' @param alpha int, optional, default: NULL
 #' sets decay rate of kernel tails.
-#' If NA, alpha decaying kernel is not used
-#' @param use.alpha boolean, default: NA
-#' forces the use of alpha decaying kernel
-#' If NA, alpha decaying kernel is used for small inputs
-#' (n_samples < n_landmark) and not used otherwise
+#' If NULL, alpha decaying kernel is not used
 #' @param n.landmark int, optional, default: 2000
 #' number of landmarks to use in fast PHATE
 #' @param potential.method string, optional, default: 'log'
@@ -58,7 +54,9 @@
 #' used at all, which is useful for debugging.
 #' For n_jobs below -1, (n.cpus + 1 + n.jobs) are used. Thus for
 #' n_jobs = -2, all CPUs but one are used
-#' @param seed int or `NA`, random state (default: `NA`)
+#' @param seed int or `NULL`, random state (default: `NULL`)
+#' @param use.alpha boolean, default: NULL
+#' Deprecated. To disable alpha decay, use `alpha=NULL`
 #' @param n.svd Deprecated.
 #' @param pca.method Deprecated.
 #' @param g.kernel Deprecated.
@@ -76,64 +74,62 @@
 #' if (reticulate::py_module_available("phate")) {
 #'
 #' # Load data
-#' data(tree.data)
+#' # data(tree.data)
+#' # We use a smaller tree to make examples run faster
+#' data(tree.data.small)
 #'
 #' # Run PHATE
-#' phate.tree <- phate(tree.data$data)
+#' phate.tree <- phate(tree.data.small$data)
 #' summary(phate.tree)
 #' ## PHATE embedding
-#' ## k = 5, alpha = NA, t = 58
+#' ## k = 5, alpha = NULL, t = 58
 #' ## Data: (3000, 100)
 #' ## Embedding: (3000, 2)
 #'
 #' library(graphics)
 #' # Plot the result with base graphics
-#' plot(phate.tree, col=tree.data$branches)
+#' plot(phate.tree, col=tree.data.small$branches)
 #' # Plot the result with ggplot2
 #' if (require(ggplot2)) {
 #'   ggplot(phate.tree) +
-#'     geom_point(aes(x=PHATE1, y=PHATE2, color=tree.data$branches))
+#'     geom_point(aes(x=PHATE1, y=PHATE2, color=tree.data.small$branches))
 #' }
 #'
 #' # Run PHATE again with different parameters
 #' # We use the last run as initialization
-#' phate.tree2 <- phate(tree.data$data, t=150, init=phate.tree)
+#' phate.tree2 <- phate(tree.data.small$data, t=150, init=phate.tree)
 #' # Extract the embedding matrix to use in downstream analysis
 #' embedding <- as.matrix(phate.tree2)
 #'
 #' }
 #' @export
 phate <- function(data, ndim = 2, k = 15,
-                  alpha = 10, use.alpha=NA,
+                  alpha = 10, use.alpha=NULL,
                   n.landmark=2000, potential.method = "log",
                   t = "auto", knn.dist.method = "euclidean",
                   init=NULL,
                   mds.method = "metric", mds.dist.method = "euclidean",
                   t.max=100, npca = 100, plot.optimal.t=FALSE,
-                  verbose=1, n.jobs=1, seed=NA,
+                  verbose=1, n.jobs=1, seed=NULL,
                   # deprecated args, remove in v3
-                  n.svd = NA,
-                  pca.method = NA,
+                  n.svd = NULL,
+                  pca.method = NULL,
                   g.kernel=NULL, diff.op = NULL, landmark.transitions=NULL,
-                  diff.op.t = NULL, dist.method=NA) {
+                  diff.op.t = NULL, dist.method=NULL) {
   # check installation
   if (!reticulate::py_module_available(module = "phate")) {
     install.phate()
   }
   tryCatch(pyphate, error = function(e) load_pyphate())
-  data <- as.matrix(data)
-  if (!is.numeric(data)) {
-    stop("data should be a numeric matrix")
-  }
   # check for deprecated arguments
-  if (!is.na(dist.method)) {
+  if (!is.null(dist.method)) {
     message("Argument dist.method is deprecated. Use knn.dist.method instead.")
     knn.dist.method <- dist.method
   }
-  if (!is.na(n.svd)) {
+  if (!is.null(n.svd)) {
     message("Setting n.svd is currently not supported. Using n.svd=100")
   }
-  if (!is.na(pca.method)) {
+  if (!is.null(pca.method)) {
     message("Setting pca.method is deprecated. Using pca.method='random'")
   }
   if (!is.null(g.kernel)) {
@@ -172,42 +168,43 @@ phate <- function(data, ndim = 2, k = 15,
                    "Using 'metric'..."))
     mds.method <- "metric"
   }
-  # decide whether or not to use the alpha decay kernel
-  if (is.na(use.alpha)) {
-    if (is.na(alpha) || (!is.na(n.landmark) && n.landmark < nrow(data))) {
-      use.alpha <- FALSE
-      alpha <- NA
-    } else {
-      use.alpha <- TRUE
-    }
-  }
-  # check validity of use.alpha and alpha combination
-  if (use.alpha && is.na(alpha)) {
-    message("use.alpha is set to TRUE but alpha is NA. Setting use.alpha=FALSE")
-    use.alpha <- FALSE
-  } else if (!use.alpha && !is.na(alpha)) {
-    message("use.alpha is set to FALSE but alpha is not NA. Setting alpha=NA")
-    alpha <- NA
-  }
   ndim <- as.integer(ndim)
   k <- as.integer(k)
-  n.landmark <- as.integer(n.landmark)
-  npca <- as.integer(npca)
   t.max <- as.integer(t.max)
   n.jobs <- as.integer(n.jobs)
+
+  if (is.numeric(n.landmark)) {
+    n.landmark <- as.integer(n.landmark)
+  } else if (!is.null(n.landmark) && is.na(n.landmark)) {
+    n.landmark <- NULL
+  }
+  if (is.numeric(npca)) {
+    npca <- as.integer(npca)
+  } else if (!is.null(npca) && is.na(npca)) {
+    npca <- NULL
+  }
   if (is.numeric(alpha)) {
     alpha <- as.double(alpha)
+  } else if (!is.null(alpha) && is.na(alpha)) {
+    alpha <- NULL
   }
   if (is.numeric(t)) {
     t <- as.integer(t)
+  } else if (is.null(t) || is.na(t)) {
+    t <- 'auto'
   }
   if (is.numeric(seed)) {
     seed <- as.integer(seed)
+  } else if (!is.null(seed) && is.na(seed)) {
+    seed <- NULL
   }
   if (is.numeric(verbose)) {
     verbose <- as.integer(verbose)
   }
-  data <- as.matrix(data)
+  if (!methods::is(data, "Matrix")) {
+    data <- as.matrix(data)
+  }
+
   # store parameters
   params <- list("data" = data, "k" = k, "alpha" = alpha, "t" = t,
                  "n.landmark" = n.landmark, "ndim" = ndim,
@@ -220,34 +217,22 @@ phate <- function(data, ndim = 2, k = 15,
   if (!is.null(init)) {
     if (!methods::is(init, "phate")) {
       warning("object passed to init is not a phate object")
-    }
-    if (all(data == init$data) &&
-        npca == init$params$npca && k == init$params$k &&
-        na_equal(alpha, init$params$alpha) &&
-        knn.dist.method == init$params$knn.dist.method) {
-      # currently doesn't store the kernel
-      if (na_equal(n.landmark, init$params$n.landmark)) {
-        # TODO: should we allow n_svd to be set?
-        operator <- init$operator
-        if (t == init$params$t &&
-            potential.method == init$params$potential.method) {
-          # great! precomputed diffusion operator
-          if (mds.method == init$params$mds.method &&
-              mds.dist.method == init$params$mds.dist.method &&
-              ndim == init$params$ndim) {
-            # great! precomputed embedding
-          } else {
-            operator$reset_mds(mds = mds.method,
-                               mds_dist = mds.dist.method)
-          }
-        } else {
-          operator$reset_potential(t = t,
-                                   potential_method = potential.method)
-        }
-      } else {
-        # have to recompute the kernel
-        operator <- NULL
-      }
+    } else {
+      operator <- init$operator
+      operator$set_params(n_components = ndim,
+                          k = k,
+                          a = alpha,
+                          t = t,
+                          alpha_decay = use.alpha,
+                          n_landmark = n.landmark,
+                          potential_method = potential.method,
+                          n_pca = npca,
+                          mds = mds.method,
+                          mds_dist = mds.dist.method,
+                          knn_dist = knn.dist.method,
+                          n_jobs = n.jobs,
+                          random_state = seed,
+                          verbose = verbose)
     }
   }
   if (is.null(operator)) {
@@ -267,14 +252,14 @@ phate <- function(data, ndim = 2, k = 15,
                               verbose = verbose)
   }
   embedding <- operator$fit_transform(data,
-                                t_max = t.max)
+                                      t_max = t.max)
   colnames(embedding) <- c("PHATE1", "PHATE2")
   rownames(embedding) <- rownames(data)
   if (plot.optimal.t) {
     out <- operator$von_neumann_entropy(t_max = t.max)
     t <- out[[1]]
     h <- out[[2]]
-    t.opt <- pyphate$vne$optimal_t(h, t)
+    t.opt <- pyphate$vne$find_knee_point(h, t)
     graphics::plot(t, h,
                    type = "l",
                    xlab = "t", ylab = "Von Neumann Entropy",
@@ -295,9 +280,11 @@ phate <- function(data, ndim = 2, k = 15,
 #' if (reticulate::py_module_available("phate")) {
 #'
 #' library(graphics)
-#' data(tree.data)
-#' phate.tree <- phate(tree.data$data)
-#' plot(phate.tree, col=tree.data$branches)
+#' # data(tree.data)
+#' # We use a smaller tree to make examples run faster
+#' data(tree.data.small)
+#' phate.tree <- phate(tree.data.small$data)
+#' plot(phate.tree, col=tree.data.small$branches)
 #'
 #' }
 #' @rdname plot
@@ -317,8 +304,10 @@ plot.phate <- function(x, ...) {
 #' @examples
 #' if (reticulate::py_module_available("phate")) {
 #'
-#' data(tree.data)
-#' phate.tree <- phate(tree.data$data)
+#' # data(tree.data)
+#' # We use a smaller tree to make examples run faster
+#' data(tree.data.small)
+#' phate.tree <- phate(tree.data.small$data)
 #' print(phate.tree)
 #' ## PHATE embedding with elements
 #' ## $embedding : (3000, 2)
@@ -337,7 +326,7 @@ print.phate <- function(x, ...) {
                    ncol(x$embedding), ")\n",
                    "  $operator : Python PHATE operator\n",
                    "  $params : list with elements (",
-                   paste(names(x$params), collapse = ", "), ")\n")
+                   paste(names(x$params), collapse = ", "), ")")
   cat(result)
 }
 
@@ -348,11 +337,13 @@ print.phate <- function(x, ...) {
 #' @examples
 #' if (reticulate::py_module_available("phate")) {
 #'
-#' data(tree.data)
-#' phate.tree <- phate(tree.data$data)
+#' # data(tree.data)
+#' # We use a smaller tree to make examples run faster
+#' data(tree.data.small)
+#' phate.tree <- phate(tree.data.small$data)
 #' summary(phate.tree)
 #' ## PHATE embedding
-#' ## k = 5, alpha = NA, t = 58
+#' ## k = 5, alpha = NULL, t = 58
 #' ## Data: (3000, 100)
 #' ## Embedding: (3000, 2)
 #'
@@ -362,13 +353,13 @@ print.phate <- function(x, ...) {
 #' @export
 summary.phate <- function(object, ...) {
   result <- paste0("PHATE embedding\n",
-             "k = ", object$params$k,
-             ", alpha = ", object$params$alpha,
-             ", t = ", object$params$t, "\n",
-            "Data: (", nrow(object$params$data),
-            ", ", ncol(object$params$data), ")\n",
-            "Embedding: (", nrow(object$embedding),
-            ", ", ncol(object$embedding), ")\n")
+                   "k = ", object$params$k,
+                   ", alpha = ", object$params$alpha,
+                   ", t = ", object$params$t, "\n",
+                   "Data: (", nrow(object$params$data),
+                   ", ", ncol(object$params$data), ")\n",
+                   "Embedding: (", nrow(object$embedding),
+                   ", ", ncol(object$embedding), ")")
   cat(result)
 }
 
@@ -407,9 +398,11 @@ as.data.frame.phate <- function(x, ...) {
 #' @examples
 #' if (reticulate::py_module_available("phate") && require(ggplot2)) {
 #'
-#' data(tree.data)
-#' phate.tree <- phate(tree.data$data)
-#' ggplot(phate.tree, aes(x=PHATE1, y=PHATE2, color=tree.data$branches)) +
+#' # data(tree.data)
+#' # We use a smaller tree to make examples run faster
+#' data(tree.data.small)
+#' phate.tree <- phate(tree.data.small$data)
+#' ggplot(phate.tree, aes(x=PHATE1, y=PHATE2, color=tree.data.small$branches)) +
 #'   geom_point()
 #'
 #' }

@@ -1,4 +1,4 @@
-phateR v0.2.6
+phateR v0.2.7
 ================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
