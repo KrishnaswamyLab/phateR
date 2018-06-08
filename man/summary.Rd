@@ -17,8 +17,10 @@ Summarize a PHATE object
 \examples{
 if (reticulate::py_module_available("phate")) {
 
-data(tree.data)
-phate.tree <- phate(tree.data$data)
+# data(tree.data)
+# We use a smaller tree to make examples run faster
+data(tree.data.small)
+phate.tree <- phate(tree.data.small$data)
 summary(phate.tree)
 ## PHATE embedding
 ## k = 5, alpha = NULL, t = 58

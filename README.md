@@ -3,13 +3,19 @@ phateR v0.2.7
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-[![Latest PyPI version](https://img.shields.io/pypi/v/phate.svg)](https://pypi.org/project/phate/)
-[![Latest CRAN version](https://img.shields.io/cran/v/phateR.svg)](https://cran.r-project.org/package=phateR)
-[![Travis CI Build](https://api.travis-ci.com/KrishnaswamyLab/phateR.svg?branch=master)](https://travis-ci.com/KrishnaswamyLab/phateR)
-[![Read the Docs](https://img.shields.io/readthedocs/phate.svg)](https://phate.readthedocs.io/)
-[![bioRxiv Preprint](https://zenodo.org/badge/DOI/10.1101/120378.svg)](https://www.biorxiv.org/content/early/2017/12/01/120378)
+[![Latest PyPI
+version](https://img.shields.io/pypi/v/phate.svg)](https://pypi.org/project/phate/)
+[![Latest CRAN
+version](https://img.shields.io/cran/v/phateR.svg)](https://cran.r-project.org/package=phateR)
+[![Travis CI
+Build](https://api.travis-ci.com/KrishnaswamyLab/phateR.svg?branch=master)](https://travis-ci.com/KrishnaswamyLab/phateR)
+[![Read the
+Docs](https://img.shields.io/readthedocs/phate.svg)](https://phate.readthedocs.io/)
+[![bioRxiv
+Preprint](https://zenodo.org/badge/DOI/10.1101/120378.svg)](https://www.biorxiv.org/content/early/2017/12/01/120378)
 [![Twitter](https://img.shields.io/twitter/follow/KrishnaswamyLab.svg?style=social&label=Follow)](https://twitter.com/KrishnaswamyLab)
-[![Github Stars](https://img.shields.io/github/stars/KrishnaswamyLab/PHATE.svg?style=social&label=Stars)](https://github.com/KrishnaswamyLab/PHATE/)
+[![Github
+Stars](https://img.shields.io/github/stars/KrishnaswamyLab/PHATE.svg?style=social&label=Stars)](https://github.com/KrishnaswamyLab/PHATE/)
 
 This R package provides an implementation of the [PHATE dimensionality
 reduction and visualization
@@ -24,12 +30,14 @@ For our Python and Matlab implementations, please see
 
 ## Table of Contents
 
-  * [Installation](#installation)
-    * [Installation from CRAN and PyPi](#installation-from-cran-and-pypi)
-    * [Installation with devtools and <code>reticulate</code>](#installation-with-devtools-and-reticulate)
-    * [Installation from source](#installation-from-source)
-  * [Tutorial](#tutorial)
-  * [Issues](#issues)
+  - [Installation](#installation)
+      - [Installation from CRAN and
+        PyPi](#installation-from-cran-and-pypi)
+      - [Installation with devtools and
+        <code>reticulate</code>](#installation-with-devtools-and-reticulate)
+      - [Installation from source](#installation-from-source)
+  - [Tutorial](#tutorial)
+  - [Issues](#issues)
 
 ## Installation
 
@@ -81,8 +89,8 @@ python setup.py install --user
 ```
 
 If the `phateR` folder is empty, you have may forgotten to use the
-`--recursive` option for `git clone`. You can rectify this by
-running the following in a terminal:
+`--recursive` option for `git clone`. You can rectify this by running
+the following in a terminal:
 
 ``` bash
 cd PHATE
@@ -102,6 +110,8 @@ PCA.
 
 ``` r
 library(phateR)
+#> Loading required package: Matrix
+#> Warning: package 'Matrix' was built under R version 3.4.4
 data(tree.data)
 plot(prcomp(tree.data$data)$x, col=tree.data$branches)
 ```
@@ -116,7 +126,7 @@ default parameters.
 tree.phate <- phate(tree.data$data)
 summary(tree.phate)
 #> PHATE embedding
-#> k = 15, alpha = NA, t = auto
+#> k = 5, alpha = 15, t = auto
 #> Data: (3000, 100)
 #> Embedding: (3000, 2)
 ```
@@ -136,14 +146,14 @@ interesting activity seems to be concentrated into one region of the
 plot - in this case we should try the square root potential instead. We
 can also try increasing `t` to make the structure a little clearer - in
 this case, because synthetic data in unusually structured, we can use a
-very large value, like 200, but in biological data the automatic `t`
+very large value, like 120, but in biological data the automatic `t`
 selection is generally very close to ideal. Note here that if we pass
 our previous result in with the argument `init`, we won’t have to
 recompute the diffusion operator.
 
 ``` r
 # runs phate with different parameters
-tree.phate <- phate(tree.data$data, potential.method='sqrt', t=200, init=tree.phate)
+tree.phate <- phate(tree.data$data, potential.method='sqrt', t=120, init=tree.phate)
 # plot embedding
 palette(rainbow(10))
 plot(tree.phate, col = tree.data$branches)
@@ -156,7 +166,6 @@ installed.
 
 ``` r
 library(ggplot2)
-#> Warning: package 'ggplot2' was built under R version 3.4.4
 ggplot(tree.phate, aes(x=PHATE1, y=PHATE2, color=tree.data$branches)) +
   geom_point()
 ```

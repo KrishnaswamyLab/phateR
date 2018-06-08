@@ -124,11 +124,11 @@ palette(rainbow(10))
 plot(tree.phate, col = tree.data$branches)
 ```
 
-Good news! Our branches separate nicely. However, most of the interesting activity seems to be concentrated into one region of the plot - in this case we should try the square root potential instead. We can also try increasing `t` to make the structure a little clearer - in this case, because synthetic data in unusually structured, we can use a very large value, like 200, but in biological data the automatic `t` selection is generally very close to ideal. Note here that if we pass our previous result in with the argument `init`, we won't have to recompute the diffusion operator.
+Good news! Our branches separate nicely. However, most of the interesting activity seems to be concentrated into one region of the plot - in this case we should try the square root potential instead. We can also try increasing `t` to make the structure a little clearer - in this case, because synthetic data in unusually structured, we can use a very large value, like 120, but in biological data the automatic `t` selection is generally very close to ideal. Note here that if we pass our previous result in with the argument `init`, we won't have to recompute the diffusion operator.
 
 ```{r adjust-parameters}
 # runs phate with different parameters
-tree.phate <- phate(tree.data$data, potential.method='sqrt', t=200, init=tree.phate)
+tree.phate <- phate(tree.data$data, potential.method='sqrt', t=120, init=tree.phate)
 # plot embedding
 palette(rainbow(10))
 plot(tree.phate, col = tree.data$branches)

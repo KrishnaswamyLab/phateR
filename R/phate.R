@@ -10,9 +10,9 @@
 #' (n_samples, n_samples) distance or affinity matrix
 #' @param ndim int, optional, default: 2
 #' number of dimensions in which the data will be embedded
-#' @param k int, optional, default: 15
+#' @param k int, optional, default: 5
 #' number of nearest neighbors on which to build kernel
-#' @param alpha int, optional, default: NULL
+#' @param alpha int, optional, default: 15
 #' sets decay rate of kernel tails.
 #' If NULL, alpha decaying kernel is not used
 #' @param n.landmark int, optional, default: 2000
@@ -103,8 +103,8 @@
 #'
 #' }
 #' @export
-phate <- function(data, ndim = 2, k = 15,
-                  alpha = 10, use.alpha=NULL,
+phate <- function(data, ndim = 2, k = 5,
+                  alpha = 15,
                   n.landmark=2000, potential.method = "log",
                   t = "auto", knn.dist.method = "euclidean",
                   init=NULL,
@@ -112,6 +112,7 @@ phate <- function(data, ndim = 2, k = 15,
                   t.max=100, npca = 100, plot.optimal.t=FALSE,
                   verbose=1, n.jobs=1, seed=NULL,
                   # deprecated args, remove in v3
+                  use.alpha=NULL,
                   n.svd = NULL,
                   pca.method = NULL,
                   g.kernel=NULL, diff.op = NULL, landmark.transitions=NULL,
@@ -123,7 +124,7 @@ phate <- function(data, ndim = 2, k = 15,
   tryCatch(pyphate, error = function(e) load_pyphate())
   # check for deprecated arguments
   if (!is.null(dist.method)) {
-    message("Argument dist.method is deprecated. Use knn.dist.method instead.")
+    message("Argument dist.method is deprecated. Using knn.dist.method instead.")
     knn.dist.method <- dist.method
   }
   if (!is.null(n.svd)) {
