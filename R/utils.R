@@ -36,11 +36,11 @@ load_pyphate <- function() {
 #'
 #' @export
 install.phate <- function(envname = "r-reticulate", method = "auto",
-                          conda = "auto", ...) {
+                          conda = "auto", pip=TRUE, ...) {
   tryCatch({
     reticulate::py_install("phate",
       envname = envname, method = method,
-      conda = conda, ...
+      conda = conda, pip=pip, ...
     )
   },
   error = function(e) {
