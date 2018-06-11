@@ -71,7 +71,7 @@ If you have the development version of `reticulate`, you can also install `phate
 
 ```{r reticulate-install, eval = FALSE}
 devtools::install_github("rstudio/reticulate")
-reticulate::py_install("phate")
+reticulate::py_install("phate", pip=TRUE)
 ```
 
 

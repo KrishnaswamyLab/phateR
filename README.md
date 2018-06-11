@@ -74,7 +74,7 @@ install `phate` in Python by running the following code in R:
 
 ``` r
 devtools::install_github("rstudio/reticulate")
-reticulate::py_install("phate")
+reticulate::py_install("phate", pip=TRUE)
 ```
 
 #### Installation from source
