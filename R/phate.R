@@ -254,7 +254,7 @@ phate <- function(data, ndim = 2, k = 5,
   }
   embedding <- operator$fit_transform(data,
                                       t_max = t.max)
-  colnames(embedding) <- c("PHATE1", "PHATE2")
+  colnames(embedding) <- paste0("PHATE", 1:ncol(embedding))
   rownames(embedding) <- rownames(data)
   if (plot.optimal.t) {
     out <- operator$von_neumann_entropy(t_max = t.max)
