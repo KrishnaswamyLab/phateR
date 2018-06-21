@@ -42,9 +42,16 @@ power to which the diffusion operator is powered
 sets the level of diffusion}
 
 \item{knn.dist.method}{string, optional, default: 'euclidean'.
-The desired distance function for calculating pairwise distances on the data.
-If 'precomputed', \code{data} is treated as a
-(n_samples, n_samples) distance or affinity matrix}
+recommended values: 'euclidean', 'cosine', 'precomputed'
+Any metric from \code{scipy.spatial.distance} can be used
+distance metric for building kNN graph. If 'precomputed',
+\code{data} should be an n_samples x n_samples distance or
+affinity matrix. Distance matrices are assumed to have zeros
+down the diagonal, while affinity matrices are assumed to have
+non-zero values down the diagonal. This is detected automatically using
+\code{data[0,0]}. You can override this detection with
+\code{knn.dist.method='precomputed_distance'} or
+\code{knn.dist.method='precomputed_affinity'}.}
 
 \item{init}{phate object, optional
 object to use for initialization. Avoids recomputing
