@@ -134,6 +134,18 @@ phate <- function(data, ndim = 2, k = 5,
     message("Argument dist.method is deprecated. Using knn.dist.method instead.")
     knn.dist.method <- dist.method
   }
+  if (!is.null(potential.method)) {
+    if (potential.method == 'log') {
+      gamma <- 1
+    } else if (potential.method == 'sqrt') {
+      gamma <- 0
+    } else {
+      stop(paste0("potential.method ", potential.method, " not recognized. ",
+                  "Please use -1 <= gamma <= 1 instead."))
+    }
+    message(paste0("Argument potential_method is deprecated. Setting gamma to ",
+                   gamma, " to achieve ", potential.method, " transformation."))
+  }
   if (!is.null(n.svd)) {
     message("Setting n.svd is currently not supported. Using n.svd=100")
   }
@@ -215,8 +227,8 @@ phate <- function(data, ndim = 2, k = 5,
 
   # store parameters
   params <- list("data" = data, "k" = k, "alpha" = alpha, "t" = t,
-                 "n.landmark" = n.landmark, "ndim" = ndim,
-                 "potential.method" = potential.method,
+                 "n.landmark" = n.landmark, "gamma" = gamma,
+                 "ndim" = ndim,
                  "npca" = npca, "mds.method" = mds.method,
                  "knn.dist.method" = knn.dist.method,
                  "mds.dist.method" = mds.dist.method)
@@ -233,7 +245,7 @@ phate <- function(data, ndim = 2, k = 5,
                           t = t,
                           alpha_decay = use.alpha,
                           n_landmark = n.landmark,
-                          potential_method = potential.method,
+                          gamma = gamma,
                           n_pca = npca,
                           mds = mds.method,
                           mds_dist = mds.dist.method,
@@ -250,7 +262,7 @@ phate <- function(data, ndim = 2, k = 5,
                               t = t,
                               alpha_decay = use.alpha,
                               n_landmark = n.landmark,
-                              potential_method = potential.method,
+                              gamma = gamma,
                               n_pca = npca,
                               mds = mds.method,
                               mds_dist = mds.dist.method,
