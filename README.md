@@ -179,4 +179,7 @@ ggplot(tree.phate, aes(x=PHATE1, y=PHATE2, color=tree.data$branches)) +
 ## Issues
 
 Please let us know of any issues at the [GitHub
-repo](https://github.com/KrishnaswamyLab/phateR/issues)
+repo](https://github.com/KrishnaswamyLab/phateR/issues).
+If you have any questions or require assistance using PHATE,
+please contact us at <https://krishnaswamylab.org/get-help>.
+
