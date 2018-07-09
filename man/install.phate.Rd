@@ -5,7 +5,7 @@
 \title{Install PHATE Python Package}
 \usage{
 install.phate(envname = "r-reticulate", method = "auto", conda = "auto",
-  ...)
+  pip = TRUE, ...)
 }
 \arguments{
 \item{envname}{Name of environment to install packages into}
@@ -17,6 +17,8 @@ is not available on Windows.}
 
 \item{conda}{Path to conda executable (or "auto" to find conda using the PATH
 and other conventional install locations).}
+
+\item{pip}{Install from pip, if possible.}
 
 \item{...}{Additional arguments passed to conda_install() or
 virtualenv_install().}

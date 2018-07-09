@@ -26,7 +26,7 @@ print(phate.tree)
 ## $embedding : (3000, 2)
 ## $operator : Python PHATE operator
 ## $params : list with elements (data, k, alpha, t, n.landmark, ndim,
-##                               potential.method, npca, mds.method,
+##                               gamma, npca, mds.method,
 ##                               knn.dist.method, mds.dist.method)
 
 }

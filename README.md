@@ -1,4 +1,4 @@
-phateR v0.2.7
+phateR v0.2.8
 ================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -43,6 +43,11 @@ For our Python and Matlab implementations, please see
 
 In order to use PHATE in R, you must also install the Python package.
 
+If `python` or `pip` are not installed, you will need to install them.
+We recommend [Miniconda3](https://conda.io/miniconda.html) to install
+Python and `pip` together, or otherwise you can install `pip` from
+<https://pip.pypa.io/en/stable/installing/>.
+
 #### Installation from CRAN and PyPi
 
 Install `phateR` from CRAN by running the following code in R:
@@ -56,8 +61,6 @@ Install `phate` in Python by running the following code from a terminal:
 ``` bash
 pip install --user phate
 ```
-
-If `python` or `pip` are not installed, you will need to install them. We recommend [Miniconda3](https://conda.io/miniconda.html) to install Python and `pip` together, or otherwise you can install `pip` from https://pip.pypa.io/en/stable/installing/.
 
 #### Installation with `devtools` and `reticulate`
 
@@ -83,7 +86,7 @@ The latest source version of PHATE can be accessed by running the
 following in a terminal:
 
 ``` bash
-git clone --recursive git://github.com/SmitaKrishnaswamy/PHATE.git
+git clone --recursive git://github.com/KrishnaswamyLab/PHATE.git
 cd PHATE/phateR
 R CMD INSTALL
 cd ../Python
@@ -113,7 +116,6 @@ PCA.
 ``` r
 library(phateR)
 #> Loading required package: Matrix
-#> Warning: package 'Matrix' was built under R version 3.4.4
 data(tree.data)
 plot(prcomp(tree.data$data)$x, col=tree.data$branches)
 ```
@@ -145,17 +147,17 @@ plot(tree.phate, col = tree.data$branches)
 
 Good news\! Our branches separate nicely. However, most of the
 interesting activity seems to be concentrated into one region of the
-plot - in this case we should try the square root potential instead. We
-can also try increasing `t` to make the structure a little clearer - in
-this case, because synthetic data in unusually structured, we can use a
-very large value, like 120, but in biological data the automatic `t`
-selection is generally very close to ideal. Note here that if we pass
-our previous result in with the argument `init`, we won’t have to
-recompute the diffusion operator.
+plot - in this case we should try the square root potential instead by
+using `gamma=0`. We can also try increasing `t` to make the structure a
+little clearer - in this case, because synthetic data in unusually
+structured, we can use a very large value, like 120, but in biological
+data the automatic `t` selection is generally very close to ideal. Note
+here that if we pass our previous result in with the argument `init`, we
+won’t have to recompute the diffusion operator.
 
 ``` r
 # runs phate with different parameters
-tree.phate <- phate(tree.data$data, potential.method='sqrt', t=120, init=tree.phate)
+tree.phate <- phate(tree.data$data, gamma=0, t=120, init=tree.phate)
 # plot embedding
 palette(rainbow(10))
 plot(tree.phate, col = tree.data$branches)
@@ -177,4 +179,7 @@ ggplot(tree.phate, aes(x=PHATE1, y=PHATE2, color=tree.data$branches)) +
 ## Issues
 
 Please let us know of any issues at the [GitHub
-repo](https://github.com/KrishnaswamyLab/phateR/issues)
+repo](https://github.com/KrishnaswamyLab/phateR/issues).
+If you have any questions or require assistance using PHATE,
+please contact us at <https://krishnaswamylab.org/get-help>.
+

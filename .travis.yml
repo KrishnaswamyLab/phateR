@@ -13,6 +13,8 @@ r:
   - release
   - devel
 
+cache: packages
+
 env:
   global:
     - PATH="$HOME/miniconda/bin:$PATH"

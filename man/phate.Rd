@@ -4,11 +4,11 @@
 \alias{phate}
 \title{Run PHATE on an input data matrix}
 \usage{
-phate(data, ndim = 2, k = 5, alpha = 15, n.landmark = 2000,
-  potential.method = "log", t = "auto", knn.dist.method = "euclidean",
-  init = NULL, mds.method = "metric", mds.dist.method = "euclidean",
-  t.max = 100, npca = 100, plot.optimal.t = FALSE, verbose = 1,
-  n.jobs = 1, seed = NULL, use.alpha = NULL, n.svd = NULL,
+phate(data, ndim = 2, k = 5, alpha = 15, n.landmark = 2000, gamma = 1,
+  t = "auto", knn.dist.method = "euclidean", init = NULL,
+  mds.method = "metric", mds.dist.method = "euclidean", t.max = 100,
+  npca = 100, plot.optimal.t = FALSE, verbose = 1, n.jobs = 1,
+  seed = NULL, potential.method = NULL, use.alpha = NULL, n.svd = NULL,
   pca.method = NULL, g.kernel = NULL, diff.op = NULL,
   landmark.transitions = NULL, diff.op.t = NULL, dist.method = NULL)
 }
@@ -32,19 +32,26 @@ If NULL, alpha decaying kernel is not used}
 \item{n.landmark}{int, optional, default: 2000
 number of landmarks to use in fast PHATE}
 
-\item{potential.method}{string, optional, default: 'log'
-choose from 'log' and 'sqrt'
-which transformation of the diffusional operator is used
-to compute the diffusion potential}
+\item{gamma}{float, optional, default: 1
+Informational distance constant between -1 and 1.
+\code{gamma=1} gives the PHATE log potential, \code{gamma=0} gives
+a square root potential.}
 
 \item{t}{int, optional, default: 'auto'
 power to which the diffusion operator is powered
 sets the level of diffusion}
 
 \item{knn.dist.method}{string, optional, default: 'euclidean'.
-The desired distance function for calculating pairwise distances on the data.
-If 'precomputed', \code{data} is treated as a
-(n_samples, n_samples) distance or affinity matrix}
+recommended values: 'euclidean', 'cosine', 'precomputed'
+Any metric from \code{scipy.spatial.distance} can be used
+distance metric for building kNN graph. If 'precomputed',
+\code{data} should be an n_samples x n_samples distance or
+affinity matrix. Distance matrices are assumed to have zeros
+down the diagonal, while affinity matrices are assumed to have
+non-zero values down the diagonal. This is detected automatically using
+\code{data[0,0]}. You can override this detection with
+\code{knn.dist.method='precomputed_distance'} or
+\code{knn.dist.method='precomputed_affinity'}.}
 
 \item{init}{phate object, optional
 object to use for initialization. Avoids recomputing
@@ -82,8 +89,10 @@ n_jobs = -2, all CPUs but one are used}
 
 \item{seed}{int or \code{NULL}, random state (default: \code{NULL})}
 
-\item{use.alpha}{boolean, default: NULL
-Deprecated. To disable alpha decay, use \code{alpha=NULL}}
+\item{potential.method}{Deprecated.}
+
+\item{use.alpha}{Deprecated
+To disable alpha decay, use \code{alpha=NULL}}
 
 \item{n.svd}{Deprecated.}
 
