@@ -20,7 +20,7 @@ PHATE is a tool for visualizing high dimensional single-cell data with natural p
 Kevin R. Moon, David van Dijk, Zheng Wang, *et al.* (2017), *PHATE: A Dimensionality Reduction Method for Visualizing Trajectory Structures in High-Dimensional Biological Data*, BioRxiv <https://www.biorxiv.org/content/early/2017/03/24/120378>.
 
 
-## Installation
+### Installation
 
 In order to use PHATE in R, you must also install the Python package.
 
@@ -69,7 +69,7 @@ library(Rmagic)
 
 ### Loading data
 
-In this tutorial, we will analyze myeloid and erythroid cells in mouse bone marrow, as described in Paul et al., 2015. The example data is located in the PHATE GitHub repository and we can load it directly from the web. You can run this tutorial with your own data by downloading <https://raw.githubusercontent.com/KrishnaswamyLab/phateR/master/inst/examples/bonemarrow_tutorial.Rmd> and opening it in RStudio.
+In this tutorial, we will analyze myeloid and erythroid cells in mouse bone marrow, as described in Paul et al., 2015. You can run this tutorial with your own data by downloading <https://raw.githubusercontent.com/KrishnaswamyLab/phateR/master/inst/examples/bonemarrow_tutorial.Rmd> and opening it in RStudio. The example data is located in the PHATE GitHub repository and we can load it directly from the web. 
 
 ```{r load_data}
 # load data
@@ -77,6 +77,8 @@ bmmsc <- read_csv("https://github.com/KrishnaswamyLab/PHATE/raw/master/data/BMMC
 bmmsc <- bmmsc[,2:ncol(bmmsc)]
 bmmsc[1:5,1:10]
 ```
+
+### Filtering data
 
 First, we need to remove lowly expressed genes and cells with small library size.
 
@@ -96,12 +98,16 @@ keep_rows <- rowSums(bmmsc) > 1000
 bmmsc <- bmmsc[keep_rows,]
 ```
 
+### Normalizing data
+
 We should library size normalize and transform the data prior to PHATE. Many people use a log transform, which requires adding a "pseudocount" to avoid log(0). We square root instead, which has a similar form but doesn't suffer from instabilities at zero.
 
 ```{r normalize}
 bmmsc <- library.size.normalize(bmmsc)
 bmmsc <- sqrt(bmmsc)
 ```
+
+### Running PCA
 
 Let's examine the raw data with PCA.
 
@@ -147,6 +153,8 @@ ggplot(bmmsc_PHATE) +
   scale_color_viridis(option="B")
 ```
 
+### Rerunning PHATE with new parameters
+
 The branches are a little collapsed, so we can decrease the connectivity by decreasing `k` from the default value of 5, and increasing `a` from the default value of 15. We could also change `t` from the automatic value printed in the PHATE output (here it is 10) - an increase in `t` reduces noise, a decrease in `t` can prevent the data from collapsing subtle structures. We'll pass in the old PHATE object as the `init` argument, which can sometimes use precomputed intermediate data to prevent recomputing things that haven't changed.
 
 ```{r decrease_connectivity}
@@ -185,6 +193,6 @@ ggsave('BMMSC_data_R_phate_colored_by_Ifitm1_after_MAGIC.png', width=5, height=5
 
 That looks reasonable - the stem cell population expresses the most Ifitm1, as expected. That's it, we're done!
 
-## Help
+### Help
 
 If you have any questions or require assistance using PHATE, please contact us at <https://krishnaswamylab.org/get-help>.
