@@ -110,8 +110,11 @@ python setup.py install --user
 ## Tutorial
 
 This is a basic example running `phate` on a highly branched example
-dataset that is included with the package. First, let’s examine it with
-PCA.
+dataset that is included with the package. You can read a tutorial
+on running PHATE on single-cell RNA-seq at
+<https://github.com/KrishnaswamyLab/phateR/blob/master/inst/examples/bonemarrow_tutorial.md> or in `inst/examples`.
+
+First, let’s load the tree data and examine it with PCA.
 
 ``` r
 library(phateR)
