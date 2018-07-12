@@ -1,0 +1,198 @@
+---
+title: "phateR Bone Marrow Tutorial"
+output:
+  html_document:
+    df_print: paged
+    toc: yes
+    toc_depth: '3'
+---
+
+<!-- bonemarrow_tutorial.md is generated from bonemarrow_tutorial.Rmd. Please edit that file -->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## PHATE (Markov Affinity-Based Graph Imputation of Cells)
+
+PHATE is a tool for visualizing high dimensional single-cell data with natural progressions or trajectories. PHATE uses a novel conceptual framework for learning and visualizing the manifold inherent to biological systems in which smooth transitions mark the progressions of cells from one state to another. To see how PHATE can be applied to single-cell RNA-seq datasets from hematopoietic stem cells, human embryonic stem cells, and bone marrow samples, check out our preprint on BioRxiv.
+
+Kevin R. Moon, David van Dijk, Zheng Wang, *et al.* (2017), *PHATE: A Dimensionality Reduction Method for Visualizing Trajectory Structures in High-Dimensional Biological Data*, BioRxiv <https://www.biorxiv.org/content/early/2017/03/24/120378>.
+
+
+### Installation
+
+In order to use PHATE in R, you must also install the Python package.
+
+If `python` or `pip` are not installed, you will need to install them. We recommend [Miniconda3](https://conda.io/miniconda.html) to install Python and `pip` together, or otherwise you can install `pip` from https://pip.pypa.io/en/stable/installing/.
+
+#### Installation from CRAN and PyPi
+
+Install `phateR` from CRAN by running the following code in R:
+
+```{r cran-install, eval = FALSE}
+install.packages("phateR")
+```
+
+Install `phate` in Python by running the following code from a terminal:
+
+```{bash pypi-install, eval = FALSE}
+pip install --user phate
+```
+
+We'll install a couple more tools for this tutorial.
+
+```{r install_extras, eval=FALSE}
+if (!require(viridis)) install.packages("viridis")
+if (!require(ggplot2)) install.packages("ggplot2")
+if (!require(readr)) install.packages("readr")
+if (!require(Rmagic)) install.packages("Rmagic")
+```
+
+If you have never used PHATE, you should also install PHATE from the command line as follows:
+
+```{bash install_python_phate, eval=FALSE}
+pip install --user git+git://github.com/KrishnaswamyLab/MAGIC.git#subdirectory=python
+```
+
+### Loading packages
+
+We load the phateR package and a few others for convenience functions.
+
+```{r load_packages}
+library(phateR)
+library(ggplot2)
+library(readr)
+library(viridis)
+library(Rmagic)
+```
+
+### Loading data
+
+In this tutorial, we will analyze myeloid and erythroid cells in mouse bone marrow, as described in Paul et al., 2015. You can run this tutorial with your own data by downloading <https://raw.githubusercontent.com/KrishnaswamyLab/phateR/master/inst/examples/bonemarrow_tutorial.Rmd> and opening it in RStudio. The example data is located in the PHATE GitHub repository and we can load it directly from the web. 
+
+```{r load_data}
+# load data
+bmmsc <- read_csv("https://github.com/KrishnaswamyLab/PHATE/raw/master/data/BMMC_myeloid.csv.gz")
+bmmsc <- bmmsc[,2:ncol(bmmsc)]
+bmmsc[1:5,1:10]
+```
+
+### Filtering data
+
+First, we need to remove lowly expressed genes and cells with small library size.
+
+```{r plot_library_size}
+# keep genes expressed in at least 10 cells
+keep_cols <- colSums(bmmsc > 0) > 10
+bmmsc <- bmmsc[,keep_cols]
+# look at the distribution of library sizes
+ggplot() +
+  geom_histogram(aes(x=rowSums(bmmsc)), bins=50) +
+  geom_vline(xintercept = 1000, color='red')
+```
+
+```{r filter_library_size}
+# keep cells with at least 1000 UMIs
+keep_rows <- rowSums(bmmsc) > 1000
+bmmsc <- bmmsc[keep_rows,]
+```
+
+### Normalizing data
+
+We should library size normalize and transform the data prior to PHATE. Many people use a log transform, which requires adding a "pseudocount" to avoid log(0). We square root instead, which has a similar form but doesn't suffer from instabilities at zero.
+
+```{r normalize}
+bmmsc <- library.size.normalize(bmmsc)
+bmmsc <- sqrt(bmmsc)
+```
+
+### Running PCA
+
+Let's examine the raw data with PCA.
+
+```{r run_pca}
+bmmsc_PCA <- as.data.frame(prcomp(bmmsc)$x)
+```
+
+Now we'll plot the results with `ggplot2`. We'll color the plot by Mpo, a myeloid marker.
+
+```{r plot_pca}
+ggplot(bmmsc_PCA) +
+  geom_point(aes(PC1, PC21, color=bmmsc$Mpo)) +
+  labs(color="Mpo") +
+  scale_color_viridis(option="B")
+ggsave('BMMSC_data_R_PCA.png', width=5, height=5)
+```
+
+Because the data is noisy, PCA doesn't tell us much - but we can see that the data is broadly separated along the first components by myeloid <-> erythroid cells.
+
+### Running PHATE
+
+Running PHATE is as simple as running the `phate` function.
+
+We'll just use the default parameters for now, but the following parameters can be tuned (read our documentation at <https://cran.r-project.org/web/packages/phateR/phateR.pdf> or by running `help(phateR::phate)` to learn more):
+
+- `k` : Number of nearest neighbors (default: 5). Increase this (e.g. to 20) if your PHATE embedding appears very disconnected. You should also consider increasing `k` if your dataset is extremely large (e.g. >100k cells)
+- `a` : Alpha decay (default: 15). Decreasing a increases connectivity on the graph, increasing a decreases connectivity. This rarely needs to be tuned. Set it to `NULL` for a k-nearest neighbors kernel.
+- `t` : Number of times to power the operator (default: 'auto'). This is equivalent to the amount of smoothing done to the data. It is chosen automatically by default, but you can increase it if your embedding lacks structure, or decrease it if the structure looks too compact.
+- `gamma` : Informational distance constant between -1 and 1 (default: 1). `gamma=1` gives the PHATE log potential, but other informational distances can be interesting. If most of the points seem concentrated in one section of the plot, you can try `gamma=0`.
+
+
+```{r run_phate}
+# run PHATE
+bmmsc_PHATE <- phate(bmmsc)
+```
+
+Now we plot the results using `ggplot2`.
+
+```{r plot_phate}
+ggplot(bmmsc_PHATE) +
+  geom_point(aes(PHATE1, PHATE2, color=bmmsc$Mpo)) +
+  labs(color="Mpo") +
+  scale_color_viridis(option="B")
+```
+
+### Rerunning PHATE with new parameters
+
+The branches are a little collapsed, so we can decrease the connectivity by decreasing `k` from the default value of 5, and increasing `a` from the default value of 15. We could also change `t` from the automatic value printed in the PHATE output (here it is 10) - an increase in `t` reduces noise, a decrease in `t` can prevent the data from collapsing subtle structures. We'll pass in the old PHATE object as the `init` argument, which can sometimes use precomputed intermediate data to prevent recomputing things that haven't changed.
+
+```{r decrease_connectivity}
+bmmsc_PHATE <- phate(bmmsc, k=4, a=100, t=10, init=bmmsc_PHATE)
+ggplot(bmmsc_PHATE) +
+  geom_point(aes(PHATE1, PHATE2, color=bmmsc$Mpo)) +
+  labs(color="Mpo") +
+  scale_color_viridis(option="B")
+ggsave('BMMSC_data_R_phate.png', width=5, height=5)
+```
+
+Much better! Now we can see more subtle structure in the erythroid branch, and the myeloid branch isn't so collapsed.
+
+### Visualizing imputed genes on PHATE with MAGIC
+
+Many genes suffer from dropout to the point that coloring by a gene gives little to no information. Take for example Ifitm1, which is an stem cell marker.
+
+```{r plot_phate_before_magic}
+ggplot(bmmsc_PHATE) +
+  geom_point(aes(PHATE1, PHATE2, color=bmmsc$Ifitm1)) +
+  labs(color="Ifitm1") +
+  scale_color_viridis(option="B")
+ggsave('BMMSC_data_R_phate_colored_by_Ifitm1_before_MAGIC.png', width=5, height=5)
+```
+
+Even though we expect the central population to be entirely stem cells, many of these cells express no Ifitm1. Let's run MAGIC and try again. You can learn more about using MAGIC at <https://github.com/KrishnaswamyLab/MAGIC>.
+
+```{r plot_phate_after_magic}
+bmmsc_MAGIC <- magic(bmmsc, t=4, genes="Ifitm1")
+ggplot(bmmsc_PHATE) +
+  geom_point(aes(x=PHATE1, y=PHATE2, color=bmmsc_MAGIC$result$Ifitm1)) +
+  scale_color_viridis(option="B") +
+  labs(color="Ifitm1")
+ggsave('BMMSC_data_R_phate_colored_by_Ifitm1_after_MAGIC.png', width=5, height=5)
+```
+
+That looks reasonable - the stem cell population expresses the most Ifitm1, as expected. That's it, we're done!
+
+### Help
+
+If you have any questions or require assistance using PHATE, please contact us at <https://krishnaswamylab.org/get-help>.
