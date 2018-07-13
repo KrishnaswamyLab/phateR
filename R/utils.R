@@ -57,5 +57,5 @@ install.phate <- function(envname = "r-reticulate", method = "auto",
 pyphate <- NULL
 
 .onLoad <- function(libname, pkgname) {
-  load_pyphate()
+  load_pyphate(delay_load = TRUE)
 }
