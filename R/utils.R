@@ -9,8 +9,11 @@ null_equal <- function(x, y) {
   }
 }
 
-load_pyphate <- function() {
-  pyphate <<- reticulate::import("phate", delay_load = TRUE)
+load_pyphate <- function(delay_load = FALSE) {
+  result <- try(pyphate <<- reticulate::import("phate", delay_load = delay_load))
+  if (methods::is(result, "try-error")) {
+    install.phate()
+  }
 }
 
 #' Install PHATE Python Package
@@ -20,9 +23,6 @@ load_pyphate <- function() {
 #' On Linux and OS X the "virtualenv" method will be used by default
 #' ("conda" will be used if virtualenv isn't available). On Windows,
 #' the "conda" method is always used.
-#' As of reticulate v1.7, this functionality is only available in the
-#' development version of reticulate, which can be installed using
-#' `devtools::install_github('rstudio/reticulate')`
 #'
 #' @param envname Name of environment to install packages into
 #' @param method Installation method. By default, "auto" automatically finds
@@ -39,6 +39,7 @@ load_pyphate <- function() {
 install.phate <- function(envname = "r-reticulate", method = "auto",
                           conda = "auto", pip=TRUE, ...) {
   tryCatch({
+    message("Attempting to install PHATE python package with reticulate")
     reticulate::py_install("phate",
       envname = envname, method = method,
       conda = conda, pip=pip, ...
@@ -47,7 +48,7 @@ install.phate <- function(envname = "r-reticulate", method = "auto",
   error = function(e) {
     stop(paste0(
       "Cannot install PHATE, please install through pip ",
-      "(e.g. pip install phate)."
+      "(e.g. pip install --user phate)."
     ))
   }
   )

@@ -128,7 +128,7 @@ phate <- function(data, ndim = 2, k = 5,
                   diff.op.t = NULL, dist.method=NULL) {
   # check installation
   if (!reticulate::py_module_available(module = "phate")) {
-    install.phate()
+    load_pyphate()
   }
   tryCatch(pyphate, error = function(e) load_pyphate())
   # check for deprecated arguments
