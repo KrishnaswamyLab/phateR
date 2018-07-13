@@ -30,7 +30,4 @@ Install PHATE Python package into a virtualenv or conda env.
 On Linux and OS X the "virtualenv" method will be used by default
 ("conda" will be used if virtualenv isn't available). On Windows,
 the "conda" method is always used.
-As of reticulate v1.7, this functionality is only available in the
-development version of reticulate, which can be installed using
-\code{devtools::install_github('rstudio/reticulate')}
 }
