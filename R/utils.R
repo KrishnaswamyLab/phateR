@@ -48,7 +48,7 @@ install.phate <- function(envname = "r-reticulate", method = "auto",
   error = function(e) {
     stop(paste0(
       "Cannot locate PHATE Python package, please install through pip ",
-      "(e.g. pip install --user phate)."
+      "(e.g. pip install --user phate) and then restart R."
     ))
   }
   )
