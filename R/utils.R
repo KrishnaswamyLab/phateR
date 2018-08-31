@@ -10,9 +10,15 @@ null_equal <- function(x, y) {
 }
 
 load_pyphate <- function(delay_load = FALSE) {
-  result <- try(pyphate <<- reticulate::import("phate", delay_load = delay_load))
-  if (methods::is(result, "try-error")) {
-    install.phate()
+  if (is.null(pyphate)) {
+    result <- try(pyphate <<- reticulate::import("phate", delay_load = delay_load))
+  } else {
+    result <- try(reticulate::import("phate", delay_load = delay_load))
+  }
+  if (methods::is(result, "try-error") &&
+      (length(grep("ModuleNotFoundError: No module named 'phate'", result)) > 0 ||
+        length(grep("ImportError: No module named phate", result)) > 0)) {
+      install.phate()
   }
 }
 
