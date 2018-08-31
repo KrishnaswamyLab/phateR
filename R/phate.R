@@ -12,7 +12,7 @@
 #' number of dimensions in which the data will be embedded
 #' @param k int, optional, default: 5
 #' number of nearest neighbors on which to build kernel
-#' @param alpha int, optional, default: 15
+#' @param alpha int, optional, default: 40
 #' sets decay rate of kernel tails.
 #' If NULL, alpha decaying kernel is not used
 #' @param n.landmark int, optional, default: 2000
@@ -90,7 +90,7 @@
 #' phate.tree <- phate(tree.data.small$data)
 #' summary(phate.tree)
 #' ## PHATE embedding
-#' ## k = 5, alpha = NULL, t = 58
+#' ## k = 5, alpha = 40, t = 58
 #' ## Data: (3000, 100)
 #' ## Embedding: (3000, 2)
 #'
@@ -112,7 +112,7 @@
 #' }
 #' @export
 phate <- function(data, ndim = 2, k = 5,
-                  alpha = 15,
+                  alpha = 40,
                   n.landmark=2000, gamma=1,
                   t = "auto", knn.dist.method = "euclidean",
                   init=NULL,
@@ -128,7 +128,7 @@ phate <- function(data, ndim = 2, k = 5,
                   diff.op.t = NULL, dist.method=NULL) {
   # check installation
   if (!reticulate::py_module_available(module = "phate")) {
-    install.phate()
+    load_pyphate()
   }
   tryCatch(pyphate, error = function(e) load_pyphate())
   # check for deprecated arguments
@@ -365,7 +365,7 @@ print.phate <- function(x, ...) {
 #' phate.tree <- phate(tree.data.small$data)
 #' summary(phate.tree)
 #' ## PHATE embedding
-#' ## k = 5, alpha = NULL, t = 58
+#' ## k = 5, alpha = 40, t = 58
 #' ## Data: (3000, 100)
 #' ## Embedding: (3000, 2)
 #'

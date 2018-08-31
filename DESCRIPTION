@@ -20,7 +20,7 @@ Imports:
     methods,
     stats,
     graphics,
-    reticulate (>= 1.4),
+    reticulate (>= 1.8),
     ggplot2
 Suggests:
     gridGraphics,

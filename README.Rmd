@@ -107,7 +107,7 @@ on running PHATE on single-cell RNA-seq at
 <http://htmlpreview.github.io/?https://github.com/KrishnaswamyLab/phateR/blob/master/inst/examples/bonemarrow_tutorial.html>
 or in `inst/examples`.
 
-First, let’s load the tree data and examine it with PCA.
+First, let's load the tree data and examine it with PCA.
 
 ```{r example-data}
 library(phateR)

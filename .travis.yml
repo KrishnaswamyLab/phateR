@@ -33,7 +33,6 @@ r_packages:
   - Matrix
   - ggplot2
   - reticulate
-  - devtools
   - gridGraphics
   - cowplot
 
