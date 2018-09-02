@@ -63,5 +63,6 @@ install.phate <- function(envname = "r-reticulate", method = "auto",
 pyphate <- NULL
 
 .onLoad <- function(libname, pkgname) {
+  py_config <- reticulate::py_discover_config(required_module = "phate")
   load_pyphate(delay_load = TRUE)
 }
