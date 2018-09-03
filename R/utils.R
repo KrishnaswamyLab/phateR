@@ -15,10 +15,18 @@ load_pyphate <- function(delay_load = FALSE) {
   } else {
     result <- try(reticulate::import("phate", delay_load = delay_load))
   }
-  if (methods::is(result, "try-error") &&
-      (length(grep("ModuleNotFoundError: No module named 'phate'", result)) > 0 ||
-        length(grep("ImportError: No module named phate", result)) > 0)) {
+  if (methods::is(result, "try-error")) {
+    if (length(grep("ModuleNotFoundError: No module named 'phate'", result)) > 0 ||
+        length(grep("ImportError: No module named phate", result)) > 0) {
       install.phate()
+    } else if (grep("r\-reticulate", reticulate::py_config()$python)) {
+      message("Consider removing the 'r-reticulate' environment by running:")
+      if (grep("virtualenvs", reticulate::py_config()$python)) {
+        message("reticulate::virtualenv_remove('r-reticulate')")
+      } else {
+        message("reticulate::conda_remove('r-reticulate')")
+      }
+    }
   }
 }
 
@@ -63,6 +71,5 @@ install.phate <- function(envname = "r-reticulate", method = "auto",
 pyphate <- NULL
 
 .onLoad <- function(libname, pkgname) {
-  py_config <- reticulate::py_discover_config(required_module = "phate")
   load_pyphate(delay_load = TRUE)
 }
