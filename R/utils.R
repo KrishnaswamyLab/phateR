@@ -60,6 +60,7 @@ install.phate <- function(envname = "r-reticulate", method = "auto",
       envname = envname, method = method,
       conda = conda, pip=pip, ...
     )
+    message("Install complete. Please restart R and try again.")
   },
   error = function(e) {
     stop(paste0(
