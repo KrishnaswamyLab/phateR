@@ -18,7 +18,9 @@ load_pyphate <- function(delay_load = FALSE) {
   if (methods::is(result, "try-error")) {
     if (length(grep("ModuleNotFoundError: No module named 'phate'", result)) > 0 ||
         length(grep("ImportError: No module named phate", result)) > 0) {
-      install.phate()
+      if (menu(c("Yes", "No"), title="Install PHATE Python package with reticulate?") == 1) {
+        install.phate()        
+      }
     } else if (length(grep("r\\-reticulate", reticulate::py_config()$python)) > 0) {
       message("Consider removing the 'r-reticulate' environment by running:")
       if (grep("virtualenvs", reticulate::py_config()$python)) {
@@ -53,7 +55,7 @@ load_pyphate <- function(delay_load = FALSE) {
 install.phate <- function(envname = "r-reticulate", method = "auto",
                           conda = "auto", pip=TRUE, ...) {
   tryCatch({
-    message("Attempting to install PHATE python package with reticulate")
+    message("Attempting to install PHATE Python package with reticulate")
     reticulate::py_install("phate",
       envname = envname, method = method,
       conda = conda, pip=pip, ...
