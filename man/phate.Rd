@@ -90,7 +90,8 @@ n_jobs = -2, all CPUs but one are used}
 
 \item{seed}{int or \code{NULL}, random state (default: \code{NULL})}
 
-\item{potential.method}{Deprecated.}
+\item{potential.method}{Deprecated.
+For log potential, use \code{gamma=1}. For sqrt potential, use \code{gamma=0}.}
 
 \item{use.alpha}{Deprecated
 To disable alpha decay, use \code{alpha=NULL}}

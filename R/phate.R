@@ -63,6 +63,7 @@
 #' n_jobs = -2, all CPUs but one are used
 #' @param seed int or `NULL`, random state (default: `NULL`)
 #' @param potential.method Deprecated.
+#' For log potential, use `gamma=1`. For sqrt potential, use `gamma=0`.
 #' @param use.alpha Deprecated
 #' To disable alpha decay, use `alpha=NULL`
 #' @param n.svd Deprecated.
