@@ -4,13 +4,14 @@
 \alias{phate}
 \title{Run PHATE on an input data matrix}
 \usage{
-phate(data, ndim = 2, k = 5, alpha = 40, n.landmark = 2000, gamma = 1,
-  t = "auto", knn.dist.method = "euclidean", init = NULL,
-  mds.method = "metric", mds.dist.method = "euclidean", t.max = 100,
-  npca = 100, plot.optimal.t = FALSE, verbose = 1, n.jobs = 1,
-  seed = NULL, potential.method = NULL, use.alpha = NULL, n.svd = NULL,
-  pca.method = NULL, g.kernel = NULL, diff.op = NULL,
-  landmark.transitions = NULL, diff.op.t = NULL, dist.method = NULL)
+phate(data, ndim = 2, k = 5, alpha = 40, n.landmark = 2000,
+  gamma = 1, t = "auto", knn.dist.method = "euclidean",
+  init = NULL, mds.method = "metric", mds.dist.method = "euclidean",
+  t.max = 100, npca = 100, plot.optimal.t = FALSE, verbose = 1,
+  n.jobs = 1, seed = NULL, potential.method = NULL,
+  use.alpha = NULL, n.svd = NULL, pca.method = NULL,
+  g.kernel = NULL, diff.op = NULL, landmark.transitions = NULL,
+  diff.op.t = NULL, dist.method = NULL)
 }
 \arguments{
 \item{data}{matrix (n_samples, n_dimensions)
