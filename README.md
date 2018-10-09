@@ -36,6 +36,7 @@ For our Python and Matlab implementations, please see
       - [Installation with devtools and
         <code>reticulate</code>](#installation-with-devtools-and-reticulate)
       - [Installation from source](#installation-from-source)
+  - [Quick Start](#quick-start)
   - [Tutorial](#tutorial)
   - [Issues](#issues)
 
@@ -107,13 +108,28 @@ cd ../Python
 python setup.py install --user
 ```
 
+#### Quick Start
+
+If you have loaded a data matrix `data` in R (cells on rows, genes on
+columns) you can run PHATE as follows::
+
+``` r
+library(phateR)
+data_phate <- phate(data)
+```
+
+phateR accepts R matrices, `Matrix` sparse matrices, `data.frame`s, and
+any other data type that can be converted to a matrix with the function
+`as.matrix`.
+
 ## Tutorial
 
 This is a basic example running `phate` on a highly branched example
 dataset that is included with the package. You can read a tutorial on
 running PHATE on single-cell RNA-seq at
 <http://htmlpreview.github.io/?https://github.com/KrishnaswamyLab/phateR/blob/master/inst/examples/bonemarrow_tutorial.html>
-or in `inst/examples`.
+or in `inst/examples`. Running this tutorial from start to finish should
+take no more than 3 minutes.
 
 First, let’s load the tree data and examine it with PCA.
 
@@ -174,7 +190,6 @@ installed.
 
 ``` r
 library(ggplot2)
-#> Warning: package 'ggplot2' was built under R version 3.5.1
 ggplot(tree.phate, aes(x=PHATE1, y=PHATE2, color=tree.data$branches)) +
   geom_point()
 ```
@@ -184,6 +199,7 @@ ggplot(tree.phate, aes(x=PHATE1, y=PHATE2, color=tree.data$branches)) +
 ## Issues
 
 Please let us know of any issues at the [GitHub
-repo](https://github.com/KrishnaswamyLab/phateR/issues). If you have any
-questions or require assistance using MAGIC, please contact us at
+repository](https://github.com/KrishnaswamyLab/phateR/issues). If you
+have any questions or require assistance using PHATE, please read the
+documentation by running `help(phateR::phate)` or contact us at
 <https://krishnaswamylab.org/get-help>.

@@ -173,6 +173,9 @@ phate <- function(data, ndim = 2, k = 5,
     stop(paste0("Setting landmark.transitions is deprecated. Use `init` with a",
                 " `phate` object instead"))
   }
+  if (!is.null(use.alpha)) {
+    stop(paste0("Setting use.alpha is deprecated. Use `alpha=NULL` instead"))
+  }
   if (mds.method == "mmds") {
     message(paste0("Argument mds.method = 'mmds' is deprecated. ",
                    "Use mds.method = 'metric' instead."))
@@ -246,7 +249,6 @@ phate <- function(data, ndim = 2, k = 5,
                           k = k,
                           a = alpha,
                           t = t,
-                          alpha_decay = use.alpha,
                           n_landmark = n.landmark,
                           gamma = gamma,
                           n_pca = npca,
@@ -263,7 +265,6 @@ phate <- function(data, ndim = 2, k = 5,
                               k = k,
                               a = alpha,
                               t = t,
-                              alpha_decay = use.alpha,
                               n_landmark = n.landmark,
                               gamma = gamma,
                               n_pca = npca,

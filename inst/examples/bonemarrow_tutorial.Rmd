@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## PHATE (Markov Affinity-Based Graph Imputation of Cells)
 
-PHATE is a tool for visualizing high dimensional single-cell data with natural progressions or trajectories. PHATE uses a novel conceptual framework for learning and visualizing the manifold inherent to biological systems in which smooth transitions mark the progressions of cells from one state to another. To see how PHATE can be applied to single-cell RNA-seq datasets from hematopoietic stem cells, human embryonic stem cells, and bone marrow samples, check out our preprint on BioRxiv.
+PHATE is a tool for visualizing high dimensional single-cell data with natural progressions or trajectories. PHATE uses a novel conceptual framework for learning and visualizing the manifold inherent to biological systems in which smooth transitions mark the progressions of cells from one state to another. To see how PHATE can be applied to single-cell RNA-seq datasets from hematopoietic stem cells, human embryonic stem cells, and bone marrow samples, check out our preprint on BioRxiv. Running this tutorial should take approximately 10 minutes from start to finish.
 
 Kevin R. Moon, David van Dijk, Zheng Wang, *et al.* (2017), *PHATE: A Dimensionality Reduction Method for Visualizing Trajectory Structures in High-Dimensional Biological Data*, BioRxiv <https://www.biorxiv.org/content/early/2017/03/24/120378>.
 
@@ -49,10 +49,10 @@ if (!require(readr)) install.packages("readr")
 if (!require(Rmagic)) install.packages("Rmagic")
 ```
 
-If you have never used PHATE, you should also install PHATE from the command line as follows:
+If you have never used MAGIC, you should also install MAGIC from the command line as follows:
 
 ```{bash install_python_phate, eval=FALSE}
-pip install --user git+git://github.com/KrishnaswamyLab/MAGIC.git#subdirectory=python
+pip install --user magic-impute
 ```
 
 ### Loading packages
