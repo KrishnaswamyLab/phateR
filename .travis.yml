@@ -4,14 +4,18 @@ language: r
 sudo: required
 cache: packages
 
-os:
-  - linux
-  - osx
 
-r:
-  - oldrel
-  - release
-  - devel
+matrix:
+  include:
+    - os: linux
+      r:
+      - oldrel
+      - release
+      - devel
+    - os: osx
+      r:
+      - oldrel
+      - release
 
 cache: packages
 
