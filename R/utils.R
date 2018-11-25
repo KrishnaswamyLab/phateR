@@ -42,10 +42,10 @@ load_pyphate <- function(delay_load = FALSE) {
     major_version <- 0
     minor_version <- 2
     if (as.integer(version[1]) < major_version) {
-      stop(paste0("Python PHATE version ", pymagic$`__version__`, " is out of date (recommended: ", 
+      stop(paste0("Python PHATE version ", pyphate$`__version__`, " is out of date (recommended: ", 
                   major_version, ".", minor_version, "). Please update with pip or phateR::install.phate()."))
     } else if (as.integer(version[2]) < minor_version) {
-      warning(paste0("Python PHATE version ", pymagic$`__version__`, " is out of date (recommended: ", 
+      warning(paste0("Python PHATE version ", pyphate$`__version__`, " is out of date (recommended: ", 
                      major_version, ".", minor_version, "). Consider updating with pip or phateR::install.phate()."))
     }
   }
