@@ -8,14 +8,15 @@ cache: packages
 matrix:
   include:
     - os: linux
-      r:
-      - oldrel
-      - release
-      - devel
+      r: oldrel
+    - os: linux
+      r: release
+    - os: linux
+      r: devel
     - os: osx
-      r:
-      - oldrel
-      - release
+      r: oldrel
+    - os: osx
+      r: release
 
 cache: packages
 
