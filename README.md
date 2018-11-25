@@ -51,16 +51,16 @@ Python and `pip` together, or otherwise you can install `pip` from
 
 #### Installation from CRAN and PyPi
 
-Install `phateR` from CRAN by running the following code in R:
-
-``` r
-install.packages("phateR")
-```
-
-Install `phate` in Python by running the following code from a terminal:
+First install `phate` in Python by running the following code from a terminal:
 
 ``` bash
 pip install --user phate
+```
+
+Then install `phateR` from CRAN by running the following code in R:
+
+``` r
+install.packages("phateR")
 ```
 
 #### Installation with `devtools` and `reticulate`
@@ -70,15 +70,8 @@ The development version of PHATE can be installed directly from R with
 
 ``` r
 if (!suppressWarnings(require(devtools))) install.packages("devtools")
-devtools::install_github("KrishnaswamyLab/phateR")
-```
-
-If you have the development version of `reticulate`, you can also
-install `phate` in Python by running the following code in R:
-
-``` r
-devtools::install_github("rstudio/reticulate")
 reticulate::py_install("phate", pip=TRUE)
+devtools::install_github("KrishnaswamyLab/phateR")
 ```
 
 #### Installation from source
@@ -88,10 +81,10 @@ following in a terminal:
 
 ``` bash
 git clone --recursive git://github.com/KrishnaswamyLab/PHATE.git
-cd PHATE/phateR
-R CMD INSTALL
-cd ../Python
+cd PHATE/Python
 python setup.py install --user
+cd ../phateR
+R CMD INSTALL
 ```
 
 If the `phateR` folder is empty, you have may forgotten to use the
@@ -102,16 +95,16 @@ the following in a terminal:
 cd PHATE
 git submodule init
 git submodule update
-cd phateR
-R CMD INSTALL
-cd ../Python
+cd Python
 python setup.py install --user
+cd ../phateR
+R CMD INSTALL
 ```
 
 #### Quick Start
 
 If you have loaded a data matrix `data` in R (cells on rows, genes on
-columns) you can run PHATE as follows::
+columns) you can run PHATE as follows:
 
 ``` r
 library(phateR)
