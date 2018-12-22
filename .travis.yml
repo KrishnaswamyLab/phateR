@@ -2,8 +2,18 @@
 
 language: r
 sudo: required
-cache: packages
 
+cache: 
+  - packages
+  - apt
+  - directories:
+    - $HOME/.cache/pip
+
+apt:
+  sources:
+    - deadsnakes
+  packages:
+    - python3.6-dev
 
 matrix:
   include:
@@ -18,17 +28,15 @@ matrix:
     - os: osx
       r: release
 
-cache: packages
-
 env:
   global:
     - PATH="$HOME/miniconda/bin:$PATH"
     - RETICULATE_PYTHON="$HOME/miniconda/bin/python"
 
 before_install:
-  - chmod +x travis_setup.sh
-  - ./travis_setup.sh
-  - pip install --user phate
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; brew upgrade python; brew install sashkab/python/python36; fi
+  - python3 -m pip install --upgrade pip
+  - pip3 install phate
 
 script:
   - R CMD build .
