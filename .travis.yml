@@ -3,12 +3,6 @@
 language: r
 sudo: required
 
-cache: 
-  - packages
-  - apt
-  - directories:
-    - $HOME/.cache/pip
-
 apt:
   sources:
     - deadsnakes
@@ -28,13 +22,10 @@ matrix:
     - os: osx
       r: release
 
-env:
-  global:
-    - PATH="$HOME/miniconda/bin:$PATH"
-    - RETICULATE_PYTHON="$HOME/miniconda/bin/python"
-
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; brew upgrade python; brew install sashkab/python/python36; fi
+
+install:
   - python3 -m pip install --upgrade pip
   - pip3 install phate
 
@@ -48,5 +39,15 @@ r_packages:
   - reticulate
   - gridGraphics
   - cowplot
+
+before_cache:
+  - brew cleanup
+
+cache: 
+  - packages
+  - apt
+  - directories:
+    - $HOME/.cache/pip
+    - $HOME/Library/Caches/Homebrew
 
 warnings_are_errors: true
