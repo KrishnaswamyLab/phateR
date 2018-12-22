@@ -1,5 +1,5 @@
 ---
-title : phateR v0.2.9
+title : phateR v0.3.0
 output: github_document
 ---
 
