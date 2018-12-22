@@ -22,7 +22,6 @@ addons:
       - deadsnakes
     packages:
       - python3.6-dev
-      - python3.6-pip
 
 brew_packages:
   - sashkab/python/python36
@@ -33,6 +32,7 @@ env:
 
 before_install:
   - $PYTHON --version
+  - curl https://bootstrap.pypa.io/get-pip.py | sudo -H $PYTHON
   - $PYTHON -m pip install --upgrade pip
   - $PYTHON -m pip install phate
 
