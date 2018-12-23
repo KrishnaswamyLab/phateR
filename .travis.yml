@@ -2,28 +2,39 @@
 
 language: r
 sudo: required
-cache: packages
 
-os:
-  - linux
-  - osx
+matrix:
+  include:
+    - os: linux
+      r: oldrel
+    - os: linux
+      r: release
+    - os: linux
+      r: devel
+    - os: osx
+      r: oldrel
+    - os: osx
+      r: release
 
-r:
-  - oldrel
-  - release
-  - devel
+addons:
+  apt:
+    sources:
+      - deadsnakes
+    packages:
+      - python3.6-dev
 
-cache: packages
+brew_packages:
+  - sashkab/python/python36
 
 env:
   global:
-    - PATH="$HOME/miniconda/bin:$PATH"
-    - RETICULATE_PYTHON="$HOME/miniconda/bin/python"
+    - PYTHON=python3.6
 
 before_install:
-  - chmod +x travis_setup.sh
-  - ./travis_setup.sh
-  - pip install --user phate
+  - $PYTHON --version
+  - curl https://bootstrap.pypa.io/get-pip.py | sudo -H $PYTHON
+  - sudo $PYTHON -m pip install --upgrade pip
+  - $PYTHON -m pip install --user phate
 
 script:
   - R CMD build .
@@ -35,5 +46,15 @@ r_packages:
   - reticulate
   - gridGraphics
   - cowplot
+
+before_cache:
+  - brew cleanup
+
+cache: 
+  - packages
+  - apt
+  - directories:
+    - $HOME/.cache/pip
+    - $HOME/Library/Caches/Homebrew
 
 warnings_are_errors: true

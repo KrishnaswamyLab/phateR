@@ -1,5 +1,5 @@
 ---
-title : phateR v0.2.9
+title : phateR v0.3.0
 output: github_document
 ---
 
@@ -47,16 +47,16 @@ If `python` or `pip` are not installed, you will need to install them. We recomm
 
 #### Installation from CRAN and PyPi
 
-Install `phateR` from CRAN by running the following code in R:
-
-```{r cran-install, eval = FALSE}
-install.packages("phateR")
-```
-
-Install `phate` in Python by running the following code from a terminal:
+First install `phate` in Python by running the following code from a terminal:
 
 ```{bash pypi-install, eval = FALSE}
 pip install --user phate
+```
+
+Then install `phateR` from CRAN by running the following code in R:
+
+```{r cran-install, eval = FALSE}
+install.packages("phateR")
 ```
 
 #### Installation with `devtools` and `reticulate`
@@ -65,16 +65,9 @@ The development version of PHATE can be installed directly from R with `devtools
 
 ```{r github-install, eval = FALSE}
 if (!suppressWarnings(require(devtools))) install.packages("devtools")
+reticulate::py_install("phate", pip=TRUE)
 devtools::install_github("KrishnaswamyLab/phateR")
 ```
-
-If you have the development version of `reticulate`, you can also install `phate` in Python by running the following code in R:
-
-```{r reticulate-install, eval = FALSE}
-devtools::install_github("rstudio/reticulate")
-reticulate::py_install("phate", pip=TRUE)
-```
-
 
 #### Installation from source
 
@@ -82,10 +75,10 @@ The latest source version of PHATE can be accessed by running the following in a
 
 ```{bash install-source, eval=FALSE}
 git clone --recursive git://github.com/KrishnaswamyLab/PHATE.git
-cd PHATE/phateR
-R CMD INSTALL
-cd ../Python
+cd PHATE/Python
 python setup.py install --user
+cd ../phateR
+R CMD INSTALL
 ```
 
 If the `phateR` folder is empty, you have may forgotten to use the `--recursive` option for `git clone`. You can rectify this by running the following in a terminal:
@@ -94,15 +87,15 @@ If the `phateR` folder is empty, you have may forgotten to use the `--recursive`
 cd PHATE
 git submodule init
 git submodule update
-cd phateR
-R CMD INSTALL
-cd ../Python
+cd Python
 python setup.py install --user
+cd ../phateR
+R CMD INSTALL
 ```
 
 #### Quick Start
 
-If you have loaded a data matrix `data` in R (cells on rows, genes on columns) you can run PHATE as follows::
+If you have loaded a data matrix `data` in R (cells on rows, genes on columns) you can run PHATE as follows:
 
 ```{r quick start, eval=FALSE}
 library(phateR)
