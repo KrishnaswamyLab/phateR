@@ -62,6 +62,7 @@
 #' For n_jobs below -1, (n.cpus + 1 + n.jobs) are used. Thus for
 #' n_jobs = -2, all CPUs but one are used
 #' @param seed int or `NULL`, random state (default: `NULL`)
+#' @param ... Additional arguments for `graphtools.Graph`.
 #' @param potential.method Deprecated.
 #' For log potential, use `gamma=1`. For sqrt potential, use `gamma=0`.
 #' @param use.alpha Deprecated
@@ -126,7 +127,9 @@ phate <- function(data, ndim = 2, k = 5,
                   n.svd = NULL,
                   pca.method = NULL,
                   g.kernel=NULL, diff.op = NULL, landmark.transitions=NULL,
-                  diff.op.t = NULL, dist.method=NULL) {
+                  diff.op.t = NULL, dist.method=NULL,
+                  # additional arguments for graphtools
+                  ...) {
   # check installation
   if (!reticulate::py_module_available(module = "phate")) {
     load_pyphate()
@@ -257,7 +260,8 @@ phate <- function(data, ndim = 2, k = 5,
                           knn_dist = knn.dist.method,
                           n_jobs = n.jobs,
                           random_state = seed,
-                          verbose = verbose)
+                          verbose = verbose,
+                          ...)
     }
   }
   if (is.null(operator)) {
@@ -273,7 +277,8 @@ phate <- function(data, ndim = 2, k = 5,
                               knn_dist = knn.dist.method,
                               n_jobs = n.jobs,
                               random_state = seed,
-                              verbose = verbose)
+                              verbose = verbose,
+                              ...)
   }
   embedding <- operator$fit_transform(data,
                                       t_max = t.max)
