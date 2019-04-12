@@ -1689,8 +1689,8 @@ bmmsc &lt;- sqrt(bmmsc)</code></pre>
 <p>Running PHATE is as simple as running the <code>phate</code> function.</p>
 <p>We’ll just use the default parameters for now, but the following parameters can be tuned (read our documentation at <a href="https://cran.r-project.org/web/packages/phateR/phateR.pdf" class="uri">https://cran.r-project.org/web/packages/phateR/phateR.pdf</a> or by running <code>help(phateR::phate)</code> to learn more):</p>
 <ul>
-<li><code>k</code> : Number of nearest neighbors (default: 5). Increase this (e.g. to 20) if your PHATE embedding appears very disconnected. You should also consider increasing <code>k</code> if your dataset is extremely large (e.g. &gt;100k cells)</li>
-<li><code>a</code> : Alpha decay (default: 15). Decreasing a increases connectivity on the graph, increasing a decreases connectivity. This rarely needs to be tuned. Set it to <code>NULL</code> for a k-nearest neighbors kernel.</li>
+<li><code>knn</code> : Number of nearest neighbors (default: 5). Increase this (e.g. to 20) if your PHATE embedding appears very disconnected. You should also consider increasing <code>knn</code> if your dataset is extremely large (e.g. &gt;100k cells)</li>
+<li><code>decay</code> : Alpha decay (default: 40). Decreasing a increases connectivity on the graph, increasing a decreases connectivity. This rarely needs to be tuned. Set it to <code>NULL</code> for a k-nearest neighbors kernel.</li>
 <li><code>t</code> : Number of times to power the operator (default: ‘auto’). This is equivalent to the amount of smoothing done to the data. It is chosen automatically by default, but you can increase it if your embedding lacks structure, or decrease it if the structure looks too compact.</li>
 <li><code>gamma</code> : Informational distance constant between -1 and 1 (default: 1). <code>gamma=1</code> gives the PHATE log potential, but other informational distances can be interesting. If most of the points seem concentrated in one section of the plot, you can try <code>gamma=0</code>.</li>
 </ul>
@@ -1706,7 +1706,7 @@ bmmsc_PHATE &lt;- phate(bmmsc)</code></pre>
 <div id="rerunning-phate-with-new-parameters" class="section level3">
 <h3>Rerunning PHATE with new parameters</h3>
 <p>The branches are a little collapsed, so we can decrease the connectivity by decreasing <code>k</code> from the default value of 5, and increasing <code>a</code> from the default value of 15. We could also change <code>t</code> from the automatic value printed in the PHATE output (here it is 10) - an increase in <code>t</code> reduces noise, a decrease in <code>t</code> can prevent the data from collapsing subtle structures. We’ll pass in the old PHATE object as the <code>init</code> argument, which can sometimes use precomputed intermediate data to prevent recomputing things that haven’t changed.</p>
-<pre class="r"><code>bmmsc_PHATE &lt;- phate(bmmsc, k=4, a=100, t=10, init=bmmsc_PHATE)
+<pre class="r"><code>bmmsc_PHATE &lt;- phate(bmmsc, knn=4, decay=100, t=10, init=bmmsc_PHATE)
 ggplot(bmmsc_PHATE) +
   geom_point(aes(PHATE1, PHATE2, color=bmmsc$Mpo)) +
   labs(color=&quot;Mpo&quot;) +

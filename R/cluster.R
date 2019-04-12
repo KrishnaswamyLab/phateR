@@ -5,6 +5,7 @@
 #' 
 #' @param phate `phate()` output
 #' @param k Number of clusters (default: 8)
+#' @param seed Random seed for kmeans (default: NULL)
 #' 
 #' @return clusters Integer vector of cluster assignments
 #' 
@@ -23,7 +24,7 @@
 #' cluster_phate(phate.tree)
 #' }
 #' @export
-cluster_phate <- function(phate, k=8) {
+cluster_phate <- function(phate, k=8, seed=NULL) {
   # check installation
   if (!reticulate::py_module_available(module = "phate")) {
     load_pyphate()
@@ -33,5 +34,10 @@ cluster_phate <- function(phate, k=8) {
     stop(paste0("Expected phate_op to be a phate object. Got a ", class(phate)))
   }
   k <- as.integer(k)
-  pyphate$cluster$kmeans(phate$operator, k=k)
+  if (is.numeric(seed)) {
+    seed <- as.integer(seed)
+  } else if (!is.null(seed) && is.na(seed)) {
+    seed <- NULL
+  }
+  pyphate$cluster$kmeans(phate$operator, k=k, random_state=seed)
 }

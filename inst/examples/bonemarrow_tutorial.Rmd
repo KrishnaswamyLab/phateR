@@ -117,8 +117,8 @@ Running PHATE is as simple as running the `phate` function.
 
 We'll just use the default parameters for now, but the following parameters can be tuned (read our documentation at <https://cran.r-project.org/web/packages/phateR/phateR.pdf> or by running `help(phateR::phate)` to learn more):
 
-- `k` : Number of nearest neighbors (default: 5). Increase this (e.g. to 20) if your PHATE embedding appears very disconnected. You should also consider increasing `k` if your dataset is extremely large (e.g. >100k cells)
-- `a` : Alpha decay (default: 15). Decreasing a increases connectivity on the graph, increasing a decreases connectivity. This rarely needs to be tuned. Set it to `NULL` for a k-nearest neighbors kernel.
+- `knn` : Number of nearest neighbors (default: 5). Increase this (e.g. to 20) if your PHATE embedding appears very disconnected. You should also consider increasing `knn` if your dataset is extremely large (e.g. >100k cells)
+- `decay` : Alpha decay (default: 40). Decreasing a increases connectivity on the graph, increasing a decreases connectivity. This rarely needs to be tuned. Set it to `NULL` for a k-nearest neighbors kernel.
 - `t` : Number of times to power the operator (default: 'auto'). This is equivalent to the amount of smoothing done to the data. It is chosen automatically by default, but you can increase it if your embedding lacks structure, or decrease it if the structure looks too compact.
 - `gamma` : Informational distance constant between -1 and 1 (default: 1). `gamma=1` gives the PHATE log potential, but other informational distances can be interesting. If most of the points seem concentrated in one section of the plot, you can try `gamma=0`.
 
@@ -142,7 +142,7 @@ ggplot(bmmsc_PHATE) +
 The branches are a little collapsed, so we can decrease the connectivity by decreasing `k` from the default value of 5, and increasing `a` from the default value of 15. We could also change `t` from the automatic value printed in the PHATE output (here it is 10) - an increase in `t` reduces noise, a decrease in `t` can prevent the data from collapsing subtle structures. We'll pass in the old PHATE object as the `init` argument, which can sometimes use precomputed intermediate data to prevent recomputing things that haven't changed.
 
 ```{r decrease_connectivity}
-bmmsc_PHATE <- phate(bmmsc, k=4, a=100, t=10, init=bmmsc_PHATE)
+bmmsc_PHATE <- phate(bmmsc, knn=4, decay=100, t=10, init=bmmsc_PHATE)
 ggplot(bmmsc_PHATE) +
   geom_point(aes(PHATE1, PHATE2, color=bmmsc$Mpo)) +
   labs(color="Mpo") +

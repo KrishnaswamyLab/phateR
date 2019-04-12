@@ -9,7 +9,42 @@ null_equal <- function(x, y) {
   }
 }
 
-load_pyphate <- function(delay_load = FALSE) {
+check_pyphate_version <- function() {
+  version <- strsplit(pyphate$`__version__`, '\\.')[[1]]
+  major_version <- 0
+  minor_version <- 4
+  if (as.integer(version[1]) < major_version) {
+    warning(paste0("Python PHATE version ", pyphate$`__version__`, " is out of date (recommended: ",
+                   major_version, ".", minor_version, "). Please update with pip or phateR::install.phate()."))
+  } else if (as.integer(version[2]) < minor_version) {
+    warning(paste0("Python PHATE version ", pyphate$`__version__`, " is out of date (recommended: ",
+                   major_version, ".", minor_version, "). Consider updating with pip or phateR::install.phate()."))
+  }
+}
+
+failed_pyphate_import <- function(e) {
+  message("Error loading Python module phate")
+  message(e)
+  result <- as.character(e)
+  if (length(grep("ModuleNotFoundError: No module named 'phate'", result)) > 0 ||
+      length(grep("ImportError: No module named phate", result)) > 0) {
+    # not installed
+    if (utils::menu(c("Yes", "No"), title="Install PHATE Python package with reticulate?") == 1) {
+      install.phate()
+    }
+  } else if (length(grep("r\\-reticulate", reticulate::py_config()$python)) > 0) {
+    # installed, but envs sometimes give weird results
+    message("Consider removing the 'r-reticulate' environment by running:")
+    if (grep("virtualenvs", reticulate::py_config()$python)) {
+      message("reticulate::virtualenv_remove('r-reticulate')")
+    } else {
+      message("reticulate::conda_remove('r-reticulate')")
+    }
+  }
+}
+
+load_pyphate <- function() {
+  delay_load = list(on_load=check_pyphate_version, on_error=failed_pyphate_import)
   # load
   if (is.null(pyphate)) {
     # first time load
@@ -17,37 +52,6 @@ load_pyphate <- function(delay_load = FALSE) {
   } else {
     # already loaded
     result <- try(reticulate::import("phate", delay_load = delay_load))
-  }
-  # check
-  if (methods::is(result, "try-error")) {
-    # failed load
-    if ((!delay_load) && length(grep("ModuleNotFoundError: No module named 'phate'", result)) > 0 ||
-        length(grep("ImportError: No module named phate", result)) > 0) {
-      # not installed
-      if (utils::menu(c("Yes", "No"), title="Install PHATE Python package with reticulate?") == 1) {
-        install.phate()
-      }
-    } else if (length(grep("r\\-reticulate", reticulate::py_config()$python)) > 0) {
-      # installed, but envs sometimes give weird results
-      message("Consider removing the 'r-reticulate' environment by running:")
-      if (grep("virtualenvs", reticulate::py_config()$python)) {
-        message("reticulate::virtualenv_remove('r-reticulate')")
-      } else {
-        message("reticulate::conda_remove('r-reticulate')")
-      }
-    }
-  } else if (!delay_load) {
-    # successful load
-    version <- strsplit(pyphate$`__version__`, '\\.')[[1]]
-    major_version <- 0
-    minor_version <- 2
-    if (as.integer(version[1]) < major_version) {
-      warning(paste0("Python PHATE version ", pyphate$`__version__`, " is out of date (recommended: ", 
-                  major_version, ".", minor_version, "). Please update with pip or phateR::install.phate()."))
-    } else if (as.integer(version[2]) < minor_version) {
-      warning(paste0("Python PHATE version ", pyphate$`__version__`, " is out of date (recommended: ", 
-                     major_version, ".", minor_version, "). Consider updating with pip or phateR::install.phate()."))
-    }
   }
 }
 
@@ -94,5 +98,5 @@ pyphate <- NULL
 
 .onLoad <- function(libname, pkgname) {
   py_config <- reticulate::py_discover_config(required_module = "phate")
-  load_pyphate(delay_load = TRUE)
+  load_pyphate()
 }
