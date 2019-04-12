@@ -120,7 +120,7 @@ phate <- function(data, ndim = 2, knn = 5,
                   # additional arguments for graphtools
                   ...) {
   # check installation
-  if (is.null(pyphate)) load_pyphate()
+  if (!reticulate::py_module_available(module = "phate") || (is.null(pyphate))) load_pyphate()
   # check for deprecated arguments
   if (!is.null(k)) {
     message("Argument k is deprecated. Using knn instead.")
