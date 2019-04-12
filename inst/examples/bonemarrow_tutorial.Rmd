@@ -22,23 +22,7 @@ Kevin R. Moon, David van Dijk, Zheng Wang, *et al.* (2017), *PHATE: A Dimensiona
 
 ### Installation
 
-In order to use PHATE in R, you must also install the Python package.
-
-If `python` or `pip` are not installed, you will need to install them. We recommend [Miniconda3](https://conda.io/miniconda.html) to install Python and `pip` together, or otherwise you can install `pip` from https://pip.pypa.io/en/stable/installing/.
-
-#### Installation from CRAN and PyPi
-
-Install `phateR` from CRAN by running the following code in R:
-
-```{r cran-install, eval = FALSE}
-install.packages("phateR")
-```
-
-Install `phate` in Python by running the following code from a terminal:
-
-```{bash pypi-install, eval = FALSE}
-pip install --user phate
-```
+If you haven't yet installed PHATE, you can find installation instructions in our [GitHub README](https://github.com/KrishnaswamyLab/phateR/).
 
 We'll install a couple more tools for this tutorial.
 
@@ -119,7 +103,7 @@ Now we'll plot the results with `ggplot2`. We'll color the plot by Mpo, a myeloi
 
 ```{r plot_pca}
 ggplot(bmmsc_PCA) +
-  geom_point(aes(PC1, PC21, color=bmmsc$Mpo)) +
+  geom_point(aes(PC1, PC2, color=bmmsc$Mpo)) +
   labs(color="Mpo") +
   scale_color_viridis(option="B")
 ggsave('BMMSC_data_R_PCA.png', width=5, height=5)
