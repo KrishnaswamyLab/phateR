@@ -1,4 +1,4 @@
-phateR v0.3.0
+phateR v0.4.0
 ================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -39,6 +39,8 @@ For our Python and Matlab implementations, please see
   - [Quick Start](#quick-start)
   - [Tutorial](#tutorial)
   - [Issues](#issues)
+      - [FAQ](#faq)
+      - [Help](#help)
 
 ## Installation
 
@@ -51,7 +53,8 @@ Python and `pip` together, or otherwise you can install `pip` from
 
 #### Installation from CRAN and PyPi
 
-First install `phate` in Python by running the following code from a terminal:
+First install `phate` in Python by running the following code from a
+terminal:
 
 ``` bash
 pip install --user phate
@@ -101,7 +104,7 @@ cd ../phateR
 R CMD INSTALL
 ```
 
-#### Quick Start
+## Quick Start
 
 If you have loaded a data matrix `data` in R (cells on rows, genes on
 columns) you can run PHATE as follows:
@@ -122,7 +125,7 @@ dataset that is included with the package. You can read a tutorial on
 running PHATE on single-cell RNA-seq at
 <http://htmlpreview.github.io/?https://github.com/KrishnaswamyLab/phateR/blob/master/inst/examples/bonemarrow_tutorial.html>
 or in `inst/examples`. Running this tutorial from start to finish should
-take no more than 3 minutes.
+take approximately 3 minutes.
 
 First, let’s load the tree data and examine it with PCA.
 
@@ -183,6 +186,7 @@ installed.
 
 ``` r
 library(ggplot2)
+#> Warning: package 'ggplot2' was built under R version 3.5.3
 ggplot(tree.phate, aes(x=PHATE1, y=PHATE2, color=tree.data$branches)) +
   geom_point()
 ```
@@ -190,6 +194,31 @@ ggplot(tree.phate, aes(x=PHATE1, y=PHATE2, color=tree.data$branches)) +
 <img src="man/figures/README-ggplot-1.png" width="100%" />
 
 ## Issues
+
+### FAQ
+
+  - **Should genes (features) by rows or columns?**
+
+To be consistent with common dimensionality reductions such as PCA
+(`stats::prcomp`) and t-SNE (`Rtsne::Rtsne`), we require that cells
+(observations) be rows and genes (features) be columns of your input
+data.
+
+  - **I have installed PHATE in Python, but phateR says it is not
+    installed\!**
+
+Check your `reticulate::py_discover_config("phate")` and compare it to
+the version of Python in which you installed PHATE (run `which python`
+and `which pip` in a terminal.) Chances are `reticulate` can’t find the
+right version of Python; you can fix this by adding the following line
+to your `~/.Renviron`:
+
+`PATH=/path/to/my/python`
+
+You can read more about `Renviron` at
+<https://cran.r-project.org/web/packages/startup/vignettes/startup-intro.html>.
+
+### Help
 
 Please let us know of any issues at the [GitHub
 repository](https://github.com/KrishnaswamyLab/phateR/issues). If you

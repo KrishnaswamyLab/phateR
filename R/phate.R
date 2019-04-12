@@ -10,9 +10,9 @@
 #' (n_samples, n_samples) distance or affinity matrix
 #' @param ndim int, optional, default: 2
 #' number of dimensions in which the data will be embedded
-#' @param k int, optional, default: 5
+#' @param knn int, optional, default: 5
 #' number of nearest neighbors on which to build kernel
-#' @param alpha int, optional, default: 40
+#' @param decay int, optional, default: 40
 #' sets decay rate of kernel tails.
 #' If NULL, alpha decaying kernel is not used
 #' @param n.landmark int, optional, default: 2000
@@ -62,17 +62,11 @@
 #' For n_jobs below -1, (n.cpus + 1 + n.jobs) are used. Thus for
 #' n_jobs = -2, all CPUs but one are used
 #' @param seed int or `NULL`, random state (default: `NULL`)
+#' @param ... Additional arguments for `graphtools.Graph`.
 #' @param potential.method Deprecated.
 #' For log potential, use `gamma=1`. For sqrt potential, use `gamma=0`.
-#' @param use.alpha Deprecated
-#' To disable alpha decay, use `alpha=NULL`
-#' @param n.svd Deprecated.
-#' @param pca.method Deprecated.
-#' @param g.kernel Deprecated.
-#' @param diff.op Deprecated.
-#' @param diff.op.t Deprecated.
-#' @param landmark.transitions Deprecated.
-#' @param dist.method Deprecated.
+#' @param k Deprecated. Use `knn`.
+#' @param alpha Deprecated. Use `decay`.
 #'
 #' @return "phate" object containing:
 #'  * **embedding**: the PHATE embedding
@@ -91,7 +85,7 @@
 #' phate.tree <- phate(tree.data.small$data)
 #' summary(phate.tree)
 #' ## PHATE embedding
-#' ## k = 5, alpha = 40, t = 58
+#' ## knn = 5, decay = 40, t = 58
 #' ## Data: (3000, 100)
 #' ## Embedding: (3000, 2)
 #'
@@ -112,8 +106,8 @@
 #'
 #' }
 #' @export
-phate <- function(data, ndim = 2, k = 5,
-                  alpha = 40,
+phate <- function(data, ndim = 2, knn = 5,
+                  decay = 40,
                   n.landmark=2000, gamma=1,
                   t = "auto", knn.dist.method = "euclidean",
                   init=NULL,
@@ -121,21 +115,20 @@ phate <- function(data, ndim = 2, k = 5,
                   t.max=100, npca = 100, plot.optimal.t=FALSE,
                   verbose=1, n.jobs=1, seed=NULL,
                   potential.method = NULL,
-                  # deprecated args, remove in v3
-                  use.alpha=NULL,
-                  n.svd = NULL,
-                  pca.method = NULL,
-                  g.kernel=NULL, diff.op = NULL, landmark.transitions=NULL,
-                  diff.op.t = NULL, dist.method=NULL) {
+                  # deprecated args
+                  k=NULL, alpha=NULL,
+                  # additional arguments for graphtools
+                  ...) {
   # check installation
-  if (!reticulate::py_module_available(module = "phate")) {
-    load_pyphate()
-  }
-  tryCatch(pyphate, error = function(e) load_pyphate())
+  if (!reticulate::py_module_available(module = "phate") || (is.null(pyphate))) load_pyphate()
   # check for deprecated arguments
-  if (!is.null(dist.method)) {
-    message("Argument dist.method is deprecated. Using knn.dist.method instead.")
-    knn.dist.method <- dist.method
+  if (!is.null(k)) {
+    message("Argument k is deprecated. Using knn instead.")
+    knn <- k
+  }
+  if (!is.null(alpha)) {
+    message("Argument alpha is deprecated. Using decay instead.")
+    decay <- alpha
   }
   if (!is.null(potential.method)) {
     if (potential.method == 'log') {
@@ -149,53 +142,14 @@ phate <- function(data, ndim = 2, k = 5,
     message(paste0("Argument potential_method is deprecated. Setting gamma to ",
                    gamma, " to achieve ", potential.method, " transformation."))
   }
-  if (!is.null(n.svd)) {
-    message("Setting n.svd is currently not supported. Using n.svd=100")
-  }
-  if (!is.null(pca.method)) {
-    message("Setting pca.method is deprecated. Using pca.method='random'")
-  }
-  if (!is.null(g.kernel)) {
-    message(paste0("Setting g.kernel is deprecated. Using instead ",
-                   "`knn.dist.method='precomputed'` and `data=g.kernel`"))
-    data <- g.kernel
-    knn.dist.method <- "precomputed"
-  }
-  if (!is.null(diff.op)) {
-    stop(paste0("Setting diff.op is deprecated. Use `init` with a `phate` ",
-                "object instead"))
-  }
-  if (!is.null(diff.op.t)) {
-    stop(paste0("Setting diff.op.t is deprecated. Use `init` with a `phate` ",
-                "object instead"))
-  }
-  if (!is.null(landmark.transitions)) {
-    stop(paste0("Setting landmark.transitions is deprecated. Use `init` with a",
-                " `phate` object instead"))
-  }
-  if (!is.null(use.alpha)) {
-    stop(paste0("Setting use.alpha is deprecated. Use `alpha=NULL` instead"))
-  }
-  if (mds.method == "mmds") {
-    message(paste0("Argument mds.method = 'mmds' is deprecated. ",
-                   "Use mds.method = 'metric' instead."))
-    mds.method <- "metric"
-  } else if (mds.method == "cmds") {
-    message(paste0("Argument mds.method = 'cmds' is deprecated. ",
-                   "Use mds.method = 'classic' instead."))
-    mds.method <- "classic"
-  } else if (mds.method == "nmmds") {
-    message(paste0("Argument mds.method = 'nmmds' is deprecated. ",
-                   "Use mds.method = 'nonmetric' instead."))
-    mds.method <- "nonmetric"
-  } else if (!(mds.method %in% c("classic", "metric", "nonmetric"))) {
+  if (!(mds.method %in% c("classic", "metric", "nonmetric"))) {
     message(paste0("mds.method ", mds.method, " not recognized. ",
                    "Choose from c('classic', 'metric, 'nonmetric'). ",
                    "Using 'metric'..."))
     mds.method <- "metric"
   }
   ndim <- as.integer(ndim)
-  k <- as.integer(k)
+  knn <- as.integer(knn)
   t.max <- as.integer(t.max)
   n.jobs <- as.integer(n.jobs)
 
@@ -209,10 +163,10 @@ phate <- function(data, ndim = 2, k = 5,
   } else if (!is.null(npca) && is.na(npca)) {
     npca <- NULL
   }
-  if (is.numeric(alpha)) {
-    alpha <- as.double(alpha)
-  } else if (!is.null(alpha) && is.na(alpha)) {
-    alpha <- NULL
+  if (is.numeric(decay)) {
+    decay <- as.double(decay)
+  } else if (!is.null(decay) && is.na(decay)) {
+    decay <- NULL
   }
   if (is.numeric(t)) {
     t <- as.integer(t)
@@ -232,7 +186,7 @@ phate <- function(data, ndim = 2, k = 5,
   }
 
   # store parameters
-  params <- list("data" = data, "k" = k, "alpha" = alpha, "t" = t,
+  params <- list("data" = data, "knn" = knn, "decay" = decay, "t" = t,
                  "n.landmark" = n.landmark, "gamma" = gamma,
                  "ndim" = ndim,
                  "npca" = npca, "mds.method" = mds.method,
@@ -246,8 +200,8 @@ phate <- function(data, ndim = 2, k = 5,
     } else {
       operator <- init$operator
       operator$set_params(n_components = ndim,
-                          k = k,
-                          a = alpha,
+                          knn = knn,
+                          decay = decay,
                           t = t,
                           n_landmark = n.landmark,
                           gamma = gamma,
@@ -257,13 +211,14 @@ phate <- function(data, ndim = 2, k = 5,
                           knn_dist = knn.dist.method,
                           n_jobs = n.jobs,
                           random_state = seed,
-                          verbose = verbose)
+                          verbose = verbose,
+                          ...)
     }
   }
   if (is.null(operator)) {
     operator <- pyphate$PHATE(n_components = ndim,
-                              k = k,
-                              a = alpha,
+                              knn = knn,
+                              decay = decay,
                               t = t,
                               n_landmark = n.landmark,
                               gamma = gamma,
@@ -273,7 +228,8 @@ phate <- function(data, ndim = 2, k = 5,
                               knn_dist = knn.dist.method,
                               n_jobs = n.jobs,
                               random_state = seed,
-                              verbose = verbose)
+                              verbose = verbose,
+                              ...)
   }
   embedding <- operator$fit_transform(data,
                                       t_max = t.max)
@@ -336,7 +292,7 @@ plot.phate <- function(x, ...) {
 #' ## PHATE embedding with elements
 #' ## $embedding : (3000, 2)
 #' ## $operator : Python PHATE operator
-#' ## $params : list with elements (data, k, alpha, t, n.landmark, ndim,
+#' ## $params : list with elements (data, knn, decay, t, n.landmark, ndim,
 #' ##                               gamma, npca, mds.method,
 #' ##                               knn.dist.method, mds.dist.method)
 #'
@@ -367,7 +323,7 @@ print.phate <- function(x, ...) {
 #' phate.tree <- phate(tree.data.small$data)
 #' summary(phate.tree)
 #' ## PHATE embedding
-#' ## k = 5, alpha = 40, t = 58
+#' ## knn = 5, decay = 40, t = 58
 #' ## Data: (3000, 100)
 #' ## Embedding: (3000, 2)
 #'
@@ -377,8 +333,8 @@ print.phate <- function(x, ...) {
 #' @export
 summary.phate <- function(object, ...) {
   result <- paste0("PHATE embedding\n",
-                   "k = ", object$params$k,
-                   ", alpha = ", object$params$alpha,
+                   "knn = ", object$params$knn,
+                   ", decay = ", object$params$decay,
                    ", t = ", object$params$t, "\n",
                    "Data: (", nrow(object$params$data),
                    ", ", ncol(object$params$data), ")\n",

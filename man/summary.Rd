@@ -23,7 +23,7 @@ data(tree.data.small)
 phate.tree <- phate(tree.data.small$data)
 summary(phate.tree)
 ## PHATE embedding
-## k = 5, alpha = 40, t = 58
+## knn = 5, decay = 40, t = 58
 ## Data: (3000, 100)
 ## Embedding: (3000, 2)
 

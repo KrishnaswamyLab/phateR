@@ -6,12 +6,14 @@
 Clustering on the PHATE operator as introduced in Moon et al.
 This is similar to spectral clustering.}
 \usage{
-cluster_phate(phate, k = 8)
+cluster_phate(phate, k = 8, seed = NULL)
 }
 \arguments{
 \item{phate}{\code{phate()} output}
 
 \item{k}{Number of clusters (default: 8)}
+
+\item{seed}{Random seed for kmeans (default: NULL)}
 }
 \value{
 clusters Integer vector of cluster assignments

@@ -1,5 +1,5 @@
 ---
-title : phateR v0.3.0
+title : phateR v0.4.0
 output: github_document
 ---
 
@@ -38,6 +38,8 @@ For our Python and Matlab implementations, please see [KrishnaswamyLab/PHATE](ht
   * [Quick Start](#quick-start)
   * [Tutorial](#tutorial)
   * [Issues](#issues)
+    * [FAQ](#faq)
+    * [Help](#help)
 
 ## Installation
 
@@ -93,7 +95,7 @@ cd ../phateR
 R CMD INSTALL
 ```
 
-#### Quick Start
+## Quick Start
 
 If you have loaded a data matrix `data` in R (cells on rows, genes on columns) you can run PHATE as follows:
 
@@ -156,6 +158,22 @@ ggplot(tree.phate, aes(x=PHATE1, y=PHATE2, color=tree.data$branches)) +
 
 
 ## Issues
+
+### FAQ
+
+* **Should genes (features) by rows or columns?**
+
+To be consistent with common dimensionality reductions such as PCA (`stats::prcomp`) and t-SNE (`Rtsne::Rtsne`), we require that cells (observations) be rows and genes (features) be columns of your input data.
+
+* **I have installed PHATE in Python, but phateR says it is not installed!**
+
+Check your `reticulate::py_discover_config("phate")` and compare it to the version of Python in which you installed PHATE (run `which python` and `which pip` in a terminal.) Chances are `reticulate` can't find the right version of Python; you can fix this by adding the following line to your `~/.Renviron`:
+
+```PATH=/path/to/my/python```
+
+You can read more about `Renviron` at <https://cran.r-project.org/web/packages/startup/vignettes/startup-intro.html>.
+
+### Help
 
 Please let us know of any issues at the [GitHub repository](https://github.com/KrishnaswamyLab/phateR/issues). If you have any questions or require assistance using PHATE, please read the documentation by running `help(phateR::phate)` or contact us at <https://krishnaswamylab.org/get-help>.
 
