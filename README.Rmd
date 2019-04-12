@@ -95,7 +95,7 @@ cd ../phateR
 R CMD INSTALL
 ```
 
-#### Quick Start
+## Quick Start
 
 If you have loaded a data matrix `data` in R (cells on rows, genes on columns) you can run PHATE as follows:
 
