@@ -67,6 +67,8 @@
 #' For log potential, use `gamma=1`. For sqrt potential, use `gamma=0`.
 #' @param k Deprecated. Use `knn`.
 #' @param alpha Deprecated. Use `decay`.
+#' @param use.alpha Deprecated
+#' To disable alpha decay, use `alpha=NULL`
 #'
 #' @return "phate" object containing:
 #'  * **embedding**: the PHATE embedding
@@ -116,7 +118,7 @@ phate <- function(data, ndim = 2, knn = 5,
                   verbose=1, n.jobs=1, seed=NULL,
                   potential.method = NULL,
                   # deprecated args
-                  k=NULL, alpha=NULL,
+                  k=NULL, alpha=NULL, use.alpha=NULL,
                   # additional arguments for graphtools
                   ...) {
   # check installation
@@ -129,6 +131,14 @@ phate <- function(data, ndim = 2, knn = 5,
   if (!is.null(alpha)) {
     message("Argument alpha is deprecated. Using decay instead.")
     decay <- alpha
+  }
+  if (!is.null(use.alpha) && !is.na(use.alpha)) {
+    if (use.alpha) {
+      message("Argument use.alpha is deprecated. Alpha-decay is on by default.")
+    } else {
+      message("Argument use.alpha is deprecated. Using `decay=NULL` instead.")
+      decay <- NULL
+    }
   }
   if (!is.null(potential.method)) {
     if (potential.method == 'log') {
