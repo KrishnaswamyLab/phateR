@@ -9,7 +9,7 @@ phate(data, ndim = 2, knn = 5, decay = 40, n.landmark = 2000,
   init = NULL, mds.method = "metric", mds.dist.method = "euclidean",
   t.max = 100, npca = 100, plot.optimal.t = FALSE, verbose = 1,
   n.jobs = 1, seed = NULL, potential.method = NULL, k = NULL,
-  alpha = NULL, ...)
+  alpha = NULL, use.alpha = NULL, ...)
 }
 \arguments{
 \item{data}{matrix (n_samples, n_dimensions)
@@ -94,6 +94,9 @@ For log potential, use \code{gamma=1}. For sqrt potential, use \code{gamma=0}.}
 \item{k}{Deprecated. Use \code{knn}.}
 
 \item{alpha}{Deprecated. Use \code{decay}.}
+
+\item{use.alpha}{Deprecated
+To disable alpha decay, use \code{alpha=NULL}}
 
 \item{...}{Additional arguments for \code{graphtools.Graph}.}
 }
