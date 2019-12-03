@@ -24,6 +24,10 @@
 #' @param t int, optional, default: 'auto'
 #' power to which the diffusion operator is powered
 #' sets the level of diffusion
+#' @param optimizer {'sgd', 'smacof'}, optional, default: 'sgd'
+#' which optimizer to use for metric MDS. SGD is substantially faster,
+#' but produces slightly less optimal results. Note that SMACOF was used
+#' for all figures in the PHATE paper.
 #' @param knn.dist.method string, optional, default: 'euclidean'.
 #' recommended values: 'euclidean', 'cosine', 'precomputed'
 #' Any metric from `scipy.spatial.distance` can be used
@@ -111,7 +115,8 @@
 phate <- function(data, ndim = 2, knn = 5,
                   decay = 40,
                   n.landmark=2000, gamma=1,
-                  t = "auto", knn.dist.method = "euclidean",
+                  t = "auto", optimizer='sgd',
+                  knn.dist.method = "euclidean",
                   init=NULL,
                   mds.method = "metric", mds.dist.method = "euclidean",
                   t.max=100, npca = 100, plot.optimal.t=FALSE,
@@ -198,7 +203,7 @@ phate <- function(data, ndim = 2, knn = 5,
   # store parameters
   params <- list("data" = data, "knn" = knn, "decay" = decay, "t" = t,
                  "n.landmark" = n.landmark, "gamma" = gamma,
-                 "ndim" = ndim,
+                 "ndim" = ndim, "optimizer" = optimizer,
                  "npca" = npca, "mds.method" = mds.method,
                  "knn.dist.method" = knn.dist.method,
                  "mds.dist.method" = mds.dist.method)
@@ -214,6 +219,7 @@ phate <- function(data, ndim = 2, knn = 5,
                           decay = decay,
                           t = t,
                           n_landmark = n.landmark,
+                          optimizer = optimizer,
                           gamma = gamma,
                           n_pca = npca,
                           mds = mds.method,
@@ -231,6 +237,7 @@ phate <- function(data, ndim = 2, knn = 5,
                               decay = decay,
                               t = t,
                               n_landmark = n.landmark,
+                              optimizer = optimizer,
                               gamma = gamma,
                               n_pca = npca,
                               mds = mds.method,
