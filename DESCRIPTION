@@ -9,7 +9,7 @@ Description: PHATE is a tool for visualizing high dimensional single-cell data
   smooth transitions mark the progressions of cells from one state to another.
   To see how PHATE can be applied to single-cell RNA-seq datasets from hematopoietic
   stem cells, human embryonic stem cells, and bone marrow samples, check out our publication in Nature Biotechnology
-  at <https://doi.org/10.1038/s41587-019-0336-3>.
+  at <doi:10.1038/s41587-019-0336-3>.
 License: GPL-2 | file LICENSE
 Encoding: UTF-8
 LazyData: true
