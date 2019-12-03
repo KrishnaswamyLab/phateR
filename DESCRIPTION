@@ -26,4 +26,4 @@ Suggests:
     gridGraphics,
     cowplot
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.1.0
+RoxygenNote: 7.0.2

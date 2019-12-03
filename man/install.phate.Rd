@@ -4,8 +4,13 @@
 \alias{install.phate}
 \title{Install PHATE Python Package}
 \usage{
-install.phate(envname = "r-reticulate", method = "auto",
-  conda = "auto", pip = TRUE, ...)
+install.phate(
+  envname = "r-reticulate",
+  method = "auto",
+  conda = "auto",
+  pip = TRUE,
+  ...
+)
 }
 \arguments{
 \item{envname}{Name of environment to install packages into}
