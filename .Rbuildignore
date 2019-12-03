@@ -14,6 +14,8 @@
 ^phateR\.Rproj$
 ^README\.Rmd$
 ^data/desktop\.ini$
+^\.github$
+^\.github/*$
 ^\.git$
 ^\.git/*$
 ^\.travis\.yml$
