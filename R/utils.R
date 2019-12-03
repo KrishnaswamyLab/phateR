@@ -9,6 +9,7 @@ null_equal <- function(x, y) {
   }
 }
 
+#' @importFrom utils packageVersion
 check_pyphate_version <- function() {
   pyversion <- strsplit(pymagic$`__version__`, '\\.')[[1]]
   rversion <- strsplit(as.character(packageVersion("phateR")), '\\.')[[1]]
