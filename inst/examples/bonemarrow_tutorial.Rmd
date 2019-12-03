@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 PHATE is a tool for visualizing high dimensional single-cell data with natural progressions or trajectories. PHATE uses a novel conceptual framework for learning and visualizing the manifold inherent to biological systems in which smooth transitions mark the progressions of cells from one state to another. To see how PHATE can be applied to single-cell RNA-seq datasets from hematopoietic stem cells, human embryonic stem cells, and bone marrow samples, check out our preprint on BioRxiv. Running this tutorial should take approximately 10 minutes from start to finish.
 
-Moon, van Dijk, Wang, Gigante *et al.* (2019), *Visualizing structure and transitions in high-dimensional biological data*, Nature Biotechnology <https://doi.org/10.1038/s41587-019-0336-3>.
+Moon, van Dijk, Wang, Gigante *et al.* (2019), **Visualizing structure and transitions in high-dimensional biological data**, *Nature Biotechnology* <https://doi.org/10.1038/s41587-019-0336-3>.
 
 
 ### Installation
