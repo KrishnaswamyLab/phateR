@@ -9,17 +9,24 @@ null_equal <- function(x, y) {
   }
 }
 
+#' @importFrom utils packageVersion
 check_pyphate_version <- function() {
-  version <- strsplit(pyphate$`__version__`, '\\.')[[1]]
-  major_version <- 0
-  minor_version <- 4
-  if (as.integer(version[1]) < major_version) {
-    warning(paste0("Python PHATE version ", pyphate$`__version__`, " is out of date (recommended: ",
-                   major_version, ".", minor_version, "). Please update with pip or phateR::install.phate()."))
-  } else if (as.integer(version[2]) < minor_version) {
-    warning(paste0("Python PHATE version ", pyphate$`__version__`, " is out of date (recommended: ",
-                   major_version, ".", minor_version, "). Consider updating with pip or phateR::install.phate()."))
+  pyversion <- strsplit(pymagic$`__version__`, '\\.')[[1]]
+  rversion <- strsplit(as.character(packageVersion("phateR")), '\\.')[[1]]
+  major_version <- as.integer(rversion[1])
+  minor_version <- as.integer(rversion[2])
+  if (as.integer(pyversion[1]) < major_version) {
+    warning(paste0("Python PHATE version ", pymagic$`__version__`, " is out of date (recommended: ",
+                   major_version, ".", minor_version, "). Please update with pip ",
+                   "(e.g. pip install --upgrade phate) or phateR::install.phate()."))
+    return(FALSE)
+  } else if (as.integer(pyversion[2]) < minor_version) {
+    warning(paste0("Python PHATE version ", pymagic$`__version__`, " is out of date (recommended: ",
+                   major_version, ".", minor_version, "). Consider updating with pip ",
+                   "(e.g. pip install --upgrade phate) or phateR::install.phate()."))
+    return(FALSE)
   }
+  return(TRUE)
 }
 
 failed_pyphate_import <- function(e) {
@@ -35,7 +42,7 @@ failed_pyphate_import <- function(e) {
   } else if (length(grep("r\\-reticulate", reticulate::py_config()$python)) > 0) {
     # installed, but envs sometimes give weird results
     message("Consider removing the 'r-reticulate' environment by running:")
-    if (grep("virtualenvs", reticulate::py_config()$python)) {
+    if (length(grep("virtualenvs", reticulate::py_config()$python)) > 0) {
       message("reticulate::virtualenv_remove('r-reticulate')")
     } else {
       message("reticulate::conda_remove('r-reticulate')")
