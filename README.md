@@ -1,4 +1,4 @@
-phateR v0.4.1
+phateR
 ================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -11,8 +11,7 @@ version](https://img.shields.io/cran/v/phateR.svg)](https://cran.r-project.org/p
 Build](https://api.travis-ci.com/KrishnaswamyLab/phateR.svg?branch=master)](https://travis-ci.com/KrishnaswamyLab/phateR)
 [![Read the
 Docs](https://img.shields.io/readthedocs/phate.svg)](https://phate.readthedocs.io/)
-[![bioRxiv
-Preprint](https://zenodo.org/badge/DOI/10.1101/120378.svg)](https://www.biorxiv.org/content/early/2017/12/01/120378)
+[![Nature Biotechnology Publication](https://zenodo.org/badge/DOI/10.1038/s41587-019-0336-3.svg)](https://doi.org/10.1038/s41587-019-0336-3)
 [![Twitter](https://img.shields.io/twitter/follow/KrishnaswamyLab.svg?style=social&label=Follow)](https://twitter.com/KrishnaswamyLab)
 [![Github
 Stars](https://img.shields.io/github/stars/KrishnaswamyLab/PHATE.svg?style=social&label=Stars)](https://github.com/KrishnaswamyLab/PHATE/)
