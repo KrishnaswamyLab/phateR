@@ -21,3 +21,4 @@
 ^\.travis\.yml$
 ^travis_setup\.sh$
 ^miniconda\.sh$
+^inst/examples/*.png
