@@ -171,7 +171,7 @@ Check your `reticulate::py_discover_config("phate")` and compare it to the versi
 
 ```PATH=/path/to/my/python```
 
-You can read more about `Renviron` at <https://cran.r-project.org/web/packages/startup/vignettes/startup-intro.html>.
+You can read more about `Renviron` at <https://CRAN.R-project.org/package=startup/vignettes/startup-intro.html>.
 
 ### Help
 
