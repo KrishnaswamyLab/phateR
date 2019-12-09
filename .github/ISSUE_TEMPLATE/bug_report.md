@@ -21,10 +21,10 @@ Please include the full traceback of any errors
 
 **System information:**
 
-Output of `PHATE.__version__`:
+Output of `phate.__version__`:
 
 ```
-Please run magic.__version__ and paste the results here.
+Please run phate.__version__ and paste the results here.
 
 You can do this with `python -c 'import phate; print(phate.__version__)'`
 ```
@@ -53,12 +53,12 @@ You can do this with `R -e 'library(phateR); sessionInfo()'`
 
 </details>
 
-Output of `reticulate::py_discover_config()`:
+Output of `reticulate::py_discover_config(required_module = "phate")`:
 
 <details>
 
 ```
-If you are running MAGIC in R, please run `reticulate::py_discover_config(required_module = "phate")` and paste the results here.
+Please run `reticulate::py_discover_config(required_module = "phate")` and paste the results here.
 
 You can do this with `R -e 'reticulate::py_discover_config(required_module = "phate")'`
 ```
