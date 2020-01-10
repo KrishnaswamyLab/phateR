@@ -31,7 +31,7 @@ env:
     - PYTHON=python3.7
 
 before_install:
-  - |
+  -|
   if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
     PYTHON="3.7-dev"
     pyenv install --skip-existing $PYTHON
