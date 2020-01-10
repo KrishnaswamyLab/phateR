@@ -31,12 +31,12 @@ env:
     - PYTHON=python3.7
 
 before_install:
-  -|
-  if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-    PYTHON="3.7-dev"
-    pyenv install --skip-existing $PYTHON
-    PYTHON=/Users/travis/.pyenv/versions/${PYTHON}/bin/python
-  fi
+  - |
+    if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      PYTHON="3.7-dev"
+      pyenv install --skip-existing $PYTHON
+      PYTHON=/Users/travis/.pyenv/versions/${PYTHON}/bin/python
+    fi
   - $PYTHON --version
   - curl https://bootstrap.pypa.io/get-pip.py | sudo -H $PYTHON
   - sudo $PYTHON -m pip install --upgrade pip
