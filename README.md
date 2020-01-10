@@ -215,7 +215,7 @@ to your `~/.Renviron`:
 `PATH=/path/to/my/python`
 
 You can read more about `Renviron` at
-<https://cran.r-project.org/web/packages/startup/vignettes/startup-intro.html>.
+<https://CRAN.R-project.org/package=startup/vignettes/startup-intro.html>.
 
 ### Help
 

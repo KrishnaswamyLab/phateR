@@ -4,12 +4,31 @@
 \alias{phate}
 \title{Run PHATE on an input data matrix}
 \usage{
-phate(data, ndim = 2, knn = 5, decay = 40, n.landmark = 2000,
-  gamma = 1, t = "auto", knn.dist.method = "euclidean",
-  init = NULL, mds.method = "metric", mds.dist.method = "euclidean",
-  t.max = 100, npca = 100, plot.optimal.t = FALSE, verbose = 1,
-  n.jobs = 1, seed = NULL, potential.method = NULL, k = NULL,
-  alpha = NULL, use.alpha = NULL, ...)
+phate(
+  data,
+  ndim = 2,
+  knn = 5,
+  decay = 40,
+  n.landmark = 2000,
+  gamma = 1,
+  t = "auto",
+  mds.solver = "sgd",
+  knn.dist.method = "euclidean",
+  init = NULL,
+  mds.method = "metric",
+  mds.dist.method = "euclidean",
+  t.max = 100,
+  npca = 100,
+  plot.optimal.t = FALSE,
+  verbose = 1,
+  n.jobs = 1,
+  seed = NULL,
+  potential.method = NULL,
+  k = NULL,
+  alpha = NULL,
+  use.alpha = NULL,
+  ...
+)
 }
 \arguments{
 \item{data}{matrix (n_samples, n_dimensions)
@@ -39,6 +58,11 @@ a square root potential.}
 \item{t}{int, optional, default: 'auto'
 power to which the diffusion operator is powered
 sets the level of diffusion}
+
+\item{mds.solver}{{'sgd', 'smacof'}, optional, default: 'sgd'
+which solver to use for metric MDS. SGD is substantially faster,
+but produces slightly less optimal results. Note that SMACOF was used
+for all figures in the PHATE paper.}
 
 \item{knn.dist.method}{string, optional, default: 'euclidean'.
 recommended values: 'euclidean', 'cosine', 'precomputed'
@@ -77,7 +101,7 @@ If TRUE, produce a plot showing the Von Neumann Entropy
 curve for automatic t selection.}
 
 \item{verbose}{\code{int} or \code{boolean}, optional (default : 1)
-If \code{TRUE} or \code{> 0}, print verbose updates.}
+If \code{TRUE} or \verb{> 0}, print verbose updates.}
 
 \item{n.jobs}{\code{int}, optional (default: 1)
 The number of jobs to use for the computation.

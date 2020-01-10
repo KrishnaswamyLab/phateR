@@ -9,21 +9,24 @@ null_equal <- function(x, y) {
   }
 }
 
+#' Check that the current PHATE version in Python is up to date.
+#'
 #' @importFrom utils packageVersion
+#' @export
 check_pyphate_version <- function() {
-  pyversion <- strsplit(pymagic$`__version__`, '\\.')[[1]]
+  pyversion <- strsplit(pyphate$`__version__`, '\\.')[[1]]
   rversion <- strsplit(as.character(packageVersion("phateR")), '\\.')[[1]]
   major_version <- as.integer(rversion[1])
   minor_version <- as.integer(rversion[2])
   if (as.integer(pyversion[1]) < major_version) {
-    warning(paste0("Python PHATE version ", pymagic$`__version__`, " is out of date (recommended: ",
+    warning(paste0("Python PHATE version ", pyphate$`__version__`, " is out of date (recommended: ",
                    major_version, ".", minor_version, "). Please update with pip ",
-                   "(e.g. pip install --upgrade phate) or phateR::install.phate()."))
+                   "(e.g. ", reticulate::py_config()$python, " -m pip install --upgrade phate) or phateR::install.phate()."))
     return(FALSE)
   } else if (as.integer(pyversion[2]) < minor_version) {
-    warning(paste0("Python PHATE version ", pymagic$`__version__`, " is out of date (recommended: ",
+    warning(paste0("Python PHATE version ", pyphate$`__version__`, " is out of date (recommended: ",
                    major_version, ".", minor_version, "). Consider updating with pip ",
-                   "(e.g. pip install --upgrade phate) or phateR::install.phate()."))
+                   "(e.g. ", reticulate::py_config()$python, " -m pip install --upgrade phate) or phateR::install.phate()."))
     return(FALSE)
   }
   return(TRUE)
@@ -95,7 +98,7 @@ install.phate <- function(envname = "r-reticulate", method = "auto",
   error = function(e) {
     stop(paste0(
       "Cannot locate PHATE Python package, please install through pip ",
-      "(e.g. pip install --user phate) and then restart R."
+      "(e.g. ", reticulate::py_config()$python, " -m pip install --user phate) and then restart R."
     ))
   }
   )

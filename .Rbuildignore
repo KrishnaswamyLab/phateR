@@ -14,8 +14,11 @@
 ^phateR\.Rproj$
 ^README\.Rmd$
 ^data/desktop\.ini$
+^\.github$
+^\.github/*$
 ^\.git$
 ^\.git/*$
 ^\.travis\.yml$
 ^travis_setup\.sh$
 ^miniconda\.sh$
+^inst/examples/*.png
