@@ -22,10 +22,9 @@ knitr::opts_chunk$set(
 [![Twitter](https://img.shields.io/twitter/follow/KrishnaswamyLab.svg?style=social&label=Follow)](https://twitter.com/KrishnaswamyLab)
 [![Github Stars](https://img.shields.io/github/stars/KrishnaswamyLab/PHATE.svg?style=social&label=Stars)](https://github.com/KrishnaswamyLab/PHATE/)
 
-This R package provides an implementation of the
-[PHATE dimensionality reduction and visualization method](https://www.biorxiv.org/content/early/2017/12/01/120378).
+This R package provides an implementation of the [PHATE dimensionality reduction and visualization method](https://www.nature.com/articles/s41587-019-0336-3).
 
-For a thorough overview of the PHATE visualization method, please see the [bioRxiv preprint](https://www.biorxiv.org/content/early/2017/12/01/120378)
+For a thorough overview of the PHATE visualization method, please see the [Nature Biotechnology publication](https://www.nature.com/articles/s41587-019-0336-3).
 
 For our Python and Matlab implementations, please see [KrishnaswamyLab/PHATE](https://github.com/KrishnaswamyLab/PHATE).
 
@@ -175,5 +174,5 @@ You can read more about `Renviron` at <https://CRAN.R-project.org/package=startu
 
 ### Help
 
-Please let us know of any issues at the [GitHub repository](https://github.com/KrishnaswamyLab/phateR/issues). If you have any questions or require assistance using PHATE, please read the documentation by running `help(phateR::phate)` or contact us at <https://krishnaswamylab.org/get-help>.
+Please let us know of any issues at the [GitHub repository](https://github.com/KrishnaswamyLab/phateR/issues). If you have any questions or require assistance using PHATE, please read the documentation at <https://CRAN.R-project.org/package=phateR/phateR.pdf> or by running `help(phateR::phate)` or contact us at <https://krishnaswamylab.org/get-help>.
 

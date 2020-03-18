@@ -18,11 +18,10 @@ Stars](https://img.shields.io/github/stars/KrishnaswamyLab/PHATE.svg?style=socia
 
 This R package provides an implementation of the [PHATE dimensionality
 reduction and visualization
-method](https://www.biorxiv.org/content/early/2017/12/01/120378).
+method](https://www.nature.com/articles/s41587-019-0336-3).
 
 For a thorough overview of the PHATE visualization method, please see
-the [bioRxiv
-preprint](https://www.biorxiv.org/content/early/2017/12/01/120378)
+the [Nature Biotechnology publication](https://www.nature.com/articles/s41587-019-0336-3).
 
 For our Python and Matlab implementations, please see
 [KrishnaswamyLab/PHATE](https://github.com/KrishnaswamyLab/PHATE).
@@ -222,5 +221,6 @@ You can read more about `Renviron` at
 Please let us know of any issues at the [GitHub
 repository](https://github.com/KrishnaswamyLab/phateR/issues). If you
 have any questions or require assistance using PHATE, please read the
-documentation by running `help(phateR::phate)` or contact us at
+documentation at <https://CRAN.R-project.org/package=phateR/phateR.pdf>
+or by running `help(phateR::phate)` or contact us at
 <https://krishnaswamylab.org/get-help>.
