@@ -232,7 +232,7 @@ phate <- function(data, ndim = 2, knn = 5,
     }
   }
   if (is.null(operator)) {
-    operator <- pyphate$PHATE(n_components = ndim,
+    operator <- pyphate()$PHATE(n_components = ndim,
                               knn = knn,
                               decay = decay,
                               t = t,
@@ -256,7 +256,7 @@ phate <- function(data, ndim = 2, knn = 5,
     out <- operator$von_neumann_entropy(t_max = t.max)
     t <- out[[1]]
     h <- out[[2]]
-    t.opt <- pyphate$vne$find_knee_point(h, t)
+    t.opt <- pyphate()$vne$find_knee_point(h, t)
     graphics::plot(t, h,
                    type = "l",
                    xlab = "t", ylab = "Von Neumann Entropy",

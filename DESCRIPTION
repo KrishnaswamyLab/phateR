@@ -21,7 +21,8 @@ Imports:
     stats,
     graphics,
     reticulate (>= 1.8),
-    ggplot2
+    ggplot2,
+    memoise
 Suggests:
     gridGraphics,
     cowplot
