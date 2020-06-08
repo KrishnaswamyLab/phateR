@@ -54,15 +54,11 @@ failed_pyphate_import <- function(e) {
 }
 
 load_pyphate <- function() {
+  py_config <- try(reticulate::py_discover_config(required_module = "phate"))
   delay_load = list(on_load=check_pyphate_version, on_error=failed_pyphate_import)
   # load
-  if (is.null(pyphate)) {
-    # first time load
-    result <- try(pyphate <<- reticulate::import("phate", delay_load = delay_load))
-  } else {
-    # already loaded
-    result <- try(reticulate::import("phate", delay_load = delay_load))
-  }
+  pyphate <- try(reticulate::import("phate", delay_load = delay_load))
+  pyphate
 }
 
 #' Install PHATE Python Package
@@ -106,7 +102,8 @@ install.phate <- function(envname = "r-reticulate", method = "auto",
 
 pyphate <- NULL
 
+#' @importFrom reticulate py_discover_config
+#' @importFrom memoise memoise
 .onLoad <- function(libname, pkgname) {
-  py_config <- reticulate::py_discover_config(required_module = "phate")
-  load_pyphate()
+  pyphate <<- memoise::memoise(load_pyphate)
 }

@@ -18,11 +18,10 @@ Stars](https://img.shields.io/github/stars/KrishnaswamyLab/PHATE.svg?style=socia
 
 This R package provides an implementation of the [PHATE dimensionality
 reduction and visualization
-method](https://www.biorxiv.org/content/early/2017/12/01/120378).
+method](https://www.nature.com/articles/s41587-019-0336-3).
 
 For a thorough overview of the PHATE visualization method, please see
-the [bioRxiv
-preprint](https://www.biorxiv.org/content/early/2017/12/01/120378)
+the [Nature Biotechnology publication](https://www.nature.com/articles/s41587-019-0336-3).
 
 For our Python and Matlab implementations, please see
 [KrishnaswamyLab/PHATE](https://github.com/KrishnaswamyLab/PHATE).
@@ -203,6 +202,10 @@ To be consistent with common dimensionality reductions such as PCA
 (observations) be rows and genes (features) be columns of your input
 data.
 
+  - **Can I run PHATE with Seurat?**
+
+PHATE was removed from Seurat in version 3. You can install a version of Seurat with `RunPHATE` included by following the instructions at <https://github.com/satijalab/seurat/pull/1172#issuecomment-564782167>.
+
   - **I have installed PHATE in Python, but phateR says it is not
     installed\!**
 
@@ -222,5 +225,6 @@ You can read more about `Renviron` at
 Please let us know of any issues at the [GitHub
 repository](https://github.com/KrishnaswamyLab/phateR/issues). If you
 have any questions or require assistance using PHATE, please read the
-documentation by running `help(phateR::phate)` or contact us at
+documentation at <https://CRAN.R-project.org/package=phateR/phateR.pdf>
+or by running `help(phateR::phate)` or contact us at
 <https://krishnaswamylab.org/get-help>.

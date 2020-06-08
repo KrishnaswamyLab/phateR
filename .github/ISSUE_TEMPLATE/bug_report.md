@@ -65,5 +65,17 @@ You can do this with `R -e 'reticulate::py_discover_config(required_module = "ph
 
 </details>
 
+Output of `phateR::check_pyphate_version()`:
+
+<details>
+
+```
+Please run `phateR::check_pyphate_version()` and paste the results here.
+
+You can do this with `R -e 'phateR::check_pyphate_version()'`
+```
+
+</details>
+
 **Additional context**
 Add any other context about the problem here.
