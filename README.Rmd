@@ -164,6 +164,10 @@ ggplot(tree.phate, aes(x=PHATE1, y=PHATE2, color=tree.data$branches)) +
 
 To be consistent with common dimensionality reductions such as PCA (`stats::prcomp`) and t-SNE (`Rtsne::Rtsne`), we require that cells (observations) be rows and genes (features) be columns of your input data.
 
+  - **Can I run PHATE with Seurat?**
+
+PHATE was removed from Seurat in version 3. You can install a version of Seurat with `RunPHATE` included by following the instructions at <https://github.com/satijalab/seurat/pull/1172#issuecomment-564782167>.
+
 * **I have installed PHATE in Python, but phateR says it is not installed!**
 
 Check your `reticulate::py_discover_config("phate")` and compare it to the version of Python in which you installed PHATE (run `which python` and `which pip` in a terminal.) Chances are `reticulate` can't find the right version of Python; you can fix this by adding the following line to your `~/.Renviron`:
