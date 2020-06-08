@@ -202,6 +202,10 @@ To be consistent with common dimensionality reductions such as PCA
 (observations) be rows and genes (features) be columns of your input
 data.
 
+  - **Can I run PHATE with Seurat?**
+
+PHATE was removed from Seurat in version 3. You can install a version of Seurat with `RunPHATE` included by following the instructions at <https://github.com/satijalab/seurat/pull/1172#issuecomment-564782167>.
+
   - **I have installed PHATE in Python, but phateR says it is not
     installed\!**
 
