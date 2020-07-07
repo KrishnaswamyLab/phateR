@@ -14,17 +14,17 @@ null_equal <- function(x, y) {
 #' @importFrom utils packageVersion
 #' @export
 check_pyphate_version <- function() {
-  pyversion <- strsplit(pyphate$`__version__`, '\\.')[[1]]
+  pyversion <- strsplit(pyphate()$`__version__`, '\\.')[[1]]
   rversion <- strsplit(as.character(packageVersion("phateR")), '\\.')[[1]]
   major_version <- as.integer(rversion[1])
   minor_version <- as.integer(rversion[2])
   if (as.integer(pyversion[1]) < major_version) {
-    warning(paste0("Python PHATE version ", pyphate$`__version__`, " is out of date (recommended: ",
+    warning(paste0("Python PHATE version ", pyphate()$`__version__`, " is out of date (recommended: ",
                    major_version, ".", minor_version, "). Please update with pip ",
                    "(e.g. ", reticulate::py_config()$python, " -m pip install --upgrade phate) or phateR::install.phate()."))
     return(FALSE)
   } else if (as.integer(pyversion[2]) < minor_version) {
-    warning(paste0("Python PHATE version ", pyphate$`__version__`, " is out of date (recommended: ",
+    warning(paste0("Python PHATE version ", pyphate()$`__version__`, " is out of date (recommended: ",
                    major_version, ".", minor_version, "). Consider updating with pip ",
                    "(e.g. ", reticulate::py_config()$python, " -m pip install --upgrade phate) or phateR::install.phate()."))
     return(FALSE)
