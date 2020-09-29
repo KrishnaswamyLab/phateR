@@ -36,5 +36,5 @@ cluster_phate <- function(phate, k=8, seed=NULL) {
   } else if (!is.null(seed) && is.na(seed)) {
     seed <- NULL
   }
-  pyphate()$cluster$kmeans(phate$operator, k=k, random_state=seed)
+  pyphate()$cluster$kmeans(phate$operator, n_clusters=k, random_state=seed)
 }
