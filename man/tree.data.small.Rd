@@ -4,8 +4,10 @@
 \name{tree.data.small}
 \alias{tree.data.small}
 \title{Fake branching data for running examples fast}
-\format{A list containing \code{data}, a matrix with 250 rows and 50 variables
-and \code{branches}, a factor containing 250 elements.}
+\format{
+A list containing \code{data}, a matrix with 250 rows and 50 variables
+and \code{branches}, a factor containing 250 elements.
+}
 \source{
 The authors
 }
