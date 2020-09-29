@@ -26,10 +26,7 @@
 #' @export
 cluster_phate <- function(phate, k=8, seed=NULL) {
   # check installation
-  if (!reticulate::py_module_available(module = "phate")) {
-    load_pyphate()
-  }
-  tryCatch(pyphate, error = function(e) load_pyphate())
+  if (!reticulate::py_module_available(module = "phate") || (is.null(pyphate))) load_pyphate()
   if (!methods::is(phate, "phate")) {
     stop(paste0("Expected phate_op to be a phate object. Got a ", class(phate)))
   }
@@ -39,5 +36,5 @@ cluster_phate <- function(phate, k=8, seed=NULL) {
   } else if (!is.null(seed) && is.na(seed)) {
     seed <- NULL
   }
-  pyphate$cluster$kmeans(phate$operator, k=k, random_state=seed)
+  pyphate()$cluster$kmeans(phate$operator, k=k, random_state=seed)
 }
