@@ -39,6 +39,10 @@
 #' `data[0,0]`. You can override this detection with
 #' `knn.dist.method='precomputed_distance'` or
 #' `knn.dist.method='precomputed_affinity'`.
+#' @param knn.max int, optional, default: NULL
+#' Maximum number of neighbors for which alpha decaying kernel
+#' is computed for each point. For very large datasets, setting `knn_max`
+#' to a small multiple of `knn` can speed up computation significantly.
 #' @param init phate object, optional
 #' object to use for initialization. Avoids recomputing
 #' intermediate steps if parameters are the same.
@@ -117,6 +121,7 @@ phate <- function(data, ndim = 2, knn = 5,
                   n.landmark=2000, gamma=1,
                   t = "auto", mds.solver='sgd',
                   knn.dist.method = "euclidean",
+                  knn.max=NULL,
                   init=NULL,
                   mds.method = "metric", mds.dist.method = "euclidean",
                   t.max=100, npca = 100, plot.optimal.t=FALSE,
@@ -165,6 +170,7 @@ phate <- function(data, ndim = 2, knn = 5,
   }
   ndim <- as.integer(ndim)
   knn <- as.integer(knn)
+  knn.max <- as.integer(knn.max)
   t.max <- as.integer(t.max)
   n.jobs <- as.integer(n.jobs)
 
@@ -201,7 +207,8 @@ phate <- function(data, ndim = 2, knn = 5,
   }
 
   # store parameters
-  params <- list("data" = data, "knn" = knn, "decay" = decay, "t" = t,
+  params <- list("data" = data, "knn" = knn, "knn.max" = knn.max, 
+                 "decay" = decay, "t" = t,
                  "n.landmark" = n.landmark, "gamma" = gamma,
                  "ndim" = ndim, "mds.solver" = mds.solver,
                  "npca" = npca, "mds.method" = mds.method,
@@ -225,6 +232,7 @@ phate <- function(data, ndim = 2, knn = 5,
                           mds = mds.method,
                           mds_dist = mds.dist.method,
                           knn_dist = knn.dist.method,
+                          knn_max = knn_max,
                           n_jobs = n.jobs,
                           random_state = seed,
                           verbose = verbose,
@@ -243,6 +251,7 @@ phate <- function(data, ndim = 2, knn = 5,
                               mds = mds.method,
                               mds_dist = mds.dist.method,
                               knn_dist = knn.dist.method,
+                              knn_max = knn_max,
                               n_jobs = n.jobs,
                               random_state = seed,
                               verbose = verbose,

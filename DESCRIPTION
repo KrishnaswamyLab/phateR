@@ -1,6 +1,6 @@
 Package: phateR
 Title: PHATE - Potential of Heat-Diffusion for Affinity-Based Transition Embedding
-Version: 1.0.4.999
+Version: 1.0.7
 Authors@R: c(person("Krishnan", "Srinivasan", email = "krishnan.srinivasan@yale.edu", role = c("aut")),
              person(given = 'Scott', family = 'Gigante', email = 'scott.gigante@yale.edu', role = 'cre', comment = c(ORCID = '0000-0002-4544-2764')))
 Description: PHATE is a tool for visualizing high dimensional single-cell data
@@ -27,4 +27,4 @@ Suggests:
     gridGraphics,
     cowplot
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1
