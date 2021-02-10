@@ -79,7 +79,7 @@ non-zero values down the diagonal. This is detected automatically using
 
 \item{knn.max}{int, optional, default: NULL
 Maximum number of neighbors for which alpha decaying kernel
-is computed for each point. For very large datasets, setting \code{knn_max}
+is computed for each point. For very large datasets, setting \code{knn.max}
 to a small multiple of \code{knn} can speed up computation significantly.}
 
 \item{init}{phate object, optional

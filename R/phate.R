@@ -41,7 +41,7 @@
 #' `knn.dist.method='precomputed_affinity'`.
 #' @param knn.max int, optional, default: NULL
 #' Maximum number of neighbors for which alpha decaying kernel
-#' is computed for each point. For very large datasets, setting `knn_max`
+#' is computed for each point. For very large datasets, setting `knn.max`
 #' to a small multiple of `knn` can speed up computation significantly.
 #' @param init phate object, optional
 #' object to use for initialization. Avoids recomputing
@@ -232,7 +232,7 @@ phate <- function(data, ndim = 2, knn = 5,
                           mds = mds.method,
                           mds_dist = mds.dist.method,
                           knn_dist = knn.dist.method,
-                          knn_max = knn_max,
+                          knn_max = knn.max,
                           n_jobs = n.jobs,
                           random_state = seed,
                           verbose = verbose,
@@ -251,7 +251,7 @@ phate <- function(data, ndim = 2, knn = 5,
                               mds = mds.method,
                               mds_dist = mds.dist.method,
                               knn_dist = knn.dist.method,
-                              knn_max = knn_max,
+                              knn_max = knn.max,
                               n_jobs = n.jobs,
                               random_state = seed,
                               verbose = verbose,
