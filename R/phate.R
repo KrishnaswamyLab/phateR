@@ -170,7 +170,6 @@ phate <- function(data, ndim = 2, knn = 5,
   }
   ndim <- as.integer(ndim)
   knn <- as.integer(knn)
-  knn.max <- as.integer(knn.max)
   t.max <- as.integer(t.max)
   n.jobs <- as.integer(n.jobs)
 
@@ -183,6 +182,11 @@ phate <- function(data, ndim = 2, knn = 5,
     npca <- as.integer(npca)
   } else if (!is.null(npca) && is.na(npca)) {
     npca <- NULL
+  }
+  if (is.numeric(knn.max)) {
+    npca <- as.integer(knn.max)
+  } else if (!is.null(knn.max) && is.na(knn.max)) {
+    knn.max <- NULL
   }
   if (is.numeric(decay)) {
     decay <- as.double(decay)
