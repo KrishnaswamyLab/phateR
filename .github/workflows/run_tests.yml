@@ -87,6 +87,9 @@ jobs:
         library('phateR')
       shell: Rscript {0}
 
+    - name: Install tinytex
+      uses: r-lib/actions/setup-tinytex@v1
+
     - name: Check R package
       run: |
         R CMD build .
