@@ -14,6 +14,7 @@ phate(
   t = "auto",
   mds.solver = "sgd",
   knn.dist.method = "euclidean",
+  knn.max = NULL,
   init = NULL,
   mds.method = "metric",
   mds.dist.method = "euclidean",
@@ -75,6 +76,11 @@ non-zero values down the diagonal. This is detected automatically using
 \code{data[0,0]}. You can override this detection with
 \code{knn.dist.method='precomputed_distance'} or
 \code{knn.dist.method='precomputed_affinity'}.}
+
+\item{knn.max}{int, optional, default: NULL
+Maximum number of neighbors for which alpha decaying kernel
+is computed for each point. For very large datasets, setting \code{knn.max}
+to a small multiple of \code{knn} can speed up computation significantly.}
 
 \item{init}{phate object, optional
 object to use for initialization. Avoids recomputing
