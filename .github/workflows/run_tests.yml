@@ -71,7 +71,7 @@ jobs:
         if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
         renv::restore()
         renv::install("devtools")
-        devtools::install_deps()
+        devtools::install_dev_deps()
       shell: Rscript {0}
 
     - name: Install Python package
