@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - '*'
+    tags:
+      - '*'
   pull_request:
     branches:
       - '*'
@@ -94,6 +96,15 @@ jobs:
       run: |
         R CMD build .
         R CMD check *.tar.gz
+        mkdir -p dist
+        mv *.tar.gz dist/
+
+    - name: Upload build results on tag
+      if: startsWith(github.ref, 'refs/tags')
+      uses: actions/upload-artifact@master
+      with:
+        name: ${{ matrix.config.name }}_build
+        path: dist
 
     - name: Upload check results on fail
       if: failure()
