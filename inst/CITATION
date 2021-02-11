@@ -1,11 +1,13 @@
 bibentry(
 	bibtype="Article",
-	title="Visualizing Transitions and Structure for High Dimensional Data Exploration",
+	title="Visualizing structure and transitions in high-dimensional biological data",
 	author = c(person("Kevin R", "Moon"),
 	person("David", "van Dijk"),
 	person("Zheng", "Wang"),
-	person("Daniel", "Burkhardt"),
-	person("William", "Chen"),
+	person("Scott", "Gigante"),
+	person("Daniel B", "Burkhardt"),
+	person("William S", "Chen"),
+	person("Kristina", "Yim"),
 	person("Antonia", "van den Elzen"),
 	person("Matthew J", "Hirn"),
 	person("Ronald R", "Coifman"),
@@ -13,10 +15,12 @@ bibentry(
 	person("Guy", "Wolf"),
 	person("Smita", "Krishnaswamy")
 	),
-	year=2017,
-	url="https://www.biorxiv.org/content/early/2017/12/01/120378",
-	doi="10.1101/120378",
-	journal="bioRxiv",
-	publisher="Cold Spring Harbor Laboratory",
-	pages=120378
+	year=2019,
+	url="https://www.nature.com/articles/s41587-019-0336-3",
+	doi="10.1038/s41587-019-0336-3",
+	journal="Nature Biotechnology",
+	publisher="Springer Nature",
+	number=12,
+	volume=37,
+	pages="1482--1492"
 )
